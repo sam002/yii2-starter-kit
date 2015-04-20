@@ -16,8 +16,7 @@ use yii\bootstrap\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
 
-    <?= $form->field($model, 'body')->widget(\yii\imperavi\Widget::className(), [
-        // More options, see http://imperavi.com/redactor/docs/
+    <?= $form->field($model, 'body')->widget(dosamigos\ckeditor\Widget::className(), [
         'plugins' => ['fullscreen', 'fontcolor', 'video'],
         'options'=>[
             'minHeight'=>400,
@@ -25,7 +24,7 @@ use yii\bootstrap\ActiveForm;
             'buttonSource'=>true,
             'convertDivs'=>false,
             'removeEmptyTags'=>false,
-            'imageUpload'=>Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+            'imageUpload'=>Yii::$app->urlManager->createUrl(['/file-storage/upload-amigo'])
 
         ]
     ]) ?>

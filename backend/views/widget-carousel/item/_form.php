@@ -26,7 +26,7 @@ use yii\helpers\Html;
     <?= $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
 
     <?= $form->field($model, 'caption')->widget(
-        \yii\imperavi\Widget::className(),
+        dosamigos\ckeditor\CKEditor::className(),
         [
             'plugins' => ['fullscreen', 'fontcolor', 'video'],
             'options'=>[

@@ -26,7 +26,7 @@ use yii\bootstrap\ActiveForm;
         ), ['prompt'=>'']) ?>
 
     <?= $form->field($model, 'body')->widget(
-        \yii\imperavi\Widget::className(),
+        \yii\CKeditor\Widget::className(),
         [
             'plugins' => ['fullscreen', 'fontcolor', 'video'],
             'options' => [
@@ -35,7 +35,7 @@ use yii\bootstrap\ActiveForm;
                 'buttonSource' => true,
                 'convertDivs' => false,
                 'removeEmptyTags' => false,
-                'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+                'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-amigo'])
             ]
         ]
     ) ?>
