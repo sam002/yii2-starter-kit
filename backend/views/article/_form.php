@@ -26,16 +26,14 @@ use yii\bootstrap\ActiveForm;
         ), ['prompt'=>'']) ?>
 
     <?= $form->field($model, 'body')->widget(
-        \yii\CKeditor\Widget::className(),
+        dosamigos\ckeditor\CKEditor::className(),
         [
-            'plugins' => ['fullscreen', 'fontcolor', 'video'],
-            'options' => [
-                'minHeight' => 400,
-                'maxHeight' => 400,
-                'buttonSource' => true,
-                'convertDivs' => false,
-                'removeEmptyTags' => false,
-                'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-amigo'])
+            'preset'=> "full",
+            'options'=>[
+                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                '_minHeight'=>200,
+                '_maxHeight'=>200
             ]
         ]
     ) ?>
