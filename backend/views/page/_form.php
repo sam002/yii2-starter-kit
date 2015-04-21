@@ -17,14 +17,14 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
 
     <?= $form->field($model, 'body')->widget(
-        \yii\imperavi\Widget::className(),
+        dosamigos\ckeditor\CKEditor::className(),
         [
-            'plugins' => ['fullscreen', 'fontcolor', 'video'],
+            'preset'=> "full",
             'options'=>[
-                'minHeight'=>400,
-                'maxHeight'=>400,
-                'buttonSource'=>true,
-                'imageUpload'=>Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                '_minHeight'=>200,
+                '_maxHeight'=>200
             ]
         ]
     ) ?>
