@@ -10,10 +10,6 @@ use yii\helpers\Url;
  * This is the model class for table "user_profile".
  *
  * @property integer $user_id
- * @property integer $github
- * @property integer $vk
- * @property integer $google
- * @property integer $fb
  * @property integer $locale
  * @property string $firstname
  * @property string $middlename
@@ -83,9 +79,6 @@ class UserProfile extends \yii\db\ActiveRecord
             'locale' => Yii::t('common', 'Locale'),
             'picture' => Yii::t('common', 'Picture'),
             'gender' => Yii::t('common', 'Gender'),
-            'gender' => Yii::t('common', 'VKontakte'),
-            'gender' => Yii::t('common', 'Google'),
-            'gender' => Yii::t('common', 'GitHub'),
         ];
     }
 
