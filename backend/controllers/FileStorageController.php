@@ -38,7 +38,7 @@ class FileStorageController extends Controller
             'upload-delete' => [
                 'class' => 'trntv\filekit\actions\DeleteAction'
             ],
-            'upload-imperavi' => [
+            'upload-amigo' => [
                 'class' => 'trntv\filekit\actions\UploadAction',
                 'fileparam' => 'file',
                 'responseUrlParam'=> 'filelink',

@@ -26,17 +26,17 @@ use yii\helpers\Html;
     <?= $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
 
     <?= $form->field($model, 'caption')->widget(
-        \yii\imperavi\Widget::className(),
+        dosamigos\ckeditor\CKEditor::className(),
         [
-            'plugins' => ['fullscreen', 'fontcolor', 'video'],
+            'preset'=> "full",
             'options'=>[
-                'minHeight'=>400,
-                'maxHeight'=>400,
-                'buttonSource'=>true,
-                'convertDivs'=>false,
-                'removeEmptyTags'=>false
+                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
+                '_minHeight'=>200,
+                '_maxHeight'=>200
             ]
-        ]) ?>
+        ]
+    ) ?>
 
     <?= $form->field($model, 'status')->checkbox() ?>
 

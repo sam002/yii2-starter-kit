@@ -33,6 +33,12 @@ $this->title = Yii::t('frontend', 'Profile')
     ]) ?>
 
     <div class="form-group">
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['/user/sign-in/oauth']
+        ]); ?>
+    </div>
+
+    <div class="form-group">
         <?= Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
     </div>
 
