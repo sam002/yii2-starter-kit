@@ -20,19 +20,9 @@ use mihaildev\elfinder\ElFinder;
     <?= $form->field($model, 'body')->widget(
         dosamigos\ckeditor\CKEditor::className(),
         [
-<<<<<<< HEAD
             'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
                 'height' => '500px',
             ]),
-=======
-            'preset'=> "full",
-            'options'=>[
-                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                '_minHeight'=>200,
-                '_maxHeight'=>200
-            ]
->>>>>>> develop
         ]
     ) ?>
 
