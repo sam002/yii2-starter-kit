@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
@@ -18,8 +19,9 @@ use mihaildev\elfinder\ElFinder;
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
 
     <?= $form->field($model, 'body')->widget(
-        dosamigos\ckeditor\CKEditor::className(),
+        CKEditor::className(),
         [
+            'preset'=> "full",
             'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
                 'height' => '500px',
             ]),
