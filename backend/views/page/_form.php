@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Page */
@@ -17,15 +19,12 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
 
     <?= $form->field($model, 'body')->widget(
-        dosamigos\ckeditor\CKEditor::className(),
+        CKEditor::className(),
         [
             'preset'=> "full",
-            'options'=>[
-                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                '_minHeight'=>200,
-                '_maxHeight'=>200
-            ]
+            'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
+                'height' => '500px',
+            ]),
         ]
     ) ?>
 
