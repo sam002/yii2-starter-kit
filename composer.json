@@ -1,5 +1,5 @@
 {
-  "name": "trntv/yii2-starter-kit",
+  "name": "sam002/yii2-starter-kit",
   "description": "Yii2 Starter Kit Application Template",
   "keywords": [
     "yii2",
@@ -10,17 +10,17 @@
   ],
   "authors": [
     {
-      "name": "Eugene Terentev",
-      "email": "eugene@terentev.net",
-      "homepage": "http://terentev.net",
+      "name": "Semen Dubina",
+      "email": "semen@sam002.net",
+      "homepage": "http://sam002.net",
       "role": "Developer"
     }
   ],
   "type": "project",
   "license": "BSD-3-Clause",
   "support": {
-    "issues": "https://github.com/trntv/yii2-starter-kit/issues?state=open",
-    "source": "https://github.com/trntv/yii2-starter-kit"
+    "issues": "https://github.com/sam002/yii2-starter-kit/issues?state=open",
+    "source": "https://github.com/sam002/yii2-starter-kit"
   },
   "require": {
     "php": ">=5.4.0",
