@@ -56,6 +56,7 @@ use mihaildev\elfinder\ElFinder;
     ?>
 
     <?= $form->field($model, 'status')->checkbox() ?>
+    <?= $form->field($model, 'private')->checkbox() ?>
 
     <?= $form->field($model, 'published_at')->widget('trntv\yii\datetimepicker\DatetimepickerWidget') ?>
 

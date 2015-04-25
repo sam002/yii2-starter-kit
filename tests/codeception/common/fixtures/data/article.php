@@ -12,6 +12,7 @@ return [
         'author_id' => 1,
         'updater_id' => 1,
         'status' => 1,
+        'private' => 1,
         'published_at' => time() - 10,
         'created_at' => time() - 10,
         'updated_at' => time() - 10
@@ -25,6 +26,7 @@ return [
         'author_id' => 1,
         'updater_id' => 1,
         'status' => 1,
+        'private' => 1,
         'published_at' => time() + \cheatsheet\Time::SECONDS_IN_A_YEAR,
         'created_at' => time() + \cheatsheet\Time::SECONDS_IN_A_YEAR,
         'updated_at' => time() + \cheatsheet\Time::SECONDS_IN_A_YEAR
