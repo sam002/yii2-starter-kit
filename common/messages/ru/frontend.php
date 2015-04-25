@@ -63,6 +63,7 @@ return [
     'Username or email' => 'Имя пользователя или e-mail',
     'Verification Code' => 'Проверочный код',
     'We already have a user with email {email}' => 'Пользователь с email {email} уже зарегистрирован.',
+    'We already have a user with name {login}. You can login using email to link {provider} account.' =>'Пользователь с bvtytv {email} уже зарегистрирован. Вы можете войти, используя email, чтобы привязать аккаунт {provider}.',
     'Welcome to {app-name}. Email with your login information was sent to your email.' => 'Добро пожаловать в {app-name}. E-mail с информацией о пользователе был отправлен на вашу почту.',
     'Your profile has been successfully saved' => 'Ваш профиль бы успешно сохранен',
     '{app-name} | Your login information' => '{app-name} | Информация о пользователе',
