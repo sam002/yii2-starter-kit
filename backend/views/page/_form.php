@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Page */
@@ -17,15 +18,11 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
 
     <?= $form->field($model, 'body')->widget(
-        \yii\imperavi\Widget::className(),
+        dosamigos\ckeditor\CKEditor::className(),
         [
-            'plugins' => ['fullscreen', 'fontcolor', 'video'],
-            'options'=>[
-                'minHeight'=>400,
-                'maxHeight'=>400,
-                'buttonSource'=>true,
-                'imageUpload'=>Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
-            ]
+            'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
+                'height' => '500px',
+            ]),
         ]
     ) ?>
 
