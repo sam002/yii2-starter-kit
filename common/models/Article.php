@@ -21,7 +21,7 @@ use yii\helpers\Inflector;
  * @property string $body
  * @property string $thumbnail_base_url
  * @property string $thumbnail_path
- * @property string $body
+ * @property array $private
  * @property array $attachments
  * @property integer $author_id
  * @property integer $updater_id
@@ -50,6 +50,9 @@ class Article extends \yii\db\ActiveRecord
 
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
+
+    const PRIVATE_ON = 1;
+    const PRIVATE_OFF = 0;
 
     /**
      * @inheritdoc
@@ -112,7 +115,7 @@ class Article extends \yii\db\ActiveRecord
             [['published_at'], 'default', 'value'=>time()],
             [['published_at'], 'filter', 'filter'=>'strtotime'],
             [['category_id'], 'exist', 'targetClass'=>ArticleCategory::className(), 'targetAttribute'=>'id'],
-            [['author_id', 'updater_id', 'status'], 'integer'],
+            [['author_id', 'updater_id', 'status', 'private'], 'integer'],
             [['slug', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512],
             [['attachments', 'thumbnail'], 'safe']
@@ -134,6 +137,7 @@ class Article extends \yii\db\ActiveRecord
             'updater_id' => Yii::t('common', 'Updater'),
             'category_id' => Yii::t('common', 'Category'),
             'status' => Yii::t('common', 'Published'),
+            'private' => Yii::t('common', 'Private'),
             'published_at' => Yii::t('common', 'Published At'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At')

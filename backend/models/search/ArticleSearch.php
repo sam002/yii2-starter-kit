@@ -55,6 +55,7 @@ class ArticleSearch extends Article
             'category_id' => $this->category_id,
             'updater_id' => $this->updater_id,
             'status' => $this->status,
+            'private' => $this->private,
             'published_at' => $this->published_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

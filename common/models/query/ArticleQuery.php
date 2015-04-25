@@ -10,6 +10,7 @@ namespace common\models\query;
 
 use common\models\Article;
 use yii\db\ActiveQuery;
+use Yii;
 
 class ArticleQuery extends ActiveQuery
 {
@@ -17,6 +18,9 @@ class ArticleQuery extends ActiveQuery
     {
         $this->andWhere(['status' => Article::STATUS_PUBLISHED]);
         $this->andWhere(['<', '{{%article}}.published_at', time()]);
+        $this->andWhere(['or',
+            ['private' => Article::PRIVATE_ON, 'author_id' => Yii::$app->user->id],
+            ['private' => Article::PRIVATE_OFF]]);
         return $this;
     }
 }
