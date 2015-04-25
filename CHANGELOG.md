@@ -1,7 +1,7 @@
 Yii Starter Kit Change Log
 ==========================
 
-0.1.0 under development
+0.1beta under development
 -----------------------
 - Add multiple OAuth authorization
 - Replaced Imperavi Redactor on CKEditor
