@@ -1,8 +1,30 @@
 Yii Starter Kit Change Log
 ==========================
 
-2.0.0 under development
+2.1.0 under development
 -----------------------
+- API Fixes
+- Fixed: password_confirm not validated
+- Enh: Shortcuts file added
+- Enh: Assets compression support
+- Enh #192: Docker support
+- Enh #223: Migrations for RBAC
+- Enh #189: Added command bus
+- Changed application setup proccess 
+- Enh #184: Preserve article attachments file name
+- Enh #176: Added ability to set custom view for static pages and articles
+- Enh #160: LocaleBehavior::enablePreferredLanguage
+- fixes and improvements
+
+2.0.0 
+-----
+- Enh: Added Spanish locale
+- Enh: Frontend Account and Profile actions merged into one
+- Enh #146: Added MultiModel for handling multiple models at once
+- Enh #145: Added Application settings + FormModel and FormWidget for keyStorage component
+- Fixed: KeyStorage::set()
+- Enh #147: implemented KeyStorage::has() and KeyStorage::hasAll()
+- Enh: EnumColumn now loads enum as filter items
 - Enh #37: REST API module example
 - Enh #119: Removed default roles
 - Enh #128: Articles are available via slugs
@@ -37,6 +59,7 @@ Yii Starter Kit Change Log
 - Enh: FileCache now uses same path for all applications
 - Enh: common\components\behaviors\CacheInvalidateBehavior
 - ... Fixes ...
+- Added ability to configure timezone and name of vagrant box
 
 1.4.1
 -----

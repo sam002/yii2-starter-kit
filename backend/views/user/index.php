@@ -16,12 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('backend', 'Create {modelClass}', [
+        <?php echo Html::a(Yii::t('backend', 'Create {modelClass}', [
     'modelClass' => 'User',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email:email',
             [
-                'class' => \common\components\grid\EnumColumn::className(),
+                'class' => \common\grid\EnumColumn::className(),
                 'attribute' => 'status',
                 'enum' => User::getStatuses(),
                 'filter' => User::getStatuses()

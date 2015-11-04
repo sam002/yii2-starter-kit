@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use common\components\behaviors\CacheInvalidateBehavior;
+use common\behaviors\CacheInvalidateBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -38,7 +38,7 @@ class WidgetText extends \yii\db\ActiveRecord
             'cacheInvalidate'=>[
                 'class'=>CacheInvalidateBehavior::className(),
                 'keys'=>[
-                    function($model){
+                    function ($model) {
                         return [
                             self::className(),
                             $model->key
@@ -59,8 +59,7 @@ class WidgetText extends \yii\db\ActiveRecord
             [['key'], 'unique'],
             [['body'], 'string'],
             [['status'], 'integer'],
-            [['key'], 'string', 'max' => 1024],
-            [['title'], 'string', 'max' => 512]
+            [['title', 'key'], 'string', 'max' => 255]
         ];
     }
 

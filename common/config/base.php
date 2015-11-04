@@ -17,7 +17,18 @@ $config = [
         ],
 
         'cache' => [
-            'class' => 'yii\caching\DummyCache',
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => '@common/runtime/cache'
+        ],
+
+        'commandBus' => [
+            'class' => '\trntv\tactician\Tactician',
+            'commandNameExtractor' => '\League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor',
+            'methodNameInflector' => '\League\Tactician\Handler\MethodNameInflector\HandleInflector',
+            'commandToHandlerMap' => [
+                'common\commands\command\SendEmailCommand' => '\common\commands\handler\SendEmailHandler',
+                'common\commands\command\AddToTimelineCommand' => '\common\commands\handler\AddToTimelineHandler',
+            ]
         ],
 
         'formatter'=>[
@@ -82,7 +93,8 @@ $config = [
                         'common'=>'common.php',
                         'backend'=>'backend.php',
                         'frontend'=>'frontend.php',
-                    ]
+                    ],
+                    'on missingTranslation' => ['\backend\modules\i18n\Module', 'missingTranslation']
                 ],
                 /* Uncomment this code to use DbMessageSource
                  '*'=> [
@@ -90,10 +102,10 @@ $config = [
                     'sourceMessageTable'=>'{{%i18n_source_message}}',
                     'messageTable'=>'{{%i18n_message}}',
                     'enableCaching' => YII_ENV_DEV,
-                    'cachingDuration' => 3600
+                    'cachingDuration' => 3600,
+                    'on missingTranslation' => ['\backend\modules\i18n\Module', 'missingTranslation']
                 ],
                 */
-
             ],
         ],
 
@@ -105,7 +117,7 @@ $config = [
                 'path' => '@storage/web/source'
             ],
             'as log' => [
-                'class' => 'common\components\behaviors\FileStorageLogBehavior',
+                'class' => 'common\behaviors\FileStorageLogBehavior',
                 'component' => 'fileStorage'
             ]
         ],
@@ -122,7 +134,7 @@ $config = [
         ),
         'urlManagerFrontend' => \yii\helpers\ArrayHelper::merge(
             [
-                'hostInfo'=>Yii::getAlias('@frontendUrl')
+                'hostInfo' => Yii::getAlias('@frontendUrl')
             ],
             require(Yii::getAlias('@frontend/config/_urlManager.php'))
         ),
@@ -139,17 +151,13 @@ $config = [
         'availableLocales'=>[
             'en-US'=>'English (US)',
             'ru-RU'=>'Русский (РФ)',
-            'uk-UA'=>'Українська (Україна)'
+            'uk-UA'=>'Українська (Україна)',
+            'es' => 'Español'
         ],
     ],
 ];
 
 if (YII_ENV_PROD) {
-    $config['components']['cache'] = [
-        'class' => 'yii\caching\FileCache',
-        'cachePath' => '@common/runtime/cache'
-    ];
-
     $config['components']['log']['targets']['email'] = [
         'class' => 'yii\log\EmailTarget',
         'except' => ['yii\web\HttpException:*'],
@@ -162,6 +170,10 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class'=>'yii\gii\Module'
+    ];
+
+    $config['components']['cache'] = [
+        'class' => 'yii\caching\DummyCache'
     ];
 }
 

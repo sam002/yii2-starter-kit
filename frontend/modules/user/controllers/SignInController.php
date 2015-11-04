@@ -2,6 +2,7 @@
 
 namespace frontend\modules\user\controllers;
 
+use common\commands\command\SendEmailCommand;
 use common\models\User;
 use frontend\modules\user\models\LoginForm;
 use frontend\modules\user\models\PasswordResetRequestForm;
@@ -45,8 +46,8 @@ class SignInController extends \yii\web\Controller
                         'actions' => ['signup', 'login', 'request-password-reset', 'reset-password', 'oauth'],
                         'allow' => false,
                         'roles' => ['@'],
-                        'denyCallback' => function() {
-                            return Yii::$app->controller->redirect(['/user/default/profile']);
+                        'denyCallback' => function () {
+                            return Yii::$app->controller->redirect(['/user/default/index']);
                         }
                     ],
                     [
@@ -172,13 +173,18 @@ class SignInController extends \yii\web\Controller
             $password = Yii::$app->security->generateRandomString(8);
             $user->setPassword($password);
             if ($user->save()) {
-                $user->afterSignup();
-                $sentSuccess = Yii::$app->mailer->compose('oauth_welcome', ['user'=>$user, 'password'=>$password])
-                    ->setSubject(Yii::t('frontend', '{app-name} | Your login information', [
-                        'app-name'=>Yii::$app->name
-                    ]))
-                    ->setTo($user->email)
-                    ->send();
+                $profileData = [];
+                if ($client->getName() === 'facebook') {
+                    $profileData['firstname'] = ArrayHelper::getValue($attributes, 'first_name');
+                    $profileData['lastname'] = ArrayHelper::getValue($attributes, 'last_name');
+                }
+                $user->afterSignup($profileData);
+                $sentSuccess = Yii::$app->commandBus->handle(new SendEmailCommand([
+                    'view' => 'oauth_welcome',
+                    'params' => ['user'=>$user, 'password'=>$password],
+                    'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name'=>Yii::$app->name]),
+                    'to' => $user->email
+                ]));
                 if ($sentSuccess) {
                     Yii::$app->session->setFlash(
                         'alert',
@@ -193,7 +199,7 @@ class SignInController extends \yii\web\Controller
 
             } else {
                 // We already have a user with this email. Do what you want in such case
-                if (User::find()->where(['email'=>$user->email])->count()) {
+                if ($user->email && User::find()->where(['email'=>$user->email])->count()) {
                     Yii::$app->session->setFlash(
                         'alert',
                         [

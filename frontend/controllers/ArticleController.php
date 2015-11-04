@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\ArticleAttachment;
 use frontend\models\search\ArticleSearch;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -37,6 +37,21 @@ class ArticleController extends Controller
         if (!$model) {
             throw new NotFoundHttpException;
         }
-        return $this->render('view', ['model'=>$model]);
+
+        $viewFile = $model->view ?: 'view';
+        return $this->render($viewFile, ['model'=>$model]);
+    }
+
+    public function actionAttachmentDownload($id)
+    {
+        $model = ArticleAttachment::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException;
+        }
+
+        return \Yii::$app->response->sendStreamAsFile(
+            \Yii::$app->fileStorage->getFilesystem()->readStream($model->path),
+            $model->name
+        );
     }
 }

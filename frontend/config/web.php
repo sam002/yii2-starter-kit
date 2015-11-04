@@ -22,6 +22,18 @@ $config = [
                     'class' => 'yii\authclient\clients\GitHub',
                     'clientId' => getenv('GITHUB_CLIENT_ID'),
                     'clientSecret' => getenv('GITHUB_CLIENT_SECRET')
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => getenv('FACEBOOK_CLIENT_ID'),
+                    'clientSecret' => getenv('GITHUB_CLIENT_SECRET'),
+                    'scope' => 'email,public_profile',
+                    'attributeNames' => [
+                        'name',
+                        'email',
+                        'first_name',
+                        'last_name',
+                    ]
                 ]
             ]
         ],
@@ -36,7 +48,7 @@ $config = [
             'identityClass' => 'common\models\User',
             'loginUrl'=>['/user/sign-in/login'],
             'enableAutoLogin' => true,
-            'as afterLogin' => 'common\components\behaviors\LoginTimestampBehavior'
+            'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ]
     ]
 ];
@@ -59,9 +71,14 @@ if (YII_ENV_PROD) {
     $config['components']['maintenance'] = [
         'class' => 'common\components\maintenance\Maintenance',
         'enabled' => function ($app) {
-            return $app->keyStorage->get('frontend.maintenance') === 'true';
+            return $app->keyStorage->get('frontend.maintenance') === 'enabled';
         }
     ];
+
+    // Compressed assets
+    //$config['components']['assetManager'] = [
+    //   'bundles' => require(__DIR__ . '/assets/_bundles.php')
+    //];
 }
 
 return $config;

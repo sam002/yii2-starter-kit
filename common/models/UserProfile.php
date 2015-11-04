@@ -4,7 +4,6 @@ namespace common\models;
 
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "user_profile".
@@ -58,7 +57,7 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'gender'], 'integer'],
-            [['gender'], 'in', 'range'=>[self::GENDER_FEMALE, self::GENDER_MALE]],
+            [['gender'], 'in', 'range'=>[NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
             [['firstname', 'middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => Yii::$app->language],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
@@ -104,10 +103,10 @@ class UserProfile extends \yii\db\ActiveRecord
         return null;
     }
 
-    public function getAvatar()
+    public function getAvatar($default = null)
     {
         return $this->avatar_path
             ? Yii::getAlias($this->avatar_base_url . '/' . $this->avatar_path)
-            : false;
+            : $default;
     }
 }

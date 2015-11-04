@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content">
     <article class="article-item">
-        <h1><?= $model->title ?></h1>
+        <h1><?php echo $model->title ?></h1>
 
         <?php if ($model->thumbnail_path): ?>
             <?php echo \yii\helpers\Html::img(
@@ -27,8 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul id="article-attachments">
                 <?php foreach ($model->articleAttachments as $attachment): ?>
                     <li>
-                        <?php echo \yii\helpers\Html::a($attachment->name, $attachment->url) ?>
-                        - <?php echo Yii::$app->formatter->asSize($attachment->size) ?>
+                        <?php echo \yii\helpers\Html::a(
+                            $attachment->name,
+                            ['attachment-download', 'id' => $attachment->id])
+                        ?>
+                        (<?php echo Yii::$app->formatter->asSize($attachment->size) ?>)
                     </li>
                 <?php endforeach; ?>
             </ul>
