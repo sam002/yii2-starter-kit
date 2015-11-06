@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150423_014900_social_multiple_connect extends Migration
+class m151023_014900_social_multiple_connect extends Migration
 {
     public function up()
     {
@@ -26,10 +26,10 @@ class m150423_014900_social_multiple_connect extends Migration
         );
         $this->createIndex('user_oauth', '{{%user_oauth}}', ['provider', 'client_id'], true);
         $schema = $this->db->getSchema();
-        $this->db->createCommand('INSERT INTO ' .  $schema->quoteTableName('{{%user_oauth}}')
-            . ' (user_id, provider, client_id, created_at)'
-            . ' SELECT id AS user_id, oauth_client AS provider, oauth_client_user_id AS client_id, created_at FROM '
-            . $schema->quoteTableName('{{%user}}') . ' WHERE oauth_client_user_id IS NOT NULL;')->query();
+        $this->db->createCommand('INSERT INTO ' .  $schema->quoteTableName('{{%user_oauth}}') .
+            ' (user_id, provider, client_id, created_at)' .
+            ' SELECT id AS user_id, oauth_client AS provider, oauth_client_user_id AS client_id, created_at FROM ' .
+            $schema->quoteTableName('{{%user}}') . ' WHERE oauth_client_user_id IS NOT NULL;')->query();
 
         $this->dropColumn('{{%user}}', 'oauth_client');
         $this->dropColumn('{{%user}}', 'oauth_client_user_id');
