@@ -2,11 +2,10 @@
 
 namespace common\models;
 
-use common\components\behaviors\CacheInvalidateBehavior;
+use common\behaviors\CacheInvalidateBehavior;
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "widget_carousel_item".
@@ -55,12 +54,14 @@ class WidgetCarouselItem extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
             [
                 'class' => UploadBehavior::className(),
-                'attribute' => 'image'
-
+                'attribute' => 'image',
+                'pathAttribute' => 'path',
+                'baseUrlAttribute' => 'base_url',
+                'typeAttribute' => 'type'
             ],
             'cacheInvalidate'=>[
-                'class'=>CacheInvalidateBehavior::className(),
-                'keys'=>[
+                'class' => CacheInvalidateBehavior::className(),
+                'keys' => [
                     function ($model) {
                         return [
                             WidgetCarousel::className(),
@@ -81,7 +82,7 @@ class WidgetCarouselItem extends \yii\db\ActiveRecord
             [['carousel_id'], 'required'],
             [['carousel_id', 'status', 'order'], 'integer'],
             [['url', 'caption', 'base_url', 'path'], 'string', 'max' => 1024],
-            [['type'], 'string', 'max' => 45],
+            [['type'], 'string', 'max' => 255],
             ['image', 'safe']
         ];
     }

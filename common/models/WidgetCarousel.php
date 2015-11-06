@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use common\components\behaviors\CacheInvalidateBehavior;
+use common\behaviors\CacheInvalidateBehavior;
 use Yii;
 
 /**
@@ -34,7 +34,7 @@ class WidgetCarousel extends \yii\db\ActiveRecord
             'cacheInvalidate'=>[
                 'class'=>CacheInvalidateBehavior::className(),
                 'keys'=>[
-                    function($model){
+                    function ($model) {
                         return [
                             self::className(),
                             $model->key
@@ -54,7 +54,7 @@ class WidgetCarousel extends \yii\db\ActiveRecord
             [['key'], 'required'],
             [['key'], 'unique'],
             [['status'], 'integer'],
-            [['key'], 'string', 'max' => 1024]
+            [['key'], 'string', 'max' => 255]
         ];
     }
 

@@ -20,10 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-12">
                 <dl>
                     <dt>
-                        <?= Yii::t('backend', 'Used size') ?>:
+                        <?php echo Yii::t('backend', 'Used size') ?>:
                     </dt>
                     <dd>
-                        <?= Yii::$app->formatter->asSize($totalSize); ?>
+                        <?php echo Yii::$app->formatter->asSize($totalSize); ?>
                     </dd>
                 </dl>
             </div>
@@ -33,10 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-xs-12">
                     <dl>
                         <dt>
-                            <?= Yii::t('backend', 'Count') ?>:
+                            <?php echo Yii::t('backend', 'Count') ?>:
                         </dt>
                         <dd>
-                            <?= $dataProvider->totalCount ?>
+                            <?php echo $dataProvider->totalCount ?>
                         </dd>
                     </dl>
                 </div>
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?= GridView::widget([
+    <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -54,7 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'component',
                 'filter' => $components
             ],
-            'base_url:url',
             'path',
             'type',
             'size:size',

@@ -14,11 +14,11 @@ use mihaildev\elfinder\ElFinder;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
+    <?php echo $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
+    <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'body')->widget(
+    <?php echo $form->field($model, 'body')->widget(
         CKEditor::className(),
         [
             'preset'=> "full",
@@ -28,10 +28,12 @@ use mihaildev\elfinder\ElFinder;
         ]
     ) ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
+
+    <?php echo $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

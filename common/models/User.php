@@ -2,8 +2,8 @@
 namespace common\models;
 
 use cheatsheet\Time;
+use common\commands\command\AddToTimelineCommand;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -19,12 +19,16 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
+ * @property string $access_token
+ * @property string $oauth_client
+ * @property string $oauth_client_user_id
  * @property string $publicIdentity
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $logged_at
  * @property string $password write-only password
+ *
  * @property \common\models\UserProfile $userProfile
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -60,6 +64,13 @@ class User extends ActiveRecord implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_INSERT => 'auth_key'
                 ],
                 'value' => Yii::$app->getSecurity()->generateRandomString()
+            ],
+            'access_token' => [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'access_token'
+                ],
+                'value' => Yii::$app->getSecurity()->generateRandomString(40)
             ]
         ];
     }
@@ -89,6 +100,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['username'],'filter','filter'=>'\yii\helpers\Html::encode']
         ];
     }
 
@@ -101,6 +113,7 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'E-mail'),
             'status' => Yii::t('common', 'Status'),
+            'access_token' => Yii::t('common', 'API access token'),
             'created_at' => Yii::t('common', 'Created at'),
             'updated_at' => Yii::t('common', 'Updated at'),
             'logged_at' => Yii::t('common', 'Last login'),
@@ -128,7 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['auth_key' => $token, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['access_token' => $token, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -260,15 +273,16 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function afterSignup(array $profileData = [])
     {
-        TimelineEvent::log(
-            'user',
-            'signup',
-            [
-                'publicIdentity' => $this->getPublicIdentity(),
-                'userId' => $this->getId(),
+        $this->refresh();
+        Yii::$app->commandBus->handle(new AddToTimelineCommand([
+            'category' => 'user',
+            'event' => 'signup',
+            'data' => [
+                'public_identity' => $this->getPublicIdentity(),
+                'user_id' => $this->getId(),
                 'created_at' => $this->created_at
             ]
-        );
+        ]));
         $profile = new UserProfile();
         $profile->locale = Yii::$app->language;
         $profile->load($profileData, '');
