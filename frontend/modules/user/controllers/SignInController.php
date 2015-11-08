@@ -2,6 +2,7 @@
 
 namespace frontend\modules\user\controllers;
 
+use common\commands\command\SendEmailCommand;
 use common\models\Oauth;
 use common\models\User;
 use frontend\modules\user\models\LoginForm;
@@ -43,15 +44,20 @@ class SignInController extends \yii\web\Controller
                         'roles' => ['?']
                     ],
                     [
-                        'actions' => ['signup', 'login', 'request-password-reset', 'reset-password', 'oauth'],
+                        'actions' => ['signup', 'login', 'request-password-reset', 'reset-password'],
                         'allow' => false,
                         'roles' => ['@'],
-                        'denyCallback' => function() {
-                            return Yii::$app->controller->redirect(['/user/default/profile']);
+                        'denyCallback' => function () {
+                            return Yii::$app->controller->redirect(['/user/default/index']);
                         }
                     ],
                     [
                         'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['oauth'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -195,9 +201,7 @@ class SignInController extends \yii\web\Controller
                         'password' => $password,
                     ]);
 
-                    //$user->generateAuthKey();
                     $user->generatePasswordResetToken();
-                    //print_r($user); die();
                     $transaction = $user->getDb()->beginTransaction();
                     if ($user->save()) {
                         $auth = new Oauth([
@@ -208,13 +212,18 @@ class SignInController extends \yii\web\Controller
                         if ($auth->save()) {
                             $transaction->commit();
                             Yii::$app->user->login($user);
-                            $user->afterSignup();
-                            $sentSuccess = Yii::$app->mailer->compose('oauth_welcome', ['user'=>$user, 'password'=>$password])
-                                ->setSubject(Yii::t('frontend', '{app-name} | Your login information', [
-                                    'app-name'=>Yii::$app->name
-                                ]))
-                                ->setTo($user->email)
-                                ->send();
+                            $profileData = [];
+                            if ($client->getName() === 'facebook') {
+                                $profileData['firstname'] = ArrayHelper::getValue($attributes, 'first_name');
+                                $profileData['lastname'] = ArrayHelper::getValue($attributes, 'last_name');
+                            }
+                            $user->afterSignup($profileData);
+                            $sentSuccess = Yii::$app->commandBus->handle(new SendEmailCommand([
+                                'view' => 'oauth_welcome',
+                                'params' => ['user'=>$user, 'password'=>$password],
+                                'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name'=>Yii::$app->name]),
+                                'to' => $user->email
+                            ]));
                             if ($sentSuccess) {
                                 Yii::$app->session->setFlash( 'alert',
                                     [

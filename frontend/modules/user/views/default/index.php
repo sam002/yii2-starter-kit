@@ -48,6 +48,12 @@ $this->title = Yii::t('frontend', 'User Settings')
     <?php echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput() ?>
 
     <div class="form-group">
+        <?php echo yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['/user/sign-in/oauth']
+        ]); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
     </div>
 
