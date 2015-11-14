@@ -1,8 +1,9 @@
 <?php
 
-use trntv\filekit\widget\Upload;
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use trntv\filekit\widget\Upload,
+    yii\helpers\Html,
+    yii\widgets\ActiveForm,
+    yii\authclient\widgets\AuthChoice;
 
 /* @var $this yii\web\View */
 /* @var $model common\base\MultiModel */
@@ -47,11 +48,27 @@ $this->title = Yii::t('frontend', 'User Settings')
 
     <?php echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput() ?>
 
-    <div class="form-group">
-        <?php echo yii\authclient\widgets\AuthChoice::widget([
-            'baseAuthUrl' => ['/user/sign-in/oauth']
-        ]); ?>
-    </div>
+
+    <h2><?php echo Yii::t('frontend', 'Connected profiles') ?></h2>
+    <?php $oauth = [];
+        foreach($model->getModel('oauth') as $provider) {
+            $oauth[$provider->provider] = $provider;
+        }
+    ?>
+
+
+
+    <?php $authAuthChoice = AuthChoice::begin([
+        'baseAuthUrl' => ['/user/sign-in/oauth']
+    ]); ?>
+    <ul>
+        <?php foreach ($authAuthChoice->getClients() as $client) {
+            if (!isset($oauth[$client->getName()])) {
+                $authAuthChoice->clientLink($client);
+            }
+        }?>
+    </ul>
+    <?php AuthChoice::end(); ?>
 
     <div class="form-group">
         <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>

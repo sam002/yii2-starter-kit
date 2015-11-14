@@ -188,93 +188,131 @@ class SignInController extends \yii\web\Controller
                     ]);
                 } else {
                     //Ckeck user name. generate new if user with same mail exist)
-                    $loginDuplicate = NULL;
-                    if (isset($attributes['login']) && User::find()->where(['username' => $attributes['login']])->exists()) {
-                        $loginDuplicate = $attributes['login'];
-                        $attributes['login'] .= '_' . time();
-                    }
+                    $this->signupOauth($client);
 
-                    $password = Yii::$app->security->generateRandomString(6);
-                    $user = new User([
-                        'username' => $attributes['login'],
-                        'email' => $attributes['email'],
-                        'password' => $password,
-                    ]);
-
-                    $user->generatePasswordResetToken();
-                    $transaction = $user->getDb()->beginTransaction();
-                    if ($user->save()) {
-                        $auth = new Oauth([
-                            'user_id' => $user->id,
-                            'provider' => $client->getName(),
-                            'client_id' => (string)$attributes['id'],
-                        ]);
-                        if ($auth->save()) {
-                            $transaction->commit();
-                            Yii::$app->user->login($user);
-                            $profileData = [];
-                            if ($client->getName() === 'facebook') {
-                                $profileData['firstname'] = ArrayHelper::getValue($attributes, 'first_name');
-                                $profileData['lastname'] = ArrayHelper::getValue($attributes, 'last_name');
-                            }
-                            $user->afterSignup($profileData);
-                            $sentSuccess = Yii::$app->commandBus->handle(new SendEmailCommand([
-                                'view' => 'oauth_welcome',
-                                'params' => ['user'=>$user, 'password'=>$password],
-                                'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name'=>Yii::$app->name]),
-                                'to' => $user->email
-                            ]));
-                            if ($sentSuccess) {
-                                Yii::$app->session->setFlash( 'alert',
-                                    [
-                                        'options'=>['class'=>'alert-success'],
-                                        'body'=>Yii::t('frontend', 'Welcome to {app-name}. Email with your login information was sent to your email.', [
-                                            'app-name'=>Yii::$app->name
-                                        ])
-                                    ]);
-                                //TODO Fix hiding
-                                if(!empty($loginDuplicate)){
-                                    Yii::$app->getSession()->addFlash( 'alert',
-                                        [
-                                            'body'=>Yii::t('frontend', 'We already have a user with name {login}. You can login using email to link {provider} account.', [
-                                                'login' => $loginDuplicate,
-                                                'provider' => $client->getName()
-                                            ]),
-                                        ]);
-                                }
-                            }
-                        } else {
-                            throw new Exception('OAuth error');
-                        }
-
-                    } else {
-                        throw new Exception('OAuth error');
-                    }
                 }
             }
         } else { // user already logged in
-            if (!$auth) { // add auth provider
-                $auth = new Oauth([
-                    'user_id' => YII::$app->user->id,
-                    'provider' => $client->getName(),
-                    'client_id' => (string)$attributes['id']
-                ]);
-                $auth->save();
-                return true;
-            } elseif (isset($attributes['login']) && User::find()->where(['username' => $attributes['login']])->exists()) {
-                $auth->user = Yii::$app->user;
-                if ($auth->save()) {
-                    Yii::$app->session->setFlash('alert',
+            $this->addProvider($client, $auth);
+        }
+    }
+
+    /**
+     * @param \yii\authclient\BaseClient $client
+     * @throws Exception
+     * @throws \yii\db\Exception
+     */
+    private function signupOauth($client)
+    {
+        $attributes = $client->getUserAttributes();
+        $loginDuplicate = NULL;
+        if (isset($attributes['login']) && User::find()->where(['username' => $attributes['login']])->exists()) {
+            $loginDuplicate = $attributes['login'];
+            $attributes['login'] .= '_' . time();
+        }
+
+        $password = Yii::$app->security->generateRandomString(6);
+        $user = new User([
+            'username' => $attributes['login'],
+            'email' => $attributes['email'],
+            'password' => $password,
+        ]);
+
+        $user->generatePasswordResetToken();
+        $transaction = $user->getDb()->beginTransaction();
+        if ($user->save()) {
+            $auth = new Oauth([
+                'user_id' => $user->id,
+                'provider' => $client->getName(),
+                'client_id' => (string)$attributes['id'],
+                'property' => json_encode($attributes)
+            ]);
+            if ($auth->save()) {
+                $transaction->commit();
+                Yii::$app->user->login($user);
+                $profileData = [];
+                if ($client->getName() === 'facebook') {
+                    $profileData['firstname'] = ArrayHelper::getValue($attributes, 'first_name');
+                    $profileData['lastname'] = ArrayHelper::getValue($attributes, 'last_name');
+                }
+                $user->afterSignup($profileData);
+                $sentSuccess = Yii::$app->commandBus->handle(new SendEmailCommand([
+                    'view' => 'oauth_welcome',
+                    'params' => ['user'=>$user, 'password'=>$password],
+                    'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name'=>Yii::$app->name]),
+                    'to' => $user->email
+                ]));
+                if ($sentSuccess) {
+                    Yii::$app->session->setFlash( 'alert',
                         [
-                            'options' => ['class' => 'alert-success'],
-                            'body' => Yii::t('frontend', 'You have successfully linked {{provider}} account with your account.', [
-                                'provider' => $client->getName()
+                            'options'=>['class'=>'alert-success'],
+                            'body'=>Yii::t('frontend', 'Welcome to {app-name}. Email with your login information was sent to your email.', [
+                                'app-name'=>Yii::$app->name
                             ])
                         ]);
-                    return true;
-                } else {
-                    throw new Exception('OAuth error');
+                    //TODO Fix hiding
+                    if(!empty($loginDuplicate)){
+                        Yii::$app->getSession()->addFlash( 'alert',
+                            [
+                                'body'=>Yii::t('frontend', 'We already have a user with name {login}. You can login using email to link {provider} account.', [
+                                    'login' => $loginDuplicate,
+                                    'provider' => $client->getName()
+                                ]),
+                            ]);
+                    }
                 }
+            } else {
+                throw new Exception('OAuth error');
+            }
+
+        } else {
+            throw new Exception('OAuth error');
+        }
+    }
+
+    /**
+     * @param \yii\authclient\BaseClient $client
+     * @param Oauth $auth
+     * @return bool
+     * @throws Exception
+     */
+    private function addProvider($client, Oauth $auth = null)
+    {
+        $attributes = $client->getUserAttributes();
+        if (!$auth) { // add auth provider
+            $auth = new Oauth([
+                'user_id' => YII::$app->user->id,
+                'provider' => $client->getName(),
+                'client_id' => (string)$attributes['id'],
+                'properties' => json_encode($attributes)
+            ]);
+            if ($auth->save()) {
+                Yii::$app->session->setFlash('alert',
+                    [
+                        'options' => ['class' => 'alert-success'],
+                        'body' => Yii::t('frontend', 'You have successfully linked {provider} account with your profile.', [
+                            'provider' => $client->getName()
+                        ])
+                    ]);
+                return true;
+            } else {
+                throw new Exception('OAuth error');
+            }
+            return true;
+        } elseif (isset($attributes['login']) && User::find()->where(['username' => $attributes['login']])->exists()) {
+            //TODO check use case
+            $auth->user = Yii::$app->user;
+            if ($auth->save()) {
+                Yii::$app->session->setFlash('alert',
+                    [
+                        'options' => ['class' => 'alert-success'],
+                        'body' => Yii::t('frontend', 'You have successfully linked {provider} account with your profile.', [
+                            'provider' => $client->getName()
+                        ])
+                    ]);
+                return true;
+            } else {
+                throw new Exception('OAuth error');
             }
         }
     }

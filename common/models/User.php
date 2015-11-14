@@ -30,6 +30,7 @@ use yii\web\IdentityInterface;
  * @property string $password write-only password
  *
  * @property \common\models\UserProfile $userProfile
+ * @property \common\models\Oauth $oauth
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -126,6 +127,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id'=>'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOauth()
+    {
+        return $this->hasMany(Oauth::className(), ['user_id' => 'id']);
     }
 
     /**

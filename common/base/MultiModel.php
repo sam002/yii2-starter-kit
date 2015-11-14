@@ -44,12 +44,26 @@ class MultiModel extends Model
     }
 
     /**
+     * @param $key
+     * @param array $models
+     * @return Model
+     */
+    public function setRecurciveModels($key, $models = [])
+    {
+        return $this->models[$key] = $models;
+    }
+
+    /**
      * @param array $models
      */
     public function setModels(array $models)
     {
         foreach ($models as $key => $model) {
-            $this->setModel($key, $model);
+            if(is_array($model)){
+                $this->setRecurciveModels($key, $model);
+            } else {
+                $this->setModel($key, $model);
+            }
         }
     }
 
