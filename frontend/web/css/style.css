@@ -21,6 +21,13 @@
 .article-item .article-text {
   margin-top: 7px;
 }
+.article-item .entry-author {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #FCFCFC none repeat scroll 0% 0%;
+  border-bottom: 1px solid #EEE;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
 html,
 body {
   height: 100%;
@@ -97,4 +104,3 @@ a.desc:after {
   padding: 10px 20px;
   margin: 0 0 15px 0;
 }
-/*# sourceMappingURL=style.map */
