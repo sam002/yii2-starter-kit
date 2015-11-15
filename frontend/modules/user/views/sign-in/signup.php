@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\password\PasswordInput;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
@@ -17,7 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?php echo $form->field($model, 'username') ?>
                 <?php echo $form->field($model, 'email') ?>
-                <?php echo $form->field($model, 'password')->passwordInput() ?>
+                <?php echo $form->field($model, 'password')->widget(PasswordInput::classname(), [
+                    'pluginOptions' => [
+                    'showMeter' => true,
+                    'toggleMask' => false
+                    ]
+                ]); ?>
                 <div class="form-group">
                     <?php echo Html::submitButton(Yii::t('frontend', 'Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>

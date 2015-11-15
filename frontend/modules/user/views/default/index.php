@@ -3,8 +3,8 @@
 use trntv\filekit\widget\Upload,
     yii\helpers\Html,
     yii\widgets\ActiveForm,
-    yii\authclient\widgets\AuthChoice;
-
+    yii\authclient\widgets\AuthChoice,
+    kartik\password\PasswordInput;
 /* @var $this yii\web\View */
 /* @var $model common\base\MultiModel */
 /* @var $form yii\widgets\ActiveForm */
@@ -44,7 +44,14 @@ $this->title = Yii::t('frontend', 'User Settings')
 
     <?php echo $form->field($model->getModel('account'), 'email') ?>
 
-    <?php echo $form->field($model->getModel('account'), 'password')->passwordInput() ?>
+    <?php //echo $form->field($model->getModel('account'), 'password')->passwordInput() ?>
+
+    <?php echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
+        'pluginOptions' => [
+            'showMeter' => true,
+            'toggleMask' => false
+        ]
+    ]); ?>
 
     <?php echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput() ?>
 

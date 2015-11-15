@@ -64,8 +64,7 @@ class DefaultController extends Controller
         $model = new MultiModel([
             'models' => [
                 'account' => $accountModel,
-                'profile' => Yii::$app->user->identity->userProfile,
-                'oauth' => Yii::$app->user->identity->oauth
+                'profile' => Yii::$app->user->identity->userProfile
             ]
         ]);
 
@@ -75,6 +74,15 @@ class DefaultController extends Controller
                 'body' => Yii::t('frontend', 'Your account has been successfully saved')
             ]);
             return $this->refresh();
+        } else {
+
+            $model = new MultiModel([
+                'models' => [
+                    'oauth' => Yii::$app->user->identity->oauth,
+                    'account' => $accountModel,
+                    'profile' => Yii::$app->user->identity->userProfile
+                ]
+            ]);
         }
         return $this->render('index', ['model'=>$model]);
     }

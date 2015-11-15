@@ -2,6 +2,7 @@
 namespace frontend\modules\user\models;
 
 use common\models\User;
+use kartik\password\StrengthValidator;
 use yii\base\Model;
 use Yii;
 
@@ -37,7 +38,8 @@ class SignupForm extends Model
             ],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', StrengthValidator::className(), 'digit' => 0, 'preset'=>'normal', 'userAttribute'=>'username'],
+
         ];
     }
 
