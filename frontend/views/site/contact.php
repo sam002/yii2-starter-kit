@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\captcha\Captcha;
+use \himiklab\yii2\recaptcha\ReCaptcha;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
@@ -20,9 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php echo $form->field($model, 'email') ?>
                 <?php echo $form->field($model, 'subject') ?>
                 <?php echo $form->field($model, 'body')->textArea(['rows' => 6]) ?>
-                <?php echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                    'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-                ]) ?>
+                <?php echo $form->field($model, 'verifyCode')->widget(ReCaptcha::className()) ?>
                 <div class="form-group">
                     <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>

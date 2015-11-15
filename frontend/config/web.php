@@ -59,7 +59,13 @@ $config = [
             'loginUrl'=>['/user/sign-in/login'],
             'enableAutoLogin' => true,
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
-        ]
+        ],
+        'reCaptcha' => [
+            'name' => 'reCaptcha',
+            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
+            'siteKey' => getenv('RECAPTCHA_SITE_KEY'),
+            'secret' => getenv('RECAPTCHA_SECRET_KEY'),
+        ],
     ]
 ];
 
