@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use dosamigos\ckeditor\CKEditor;
-use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Page */
@@ -14,24 +12,29 @@ use mihaildev\elfinder\ElFinder;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
+    <?php echo $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => 2048]) ?>
+    <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'body')->widget(
-        CKEditor::className(),
+    <?php echo $form->field($model, 'body')->widget(
+        \yii\imperavi\Widget::className(),
         [
-            'preset'=> "full",
-            'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
-                'height' => '500px',
-            ]),
+            'plugins' => ['fullscreen', 'fontcolor', 'video'],
+            'options'=>[
+                'minHeight'=>400,
+                'maxHeight'=>400,
+                'buttonSource'=>true,
+                'imageUpload'=>Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+            ]
         ]
     ) ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
+
+    <?php echo $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -2,12 +2,10 @@
 
 namespace common\models;
 
-use common\models\query\SystemEventQuery;
 use common\models\query\TimelineEventQuery;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "timeline_event".
@@ -29,6 +27,9 @@ class TimelineEvent extends ActiveRecord
         return '{{%timeline_event}}';
     }
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -40,6 +41,9 @@ class TimelineEvent extends ActiveRecord
         ];
     }
 
+    /**
+     * @return TimelineEventQuery
+     */
     public static function find()
     {
         return new TimelineEventQuery(get_called_class());
@@ -57,24 +61,20 @@ class TimelineEvent extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         $this->data = @json_decode($this->data, true);
         parent::afterFind();
     }
 
+    /**
+     * @return string
+     */
     public function getFullEventName()
     {
         return sprintf('%s.%s', $this->category, $this->event);
-    }
-
-    public static function log($category, $event, $data = null)
-    {
-        $model = new TimelineEvent();
-        $model->application = Yii::$app->id;
-        $model->category = $category;
-        $model->event = $event;
-        $model->data = json_encode($data, JSON_UNESCAPED_UNICODE);
-        return $model->save(false);
     }
 }

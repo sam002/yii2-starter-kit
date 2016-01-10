@@ -1,9 +1,9 @@
 <?php
 
+use trntv\filekit\widget\Upload;
+use trntv\yii\datetime\DateTimeWidget;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use dosamigos\ckeditor\CKEditor;
-use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
@@ -15,53 +15,64 @@ use mihaildev\elfinder\ElFinder;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
+    <?php echo $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'slug')
+    <?php echo $form->field($model, 'slug')
         ->hint(Yii::t('backend', 'If you\'ll leave this field empty, slug will be generated automatically'))
-        ->textInput(['maxlength' => 1024]) ?>
+        ->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(
+    <?php echo $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(
             $categories,
             'id',
             'title'
         ), ['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'body')->widget(
-        CKEditor::className(),
+    <?php echo $form->field($model, 'body')->widget(
+        \yii\imperavi\Widget::className(),
         [
-            'preset'=> "full", //basic, full, standart
-            'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
-                'height' => '500px',
-            ]),
+            'plugins' => ['fullscreen', 'fontcolor', 'video'],
+            'options' => [
+                'minHeight' => 400,
+                'maxHeight' => 400,
+                'buttonSource' => true,
+                'convertDivs' => false,
+                'removeEmptyTags' => false,
+                'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+            ]
         ]
     ) ?>
 
-    <?= $form->field($model, 'thumbnail')->widget(
-        \trntv\filekit\widget\Upload::className(),
+    <?php echo $form->field($model, 'thumbnail')->widget(
+        Upload::className(),
         [
             'url' => ['/file-storage/upload'],
             'maxFileSize' => 5000000, // 5 MiB
         ]);
     ?>
 
-    <?= $form->field($model, 'attachments')->widget(
-        \trntv\filekit\widget\Upload::className(),
+    <?php echo $form->field($model, 'attachments')->widget(
+        Upload::className(),
         [
             'url' => ['/file-storage/upload'],
-            'sortable'=>true,
+            'sortable' => true,
             'maxFileSize' => 10000000, // 10 MiB
             'maxNumberOfFiles' => 10
         ]);
     ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
-    <?= $form->field($model, 'private')->checkbox() ?>
+    <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'published_at')->widget('trntv\yii\datetimepicker\DatetimepickerWidget') ?>
+    <?php echo $form->field($model, 'status')->checkbox() ?>
+
+    <?php echo $form->field($model, 'published_at')->widget(
+        DateTimeWidget::className(),
+        [
+            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+        ]
+    ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(
+        <?php echo Html::submitButton(
             $model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

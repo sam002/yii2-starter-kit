@@ -14,34 +14,34 @@ use yii\helpers\Html;
 
     <?php echo $form->errorSummary($model) ?>
 
-    <?= $form->field($model, 'image')->widget(
+    <?php echo $form->field($model, 'image')->widget(
         \trntv\filekit\widget\Upload::className(),
         [
             'url'=>['/file-storage/upload'],
         ]
     ) ?>
 
-    <?= $form->field($model, 'order')->textInput() ?>
+    <?php echo $form->field($model, 'order')->textInput() ?>
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
+    <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
 
-    <?= $form->field($model, 'caption')->widget(
-        dosamigos\ckeditor\CKEditor::className(),
+    <?php echo $form->field($model, 'caption')->widget(
+        \yii\imperavi\Widget::className(),
         [
-            'preset'=> "full",
+            'plugins' => ['fullscreen', 'fontcolor', 'video'],
             'options'=>[
-                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                '_minHeight'=>200,
-                '_maxHeight'=>200
+                'minHeight'=>400,
+                'maxHeight'=>400,
+                'buttonSource'=>true,
+                'convertDivs'=>false,
+                'removeEmptyTags'=>false
             ]
-        ]
-    ) ?>
+        ]) ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?php echo $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
