@@ -22,7 +22,7 @@ use mihaildev\elfinder\ElFinder;
         CKEditor::className(),
         [
             'preset'=> "full",
-            'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
+            'clientOptions' => ElFinder::ckeditorOptions('image-manager-elfinder',[
                 'height' => '500px',
             ]),
         ]

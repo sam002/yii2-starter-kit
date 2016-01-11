@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\WidgetText */
@@ -20,14 +21,12 @@ use dosamigos\ckeditor\CKEditor;
     <?php echo $form->field($model, 'body')->widget(
         CKEditor::className(),
         [
-            'preset'=> "full",
-            'options'=>[
-                'filebrowserBrowseUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                'filebrowserUploadUrl'=>Yii::$app->urlManager->createUrl(['/file-storage/upload']),
-                '_minHeight'=>200,
-                '_maxHeight'=>200
-            ]
-        ]) ?>
+            'preset'=> "standart",
+            'clientOptions' => ElFinder::ckeditorOptions('image-manager-elfinder',[
+               'height' => '500px',
+        ])
+    ])
+    ?>
 
     <?php echo $form->field($model, 'status')->checkbox() ?>
 
