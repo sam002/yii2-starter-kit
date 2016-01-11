@@ -16,6 +16,21 @@ $config = [
                     'access' => ['read' => 'manager', 'write' => 'manager']
                 ]
             ]
+        ],
+        'image-manager-elfinder' => [
+            'class' => 'mihaildev\elfinder\Controller',
+            'access' => ['manager'],
+            'disabledCommands' => ['netmount', 'home', 'forward', 'getfile', 'quicklook',
+                'download', 'rm', 'duplicate', 'rename', 'mkfile', 'copy',
+                'cut', 'paste', 'edit', 'archive', 'search', 'info', 'help', 'open'],
+            'roots' => [
+                [
+                    'baseUrl' => '@storageUrl/source',
+                    'basePath' => '@storage/web/source',
+                    'path'   => '/',
+                    'access' => ['read' => 'manager', 'write' => 'manager']
+                ]
+            ]
         ]
     ],
     'components'=>[
