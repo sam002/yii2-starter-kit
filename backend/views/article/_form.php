@@ -56,6 +56,22 @@ use mihaildev\elfinder\ElFinder;
             'maxNumberOfFiles' => 10
         ]);
     ?>
+    <?php echo $form->field($model, 'tagValues')->widget(
+        SelectizeTextInput::className(),
+        [
+            // calls an action that returns a JSON object with matched
+            // tags
+            'loadUrl' => ['tag/list'],
+            'options' => ['class' => 'form-control'],
+            'clientOptions' => [
+                'plugins' => ['remove_button'],
+                'valueField' => 'name',
+                'labelField' => 'name',
+                'searchField' => ['name'],
+                'create' => true,
+            ],
+        ])->hint('Use commas to separate tags')
+    ?>
 
     <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
 
