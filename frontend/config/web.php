@@ -1,6 +1,9 @@
 <?php
+use himiklab\sitemap\behaviors\SitemapBehavior;
+use yii\helpers\Url;
+
 $config = [
-    'homeUrl'=>Yii::getAlias('@frontendUrl'),
+    'homeUrl' => Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'site/index',
     'modules' => [
@@ -12,7 +15,69 @@ $config = [
             'modules' => [
                 'v1' => 'frontend\modules\api\v1\Module'
             ]
-        ]
+        ],
+        'sitemap' => [
+            'class' => 'himiklab\sitemap\Sitemap',
+            'models' => [
+                    [
+                    'class' => 'common\models\Article',
+                    'behaviors' => [
+                        'sitemap' => [
+                            'class' => SitemapBehavior::className(),
+                            'scope' => function ($model) {
+                                /** @var \yii\db\ActiveQuery $model */
+                                $model->select(['slug', 'updated_at', 'private', 'title', 'published_at']);
+                                $model->andWhere(['status' => \frontend\modules\api\v1\resources\Article::STATUS_PUBLISHED]);
+                            },
+                            'dataClosure' => function ($model) {
+                                /** @var self $model */
+
+                                $result = [
+                                    'news' =>[
+                                        'publication'   => [
+                                            'name'          => 'Name',
+                                            'language'      => Yii::$app->language,
+                                        ],
+                                        'publication_date'  => date('c', $model->published_at),
+                                        'title'             => $model->title,
+                                    ],
+                                    'loc' => Url::to('article/' . $model->slug, true),
+                                    'lastmod' => strtotime($model->updated_at),
+                                    'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
+                                    'priority' => 0.8
+                                ];
+
+                                if ($model->private != \frontend\modules\api\v1\resources\Article::PRIVATE_OFF){
+                                    $result['news']['access'] = 'Registration';
+                                }
+                                return $result;
+                            }
+                        ],
+                    ],
+                ],
+            ],
+            'urls'=> [
+                // your additional urls
+                [
+                    'loc' => '/article/index',
+                    'changefreq' => \himiklab\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
+                    'priority' => 0.8,
+                    'news' => [
+                        'publication'   => [
+                            'name'          => 'Example Blog',
+                            'language'      => 'en',
+                        ],
+                        'genres'            => 'Blog, UserGenerated',
+                        'publication_date'  => 'YYYY-MM-DDThh:mm:ssTZD',
+                        'title'             => 'Example Title',
+                        'keywords'          => 'example, keywords, comma-separated',
+                        'stock_tickers'     => 'NASDAQ:A, NASDAQ:B',
+                    ],
+                ],
+            ],
+            'enableGzip' => true, // default is false
+            'cacheExpire' => 1, // 1 second. Default is 24 hours
+        ],
     ],
     'components' => [
         'authClientCollection' => [
@@ -20,8 +85,8 @@ $config = [
             'clients' => [
                 'vkontakte' => [
                     'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' =>  getenv('VK_CLIENT_ID'),
-                    'clientSecret' =>  getenv('VK_CLIENT_SECRET'),
+                    'clientId' => getenv('VK_CLIENT_ID'),
+                    'clientSecret' => getenv('VK_CLIENT_SECRET'),
                 ],
                 'google' => [
                     'class' => 'yii\authclient\clients\GoogleOAuth',
@@ -54,9 +119,9 @@ $config = [
             'cookieValidationKey' => getenv('FRONTEND_COOKIE_VALIDATION_KEY')
         ],
         'user' => [
-            'class'=>'yii\web\User',
+            'class' => 'yii\web\User',
             'identityClass' => 'common\models\User',
-            'loginUrl'=>['/user/sign-in/login'],
+            'loginUrl' => ['/user/sign-in/login'],
             'enableAutoLogin' => true,
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ],
@@ -71,11 +136,11 @@ $config = [
 
 if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
-        'class'=>'yii\gii\Module',
-        'generators'=>[
-            'crud'=>[
-                'class'=>'yii\gii\generators\crud\Generator',
-                'messageCategory'=>'frontend'
+        'class' => 'yii\gii\Module',
+        'generators' => [
+            'crud' => [
+                'class' => 'yii\gii\generators\crud\Generator',
+                'messageCategory' => 'frontend'
             ]
         ]
     ];
