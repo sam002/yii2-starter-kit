@@ -6,6 +6,9 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use kartik\select2\Select2;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
@@ -57,20 +60,31 @@ use mihaildev\elfinder\ElFinder;
         ]);
     ?>
     <?php echo $form->field($model, 'tagValues')->widget(
-        SelectizeTextInput::className(),
+        Select2::className(),
         [
-            // calls an action that returns a JSON object with matched
-            // tags
-            'loadUrl' => ['tag/list'],
-            'options' => ['class' => 'form-control'],
-            'clientOptions' => [
-                'plugins' => ['remove_button'],
-                'valueField' => 'name',
-                'labelField' => 'name',
-                'searchField' => ['name'],
-                'create' => true,
+            'language' => substr(Yii::$app->language, 0, 2),
+            'theme' => Select2::THEME_BOOTSTRAP,
+            'showToggleAll'=> false,
+            'options' => [
+                'placeholder' => Yii::t('backend','Add tags'),
+                'multiple' => true
             ],
-        ])->hint('Use commas to separate tags')
+            'pluginOptions' => [
+                'allowClear' => true,
+                'tags' => true,
+                'tokenSeparators' => [',', '\n'],
+                'minimumInputLength' => 1,
+                'ajax' => [
+                    'url' => Url::to(['/article-tag/list']),
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {query:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(tag) { return tag.text; }'),
+                'templateSelection' => new JsExpression('function (tag) { return tag.text; }'),
+            ],
+        ]
+    );
     ?>
 
     <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>

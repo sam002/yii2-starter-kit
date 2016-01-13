@@ -44,6 +44,26 @@ class ArticleTagController extends Controller
         ]);
     }
 
+    public function actionList($query = null, $id = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (!is_null($query)) {
+            $models = Tag::find()
+                ->where(['like', 'name', $query])
+                ->orderBy('frequency')
+                ->all();
+            foreach ($models as $model) {
+                $result['results'][] = ['id' => $model->id, 'text' => $model->name];
+            }
+        } elseif ($id > 0) {
+            $result['results'] = ['id' => $id, 'text' => Tag::find($id)->name];
+        } else {
+            $result = ['results' => ['id' => '', 'text' => '']];
+        }
+        return $result;
+    }
+
     /**
      * Displays a single Tag model.
      * @param integer $id

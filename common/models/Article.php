@@ -107,7 +107,7 @@ class Article extends \yii\db\ActiveRecord
             ],
             'taggable' => [
                 'class' => TaggableBehavior::className(),
-                // 'tagValuesAsArray' => false,
+                'tagValuesAsArray' => true,
                 // 'tagRelation' => 'tags',
                 // 'tagValueAttribute' => 'name',
                 // 'tagFrequencyAttribute' => 'frequency',
