@@ -18,7 +18,7 @@ class ArticleSearch extends Article
     {
         return [
             [['id', 'category_id'], 'integer'],
-            [['slug', 'title'], 'safe'],
+            [['slug', 'title', 'tagValues'], 'safe'],
         ];
     }
 
@@ -52,6 +52,7 @@ class ArticleSearch extends Article
             'slug' => $this->slug,
             'category_id' => $this->category_id,
         ]);
+        $query->anyTagValues($this->tagValues);
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 

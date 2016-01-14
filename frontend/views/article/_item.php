@@ -22,12 +22,11 @@ use yii\helpers\Html;
                     ['index', 'ArticleSearch[category_id]' => $model->category_id]
                 )?>
             </span>
-            <br />
-            <?php foreach($model->tags as $tag){
-                echo $this->render('tag', [
-                    'model' => $tag
-                ]);
-            } ?>
+        </div>
+        <div class="small">
+            <?php echo $this->render('/tag/article_tag', [
+                'models' => $model->tags
+            ]);?>
         </div>
         <div class="article-content">
             <?php if ($model->thumbnail_path): ?>

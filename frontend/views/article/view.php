@@ -10,12 +10,10 @@ $bundle = \frontend\assets\FrontendAsset::register($this);
     <article class="article-item">
         <h1><?php echo $model->title ?></h1>
 
-        <div class="article-meta">
-        <?php foreach($model->tags as $tag){
-            echo $this->render('tag', [
-                'model' => $tag
-            ]);
-        } ?>
+        <div class="small">
+            <?php echo $this->render('/tag/article_tag', [
+                    'models' => $model->tags
+            ]); ?>
         </div>
         <hr>
         <div class="entry-content">
