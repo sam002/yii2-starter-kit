@@ -8,6 +8,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use creocoder\taggable\TaggableBehavior;
 
 /**
  * This is the model class for table "article".
@@ -103,7 +104,14 @@ class Article extends \yii\db\ActiveRecord
                 'attribute' => 'thumbnail',
                 'pathAttribute' => 'thumbnail_path',
                 'baseUrlAttribute' => 'thumbnail_base_url'
-            ]
+            ],
+            'taggable' => [
+                'class' => TaggableBehavior::className(),
+                'tagValuesAsArray' => true,
+                // 'tagRelation' => 'tags',
+                // 'tagValueAttribute' => 'name',
+                // 'tagFrequencyAttribute' => 'frequency',
+            ],
         ];
     }
 
@@ -125,7 +133,7 @@ class Article extends \yii\db\ActiveRecord
             [['slug', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512],
             [['view'], 'string', 'max' => 255],
-            [['attachments', 'thumbnail'], 'safe']
+            [['attachments', 'thumbnail', 'tagValues'], 'safe'],
         ];
     }
 
@@ -148,6 +156,16 @@ class Article extends \yii\db\ActiveRecord
             'published_at' => Yii::t('common', 'Published At'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At')
+        ];
+    }
+
+    /*
+     *
+     */
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
     }
 
@@ -181,5 +199,14 @@ class Article extends \yii\db\ActiveRecord
     public function getArticleAttachments()
     {
         return $this->hasMany(ArticleAttachment::className(), ['article_id' => 'id']);
+    }
+
+    /**
+     * @return $this
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->viaTable('{{%post_tag_assn}}', ['post_id' => 'id']);
     }
 }
