@@ -17,6 +17,15 @@ return [
         ['class' => 'yii\rest\UrlRule', 'controller' => 'api/v1/user', 'only' => ['index', 'view', 'options']],
 
         //Sitemap
-        ['pattern' => 'sitemap', 'route' => 'sitemap/default/index', 'suffix' => '.xml']
+        ['pattern' => 'sitemap', 'route' => 'sitemap/default/sitemap-index', 'suffix' => '.xml'],
+        [
+            'pattern' => 'sitemap_<name:.+?><delimetr:_+><page:(\d+)>',
+            'route' => 'sitemap/default/sitemap',
+            'defaults' => [
+                'delimetr' => null,
+                'page' => null
+            ],
+            'suffix' => '.xml',
+        ]
     ]
 ];

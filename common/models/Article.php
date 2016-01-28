@@ -8,6 +8,8 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use himiklab\sitemap\behaviors\SitemapBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "article".
@@ -76,14 +78,14 @@ class Article extends \yii\db\ActiveRecord
         return [
             TimestampBehavior::className(),
             [
-                'class'=>BlameableBehavior::className(),
+                'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
 
             ],
             [
-                'class'=>SluggableBehavior::className(),
-                'attribute'=>'title',
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
                 'immutable' => true
             ],
             [
@@ -103,7 +105,37 @@ class Article extends \yii\db\ActiveRecord
                 'attribute' => 'thumbnail',
                 'pathAttribute' => 'thumbnail_path',
                 'baseUrlAttribute' => 'thumbnail_base_url'
-            ]
+            ],
+            'sitemap' => [
+                'class' => SitemapBehavior::className(),
+                'scope' => function ($model) {
+                    /** @var \yii\db\ActiveQuery $model */
+                    $model->select(['slug', 'updated_at', 'private', 'title', 'published_at']);
+                    $model->andWhere(['status' => \frontend\modules\api\v1\resources\Article::STATUS_PUBLISHED]);
+                },
+                'dataClosure' => function ($model) {
+                    /** @var self $model */
+                    $result = [
+                        'news' => [
+                            'publication' => [
+                                'name' => 'Name',
+                                'language' => Yii::$app->language,
+                            ],
+                            'publication_date' => date('c', $model->published_at),
+                            'title' => $model->title,
+                        ],
+                        'loc' => Url::to('article/' . $model->slug, true),
+                        'lastmod' => strtotime($model->updated_at),
+                        'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
+                        'priority' => 0.8
+                    ];
+
+                    if ($model->private != \frontend\modules\api\v1\resources\Article::PRIVATE_OFF) {
+                        $result['news']['access'] = 'Registration';
+                    }
+                    return $result;
+                }
+            ],
         ];
     }
 
@@ -116,11 +148,11 @@ class Article extends \yii\db\ActiveRecord
             [['title', 'body', 'category_id'], 'required'],
             [['slug'], 'unique'],
             [['body'], 'string'],
-            [['published_at'], 'default', 'value' => function() {
+            [['published_at'], 'default', 'value' => function () {
                 return date(DATE_ISO8601);
             }],
             [['published_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
-            [['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute'=>'id'],
+            [['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
             [['author_id', 'updater_id', 'status', 'private'], 'integer'],
             [['slug', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512],
