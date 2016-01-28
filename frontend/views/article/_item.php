@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 
 ?>
-<hr/>
+<hr xmlns="http://www.w3.org/1999/html"/>
 <div class="article-item row">
     <div class="col-xs-12">
         <h2 class="article-title">
@@ -22,6 +22,11 @@ use yii\helpers\Html;
                     ['index', 'ArticleSearch[category_id]' => $model->category_id]
                 )?>
             </span>
+        </div>
+        <div class="small">
+            <?php echo $this->render('/tag/article_tag', [
+                'models' => $model->tags
+            ]);?>
         </div>
         <div class="article-content">
             <?php if ($model->thumbnail_path): ?>

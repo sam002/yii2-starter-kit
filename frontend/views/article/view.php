@@ -9,6 +9,13 @@ $bundle = \frontend\assets\FrontendAsset::register($this);
 <div class="content">
     <article class="article-item">
         <h1><?php echo $model->title ?></h1>
+
+        <div class="small">
+            <?php echo $this->render('/tag/article_tag', [
+                    'models' => $model->tags
+            ]); ?>
+        </div>
+        <hr>
         <div class="entry-content">
             <?php if ($model->thumbnail_path): ?>
                 <?php echo \yii\helpers\Html::img(
@@ -36,7 +43,8 @@ $bundle = \frontend\assets\FrontendAsset::register($this);
                         </li>
                     <?php endforeach; ?>
                 </ul>
-            <?php endif; ?>
+            <?php endif;
+            ?>
         </div>
         <footer>
             <div class="entry-author">
