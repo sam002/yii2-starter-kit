@@ -126,14 +126,14 @@ class Article extends \yii\db\ActiveRecord
                     $result = [
                         'news' => [
                             'publication' => [
-                                'name' => 'Name',
-                                'language' => Yii::$app->language,
+                                'name' => Yii::$app->keyStorage->get('common.publication-name'),
+                                'language' => Yii::$app->keyStorage->get('common.publication-lang'),
                             ],
-                            'publication_date' => date('c', $model->published_at),
+                            'publication_date' => $model->published_at,
                             'title' => $model->title,
                         ],
                         'loc' => Url::to('article/' . $model->slug, true),
-                        'lastmod' => strtotime($model->updated_at),
+                        'lastmod' => $model->updated_at,
                         'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
                         'priority' => 0.8
                     ];

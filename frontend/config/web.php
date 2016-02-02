@@ -19,10 +19,8 @@ $config = [
         'sitemap' => [
             'class' => 'himiklab\sitemap\Sitemap',
             'models' => [
-                'article' => [
-                    'class' => 'common\models\Article',
-                ],
-                'page' => ['']
+                'article' =>  'common\models\Article',
+                'page' => 'common\models\Page',
             ],
             'urls' => [
                 // your additional urls
@@ -30,17 +28,6 @@ $config = [
                     'loc' => '/article/index',
                     'changefreq' => \himiklab\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
                     'priority' => 0.8,
-                    'news' => [
-                        'publication' => [
-                            'name' => 'Example Blog',
-                            'language' => 'en',
-                        ],
-                        'genres' => 'Blog, UserGenerated',
-                        'publication_date' => 'YYYY-MM-DDThh:mm:ssTZD',
-                        'title' => 'Example Title',
-                        'keywords' => 'example, keywords, comma-separated',
-                        'stock_tickers' => 'NASDAQ:A, NASDAQ:B',
-                    ],
                 ],
             ],
             'enableGzip' => true, // default is false
