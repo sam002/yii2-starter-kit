@@ -36,6 +36,7 @@ use creocoder\taggable\TaggableBehavior;
  * @property User $updater
  * @property ArticleCategory $category
  * @property ArticleAttachment[] $articleAttachments
+ * @property Tag[] $tagValues
  */
 class Article extends \yii\db\ActiveRecord
 {
@@ -119,7 +120,7 @@ class Article extends \yii\db\ActiveRecord
                 'scope' => function ($model) {
                     /** @var \yii\db\ActiveQuery $model */
                     $model->select(['slug', 'updated_at', 'private', 'title', 'published_at']);
-                    $model->andWhere(['status' => \frontend\modules\api\v1\resources\Article::STATUS_PUBLISHED]);
+                    $model->andWhere(['status' => self::STATUS_PUBLISHED]);
                 },
                 'dataClosure' => function ($model) {
                     /** @var self $model */

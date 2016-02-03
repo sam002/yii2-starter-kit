@@ -48,18 +48,17 @@ class ArticleTagController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
+        $result = ['results' => [['id' => '', 'text' => $query]]];
         if (!is_null($query)) {
             $models = Tag::find()
                 ->where(['like', 'name', $query])
                 ->orderBy('frequency')
                 ->all();
             foreach ($models as $model) {
-                $result['results'][] = ['id' => $model->id, 'text' => $model->name];
+                $result['results'][] = ['id' => $model->name, 'text' => $model->name];
             }
         } elseif ($id > 0) {
             $result['results'] = ['id' => $id, 'text' => Tag::find($id)->name];
-        } else {
-            $result = ['results' => ['id' => '', 'text' => '']];
         }
         return $result;
     }
