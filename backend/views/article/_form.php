@@ -62,7 +62,7 @@ use yii\web\JsExpression;
     <?php echo $form->field($model, 'tagValues')->widget(
         Select2::className(),
         [
-            'language' => substr(Yii::$app->language, 0, 2),
+            'language' => Yii::$app->keyStorage->get('common.publication-lang'),
             'theme' => Select2::THEME_BOOTSTRAP,
             'showToggleAll'=> false,
             'options' => [

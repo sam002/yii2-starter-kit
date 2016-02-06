@@ -19,60 +19,15 @@ $config = [
         'sitemap' => [
             'class' => 'himiklab\sitemap\Sitemap',
             'models' => [
-                    [
-                    'class' => 'common\models\Article',
-                    'behaviors' => [
-                        'sitemap' => [
-                            'class' => SitemapBehavior::className(),
-                            'scope' => function ($model) {
-                                /** @var \yii\db\ActiveQuery $model */
-                                $model->select(['slug', 'updated_at', 'private', 'title', 'published_at']);
-                                $model->andWhere(['status' => \frontend\modules\api\v1\resources\Article::STATUS_PUBLISHED]);
-                            },
-                            'dataClosure' => function ($model) {
-                                /** @var self $model */
-
-                                $result = [
-                                    'news' =>[
-                                        'publication'   => [
-                                            'name'          => 'Name',
-                                            'language'      => Yii::$app->language,
-                                        ],
-                                        'publication_date'  => date('c', $model->published_at),
-                                        'title'             => $model->title,
-                                    ],
-                                    'loc' => Url::to('article/' . $model->slug, true),
-                                    'lastmod' => strtotime($model->updated_at),
-                                    'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
-                                    'priority' => 0.8
-                                ];
-
-                                if ($model->private != \frontend\modules\api\v1\resources\Article::PRIVATE_OFF){
-                                    $result['news']['access'] = 'Registration';
-                                }
-                                return $result;
-                            }
-                        ],
-                    ],
-                ],
+                'article' =>  'common\models\Article',
+                'page' => 'common\models\Page',
             ],
-            'urls'=> [
+            'urls' => [
                 // your additional urls
                 [
                     'loc' => '/article/index',
                     'changefreq' => \himiklab\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
                     'priority' => 0.8,
-                    'news' => [
-                        'publication'   => [
-                            'name'          => 'Example Blog',
-                            'language'      => 'en',
-                        ],
-                        'genres'            => 'Blog, UserGenerated',
-                        'publication_date'  => 'YYYY-MM-DDThh:mm:ssTZD',
-                        'title'             => 'Example Title',
-                        'keywords'          => 'example, keywords, comma-separated',
-                        'stock_tickers'     => 'NASDAQ:A, NASDAQ:B',
-                    ],
                 ],
             ],
             'enableGzip' => true, // default is false

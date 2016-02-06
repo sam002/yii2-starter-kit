@@ -2,9 +2,11 @@
 
 namespace common\models;
 
+use himiklab\sitemap\behaviors\SitemapBehavior;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "page".
@@ -43,7 +45,25 @@ class Page extends \yii\db\ActiveRecord
                 'attribute'=>'title',
                 'ensureUnique'=>true,
                 'immutable'=>true
-            ]
+            ],
+            'sitemap' => [
+                'class' => SitemapBehavior::className(),
+                'scope' => function ($model) {
+                    /** @var \yii\db\ActiveQuery $model */
+                    $model->select(['slug', 'updated_at', 'title', 'created_at']);
+                    $model->andWhere(['status' => self::STATUS_PUBLISHED]);
+                },
+                'dataClosure' => function ($model) {
+                    /** @var self $model */
+                    $result = [
+                        'loc' => Url::to('page/' . $model->slug, true),
+                        'lastmod' => $model->updated_at,
+                        'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
+                        'priority' => 0.8
+                    ];
+                    return $result;
+                }
+            ],
         ];
     }
 
