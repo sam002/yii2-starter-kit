@@ -10,7 +10,10 @@ namespace backend\controllers;
 
 use backend\models\LoginForm;
 use backend\models\AccountForm;
+use common\models\User;
 use Intervention\Image\ImageManagerStatic;
+use sam002\otp\behaviors\OtpBehavior;
+use sam002\otp\Otp;
 use trntv\filekit\actions\DeleteAction;
 use trntv\filekit\actions\UploadAction;
 use Yii;
@@ -31,6 +34,10 @@ class SignInController extends Controller
                 'actions' => [
                     'logout' => ['post']
                 ]
+            ],
+            [
+                'class' => OtpBehavior::className(),
+                'component' => 'otp'
             ]
         ];
     }
@@ -93,16 +100,24 @@ class SignInController extends Controller
 
     public function actionAccount()
     {
+        /**
+         * @var User $user
+         */
         $user = Yii::$app->user->identity;
         $model = new AccountForm();
         $model->username = $user->username;
         $model->email = $user->email;
+        $model->otpSecret = $user->otpSecret;
         if ($model->load($_POST) && $model->validate()) {
             $user->username = $model->username;
             $user->email = $model->email;
             if ($model->password) {
                 $user->setPassword($model->password);
             }
+            if ($model->otpSecret && $user->validateOtpSecret($model->otpCode)) {
+                $user->otpSecret = $model->otpSecret;
+            }
+
             $user->save();
             Yii::$app->session->setFlash('alert', [
                 'options'=>['class'=>'alert-success'],
@@ -110,6 +125,7 @@ class SignInController extends Controller
             ]);
             return $this->refresh();
         }
+
         return $this->render('account', ['model'=>$model]);
     }
 }

@@ -53,7 +53,8 @@
     "bower-asset/jquery-slimscroll": "^1.3",
     "bower-asset/flot": "^0.8",
     "bower-asset/bootstrap-material-design": "~0.3",
-    "himiklab/yii2-sitemap-module" : "*"
+    "himiklab/yii2-sitemap-module" : "*",
+    "sam002/yii2-otp" : "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",

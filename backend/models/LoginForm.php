@@ -15,6 +15,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
+    public $otpCode;
     public $rememberMe = true;
 
     private $user = false;
@@ -31,6 +32,10 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            ['otpCode', 'default', 'value' => function ($model, $attribute) {
+                return Yii::$app->otp->getOtp()->now();
+            }],
+            ['otpCode', 'validateOtp'],
         ];
     }
 
@@ -42,6 +47,7 @@ class LoginForm extends Model
         return [
             'username' => Yii::t('backend', 'Username'),
             'password' => Yii::t('backend', 'Password'),
+            'otpCode' => Yii::t('backend', 'Secret code'),
             'rememberMe' => Yii::t('backend', 'Remember Me')
         ];
     }
@@ -56,6 +62,20 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError('password', Yii::t('backend', 'Incorrect username or password.'));
+            }
+        }
+    }
+
+    /**
+     * Validates the password.
+     * This method serves as the inline validation for password.
+     */
+    public function validateOtp()
+    {
+        if (!$this->hasErrors()) {
+            $user = $this->getUser();
+            if (!$user || !$user->validateOtpSecret($this->otpCode)) {
+                $this->addError('otpCode', Yii::t('backend', 'Incorrect code.'));
             }
         }
     }
