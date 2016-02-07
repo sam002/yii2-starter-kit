@@ -37,8 +37,8 @@
     "trntv/yii2-file-kit": "^1.0.0",
     "trntv/yii2-glide": "^1.0.0",
     "trntv/yii2-datetime-widget": "^1.0.0",
-    "trntv/yii2-tactician": "^0.1.0",
     "trntv/cheatsheet": "^0.1@dev",
+    "trntv/yii2-command-bus": "^1.0",
     "creocoder/yii2-taggable": "~2.0",
     "kartik-v/yii2-widget-select2": "@dev",
     "kartik-v/yii2-helpers": "dev-master",
@@ -54,7 +54,8 @@
     "bower-asset/flot": "^0.8",
     "bower-asset/bootstrap-material-design": "~0.3",
     "himiklab/yii2-sitemap-module" : "*",
-    "sam002/yii2-otp" : "*"
+    "sam002/yii2-otp" : "*",
+    "symfony/process": "^3.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
@@ -64,7 +65,6 @@
     "codeception/codeception": "^2.0"
   },
   "suggest": {
-    "trntv/yii2-deploy": "dev-master@dev",
     "trntv/yii2-debug-xhprof": "dev-master@dev"
   },
   "config": {

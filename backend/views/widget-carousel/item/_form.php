@@ -2,6 +2,7 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use dosamigos\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\WidgetCarouselItem */
@@ -26,7 +27,7 @@ use yii\helpers\Html;
     <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
 
     <?php echo $form->field($model, 'caption')->widget(
-        dosamigos\ckeditor\CKEditor::className(),
+        CKEditor::className(),
         [
             'preset'=> "full",
             'options'=>[

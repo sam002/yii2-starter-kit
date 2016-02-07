@@ -22,12 +22,13 @@ $config = [
         ],
 
         'commandBus' => [
-            'class' => '\trntv\tactician\Tactician',
-            'commandNameExtractor' => '\League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor',
-            'methodNameInflector' => '\League\Tactician\Handler\MethodNameInflector\HandleInflector',
-            'commandToHandlerMap' => [
-                'common\commands\command\SendEmailCommand' => '\common\commands\handler\SendEmailHandler',
-                'common\commands\command\AddToTimelineCommand' => '\common\commands\handler\AddToTimelineHandler',
+            'class' => 'trntv\bus\CommandBus',
+            'middlewares' => [
+                [
+                    'class' => '\trntv\bus\middlewares\BackgroundCommandMiddleware',
+                    'backgroundHandlerPath' => '@console/yii',
+                    'backgroundHandlerRoute' => 'command-bus/handle',
+                ]
             ]
         ],
 
@@ -46,7 +47,7 @@ $config = [
 
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => YII_ENV_DEV,
+            //'useFileTransport' => true,
             'messageConfig' => [
                 'charset' => 'UTF-8',
                 'from' => getenv('ADMIN_EMAIL')
@@ -152,7 +153,8 @@ $config = [
             'en-US'=>'English (US)',
             'ru-RU'=>'Русский (РФ)',
             'uk-UA'=>'Українська (Україна)',
-            'es' => 'Español'
+            'es' => 'Español',
+            'zh-CN' => '简体中文',
         ],
     ],
 ];
@@ -174,6 +176,11 @@ if (YII_ENV_DEV) {
 
     $config['components']['cache'] = [
         'class' => 'yii\caching\DummyCache'
+    ];
+    $config['components']['mailer']['transport'] = [
+        'class' => 'Swift_SmtpTransport',
+        'host' => getenv('SMTP_HOST'),
+        'port' => getenv('SMTP_PORT'),
     ];
 }
 

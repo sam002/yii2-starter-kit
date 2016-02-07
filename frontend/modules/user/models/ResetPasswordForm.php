@@ -3,6 +3,7 @@ namespace frontend\modules\user\models;
 
 use common\models\User;
 use kartik\password\StrengthValidator;
+use common\models\UserToken;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use Yii;
@@ -12,12 +13,15 @@ use Yii;
  */
 class ResetPasswordForm extends Model
 {
+    /**
+     * @var
+     */
     public $password;
 
     /**
-     * @var \common\models\User
+     * @var \common\models\UserToken
      */
-    private $user;
+    private $token;
 
     /**
      * Creates a form model given a token.
@@ -31,8 +35,14 @@ class ResetPasswordForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
-        $this->user = User::findByPasswordResetToken($token);
-        if (!$this->user) {
+        /** @var UserToken $tokenModel */
+        $this->token = UserToken::find()
+            ->notExpired()
+            ->byType(UserToken::TYPE_PASSWORD_RESET)
+            ->byToken($token)
+            ->one();
+
+        if (!$this->token) {
             throw new InvalidParamException('Wrong password reset token.');
         }
         parent::__construct($config);
@@ -56,13 +66,18 @@ class ResetPasswordForm extends Model
      */
     public function resetPassword()
     {
-        $user = $this->user;
+        $user = $this->token->user;
         $user->password = $this->password;
-        $user->removePasswordResetToken();
+        if($user->save()) {
+            $this->token->delete();
+        };
 
-        return $user->save();
+        return true;
     }
 
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
         return [

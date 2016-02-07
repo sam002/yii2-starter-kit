@@ -1,9 +1,4 @@
 <?php
-
-use common\models\User;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model backend\models\UserForm */
 /* @var $roles yii\rbac\Role[] */

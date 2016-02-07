@@ -8,7 +8,8 @@ $config = [
     'defaultRoute' => 'site/index',
     'modules' => [
         'user' => [
-            'class' => 'frontend\modules\user\Module'
+            'class' => 'frontend\modules\user\Module',
+            //'shouldBeActivated' => true
         ],
         'api' => [
             'class' => 'frontend\modules\api\Module',
