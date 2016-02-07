@@ -7,3 +7,6 @@ Yii Starter Kit Change Log
 - Replaced Imperavi Redactor on CKEditor
 - Vagrant not supported (I'm not use)
 - ... fixes and many small changes ...
+- backports:
+> - Mailcathcer support
+> - Optional user email activation 

@@ -11,6 +11,7 @@
 - [Docker installation](#docker)
 - [Vagrant installation](vagrant.md)
 - [Demo users](#demo-users)
+- [Important-notes](#important-notes)
 
 ## Before you begin
 1. If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
@@ -74,7 +75,7 @@ Required PHP extensions:
 	STORAGE_URL     = http://storage.yii2-starter-kit.dev
 	```
 
-3. Run
+3. Run in command line
 ```
 php console/yii app/setup
 ```
@@ -93,13 +94,94 @@ Or configure your web server with three different web roots:
 Adjust settings in `.env` file
 
 ```
-FRONTEND_URL    = http://yii2-starter-kit.dev
-BACKEND_URL     = http://yii2-starter-kit.dev/backend
-STORAGE_URL     = http://yii2-starter-kit.dev/storage/web
+FRONTEND_URL    = /
+BACKEND_URL     = /admin
+STORAGE_URL     = /storage/web
 ```
-	
+
+Adjust settings in `backend/config/web.php` file
+```
+    ...
+    'components'=>[
+        ...
+        'request' => [
+            'baseUrl' => '/admin',
+        ...
+```
+Adjust settings in `frontend/config/web.php` file
+```
+    ...
+    'components'=>[
+        ...
+        'request' => [
+            'baseUrl' => '',
+        ...
+```
 
 #### Configure your web server
+##### Apache
+This is an example single domain config for apache
+```
+<VirtualHost *:80>
+    ServerName yii2-starter-kit.dev
+
+    RewriteEngine on
+    # the main rewrite rule for the frontend application
+    RewriteCond %{HTTP_HOST} ^yii2-starter-kit.dev$ [NC] 
+    RewriteCond %{REQUEST_URI} !^/(backend/web|admin|storage/web)
+    RewriteRule !^/frontend/web /frontend/web%{REQUEST_URI} [L]
+    # redirect to the page without a trailing slash (uncomment if necessary)
+    #RewriteCond %{REQUEST_URI} ^/admin/$
+    #RewriteRule ^(/admin)/ $1 [L,R=301]
+    # disable the trailing slash redirect
+    RewriteCond %{REQUEST_URI} ^/admin$
+    RewriteRule ^/admin /backend/web/index.php [L]
+    # the main rewrite rule for the backend application
+    RewriteCond %{REQUEST_URI} ^/admin
+    RewriteRule ^/admin(.*) /backend/web$1 [L]
+
+    DocumentRoot /your/path/to/yii2-starter-kit
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+        AddDefaultCharset utf-8
+    </Directory>
+    <Directory "/your/path/to/yii2-starter-kit/frontend/web">
+        RewriteEngine on
+        # if a directory or a file exists, use the request directly
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # otherwise forward the request to index.php
+        RewriteRule . index.php
+
+        Require all granted
+    </Directory>
+    <Directory "/your/path/to/yii2-starter-kit/backend/web">
+        RewriteEngine on
+        # if a directory or a file exists, use the request directly
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # otherwise forward the request to index.php
+        RewriteRule . index.php
+
+        Require all granted
+    </Directory>
+    <Directory "/your/path/to/yii2-starter-kit/storage/web">
+        RewriteEngine on
+        # if a directory or a file exists, use the request directly
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # otherwise forward the request to index.php
+        RewriteRule . index.php
+
+        Require all granted
+    </Directory>
+    <FilesMatch \.(htaccess|htpasswd|svn|git)>
+        Require all denied
+    </FilesMatch>
+</VirtualHost>
+```
+
 ##### Nginx
 This is an example single domain config for nginx
 
@@ -211,3 +293,10 @@ Password: manager
 
 Login: user
 Password: user
+```
+
+## Important notes
+- There is a VirtualBox bug related to sendfile that can lead to
+corrupted files, if not turned-off
+Uncomment this in your nginx config:
+```sendfile off;```
