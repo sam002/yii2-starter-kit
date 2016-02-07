@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use sam002\otp\Otp;
 use yii\base\Model;
 use Yii;
 
@@ -13,6 +14,8 @@ class AccountForm extends Model
     public $email;
     public $password;
     public $password_confirm;
+    public $otpSecret;
+    public $otpCode;
 
     /**
      * @inheritdoc
@@ -41,8 +44,22 @@ class AccountForm extends Model
              }
             ],
             ['password', 'string'],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'password']
+            [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
+            ['otpSecret', 'string'],
+            ['otpCode', 'validateOtp']
         ];
+    }
+
+    public function validateOtp($attribute, $params)
+    {
+        $otp = Yii::$app->otp;
+        $otp->setSecret($this->otpSecret);
+        $window = $params['window'] ? : 0;
+
+        $code = $this->$attribute;
+        if ($otp->valideteCode($code, $window)) {
+            $this->addError($code, 'Not correct OTP code');
+        }
     }
 
     /**
@@ -54,7 +71,8 @@ class AccountForm extends Model
             'username' => Yii::t('backend', 'Username'),
             'email' => Yii::t('backend', 'Email'),
             'password' => Yii::t('backend', 'Password'),
-            'password_confirm' => Yii::t('backend', 'Password Confirm')
+            'password_confirm' => Yii::t('backend', 'Password Confirm'),
+            'otpCode' => Yii::t('backend', 'OTP code confirtion')
         ];
     }
 }

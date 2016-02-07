@@ -3,6 +3,7 @@ namespace common\models;
 
 use cheatsheet\Time;
 use common\commands\command\AddToTimelineCommand;
+use sam002\otp\behaviors\OtpBehavior;
 use Yii;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -28,6 +29,7 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property integer $logged_at
  * @property string $password write-only password
+ * @property string $secret
  *
  * @property \common\models\UserProfile $userProfile
  * @property \common\models\Oauth $oauth
@@ -72,6 +74,10 @@ class User extends ActiveRecord implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_INSERT => 'access_token'
                 ],
                 'value' => Yii::$app->getSecurity()->generateRandomString(40)
+            ],
+            'otp' => [
+                'class' => OtpBehavior::className(),
+                'component' => 'otp',
             ]
         ];
     }
