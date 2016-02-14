@@ -9,4 +9,6 @@ Yii Starter Kit Change Log
 - ... fixes and many small changes ...
 - backports:
 > - Mailcathcer support
-> - Optional user email activation 
+> - Optional user email activation
+> - Fixed: Invalid user status validation
+> - Fixed: #363 Remove references to password_reset_token

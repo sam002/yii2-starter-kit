@@ -2,6 +2,7 @@
 namespace backend\models;
 
 use common\models\User;
+use yii\base\Exception;
 use yii\base\Model;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -46,7 +47,7 @@ class UserForm extends Model
             ['password', 'required', 'on'=>'create'],
             ['password', 'string', 'min' => 6],
 
-            [['status'], 'boolean'],
+            [['status'], 'integer'],
             [['roles'], 'each',
                 'rule' => ['in', 'range' => ArrayHelper::getColumn(
                     Yii::$app->authManager->getRoles(),
@@ -62,13 +63,18 @@ class UserForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('backend', 'Username'),
-            'email' => Yii::t('backend', 'Email'),
-            'password' => Yii::t('backend', 'Password'),
-            'roles' => Yii::t('backend', 'Roles')
+            'username' => Yii::t('common', 'Username'),
+            'email' => Yii::t('common', 'Email'),
+            'status' => Yii::t('common', 'Status'),
+            'password' => Yii::t('common', 'Password'),
+            'roles' => Yii::t('common', 'Roles')
         ];
     }
 
+    /**
+     * @param User $model
+     * @return mixed
+     */
     public function setModel($model)
     {
         $this->username = $model->username;
@@ -82,6 +88,9 @@ class UserForm extends Model
         return $this->model;
     }
 
+    /**
+     * @return User
+     */
     public function getModel()
     {
         if (!$this->model) {
@@ -92,8 +101,8 @@ class UserForm extends Model
 
     /**
      * Signs user up.
-     *
      * @return User|null the saved model or null if saving fails
+     * @throws Exception
      */
     public function save()
     {
@@ -106,7 +115,10 @@ class UserForm extends Model
             if ($this->password) {
                 $model->setPassword($this->password);
             }
-            if ($model->save() && $isNewRecord) {
+            if (!$model->save()) {
+                throw new Exception('Model not saved');
+            }
+            if ($isNewRecord) {
                 $model->afterSignup();
             }
             $auth = Yii::$app->authManager;
