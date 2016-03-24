@@ -11,7 +11,9 @@ $config = [
          */
         $bucket = ErrorCounter::findOne($ip);
         if(!empty($bucket) && !$bucket->allow()) {
-            throw new \yii\web\ForbiddenHttpException('Limit of errors exceeded');
+            $timeToUnblock =  (Yii::$app->keyStorage->get('common.blocking-timeout') ? : ErrorCounter::DEFAULT_TIME_STEP) -
+                time() + $bucket->lastErrorTime;
+            throw new \yii\web\ForbiddenHttpException('Limit of errors exceeded. You should waiting for ' . $timeToUnblock . ' seconds');
         }
     },
     'homeUrl' => Yii::getAlias('@frontendUrl'),

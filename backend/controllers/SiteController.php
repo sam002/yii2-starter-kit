@@ -257,7 +257,19 @@ class SiteController extends \yii\web\Controller
                         "zh-tw" => "Traditional Chinese",
                         "zu" => "Zulu"
                     ]
-                ]
+                ],
+                'common.allowance' => [
+                    'label' => Yii::t('backend', 'Number of allowed errors'),
+                    'type' => FormModel::TYPE_TEXTINPUT,
+                ],
+                'common.interval' => [
+                    'label' => Yii::t('backend', 'Error timestamp, seconds'),
+                    'type' => FormModel::TYPE_TEXTINPUT,
+                ],
+                'common.blocking-timeout' => [
+                    'label' => Yii::t('backend', 'Blocking timeout'),
+                    'type' => FormModel::TYPE_TEXTINPUT,
+                ],
             ]
         ]);
 

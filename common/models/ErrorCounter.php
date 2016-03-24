@@ -8,6 +8,7 @@ namespace common\models;
  * Date: 23.02.16
  * Time: 17:05
  */
+use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -19,12 +20,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class ErrorCounter extends \yii\redis\ActiveRecord
 {
-    //public $ip;
-    //public $allowance;
-    //public $lastErrorTime;
-
-    const ALLOWANCE = 10;
-    const TIME_STEP = 60;
+    const DEFAULT_ALLOWANCE = 10;
+    const DEFAULT_TIME_STEP = 60;
 
     /**
      * @return array the list of attributes for this record
@@ -39,38 +36,29 @@ class ErrorCounter extends \yii\redis\ActiveRecord
         return ['ip'];
     }
 
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'updatedAtAttribute' => 'lastErrorTime',
-            ]
-        ];
-    }
-
     /**
      * @return void
      */
     public function outflow()
     {
         $time = time();
-        $this->allowance += (int) (( $time - $this->lastErrorTime)*self::ALLOWANCE/self::TIME_STEP);
-        if ($this->allowance > self::ALLOWANCE) {
-            $this->allowance = self::ALLOWANCE;
+        $allowance = Yii::$app->keyStorage->get('common.allowance') ? : self::DEFAULT_ALLOWANCE;
+        $interval = Yii::$app->keyStorage->get('common.interval') ? : self::DEFAULT_TIME_STEP;
+        $this->allowance += (int) (( $time - $this->lastErrorTime)*$allowance/$interval);
+        if ($this->allowance > $allowance) {
+            $this->allowance = $allowance;
         } elseif ($this->allowance > 0) {
             $this->allowance -= 1;
         } else {
             $this->allowance = 0;
         }
-        if (empty($this->lastErrorTime)) {
-            $this->lastErrorTime = $time;
-        }
+        $this->lastErrorTime = $time;
     }
 
     public function allow()
     {
-        $checkTime = (time() - $this->lastErrorTime) > self::TIME_STEP;
+        $timeout = Yii::$app->keyStorage->get('common.blocking-timeout') ? : self::DEFAULT_TIME_STEP;
+        $checkTime = (time() - $this->lastErrorTime) > $timeout;
         $checkAllowence = $this->allowance > 0;
         return $checkAllowence || $checkTime;
     }
