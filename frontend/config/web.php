@@ -1,8 +1,19 @@
 <?php
+use common\models\ErrorCounter;
 use himiklab\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
 
 $config = [
+    'on beforeRequest' => function($event) {
+        $ip = Yii::$app->request->getUserIP();
+        /**
+         * @var ErrorCounter $bucket
+         */
+        $bucket = ErrorCounter::findOne($ip);
+        if(!empty($bucket) && !$bucket->allow()) {
+            throw new \yii\web\ForbiddenHttpException('Limit of errors exceeded');
+        }
+    },
     'homeUrl' => Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'site/index',

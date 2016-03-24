@@ -110,6 +110,13 @@ $config = [
             ],
         ],
 
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
+        ],
+
         'fileStorage' => [
             'class' => '\trntv\filekit\Storage',
             'baseUrl' => '@storageUrl/source',
