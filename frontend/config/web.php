@@ -34,6 +34,11 @@ $config = [
             'enableGzip' => true, // default is false
             'cacheExpire' => 1, // 1 second. Default is 24 hours
         ],
+        'modules' => [
+            'acme' => [
+                'class' => 'sam002\acme\Acme'
+            ]
+        ]
     ],
     'components' => [
         'authClientCollection' => [

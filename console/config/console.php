@@ -21,5 +21,8 @@ return [
             'migrationTable' => '{{%system_rbac_migration}}',
             'templateFile' => '@common/rbac/views/migration.php'
         ],
+        'acme' => [
+            'class' => 'sam002\acme\console\AcmeController'
+        ]
     ],
 ];

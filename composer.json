@@ -22,6 +22,12 @@
     "issues": "https://github.com/sam002/yii2-starter-kit/issues?state=open",
     "source": "https://github.com/sam002/yii2-starter-kit"
   },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../../yii2-acme"
+    }
+  ],
   "require": {
     "php": ">=5.5.0",
     "ext-intl": "*",
@@ -55,7 +61,8 @@
     "bower-asset/bootstrap-material-design": "~0.3",
     "himiklab/yii2-sitemap-module" : "*",
     "sam002/yii2-otp" : "*",
-    "symfony/process": "^3.0"
+    "symfony/process": "^3.0",
+    "sam002/yii2-acme": "dev-develop"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",

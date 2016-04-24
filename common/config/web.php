@@ -14,6 +14,11 @@ $config = [
     'as locale' => [
         'class' => 'common\behaviors\LocaleBehavior',
         'enablePreferredLanguage' => true
+    ],
+    'modules' => [
+        '.well-known' => [
+            'class' => 'sam002\acme\Acme'
+        ]
     ]
 ];
 
