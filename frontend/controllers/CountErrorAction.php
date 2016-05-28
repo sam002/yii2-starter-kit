@@ -28,7 +28,7 @@ class CountErrorAction extends ErrorAction
         } else {
             $bucket = new ErrorCounter();
             $bucket->ip = $ip;
-            $bucket->allowance = Yii::$app->keyStorage->get('common.allowance') - 1;
+            $bucket->outflow();
             $bucket->save();
         }
         return parent::run();

@@ -2,18 +2,19 @@
 use common\models\ErrorCounter;
 use himiklab\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
+use \backend\models\WhiteIpListSearch;
 
 $config = [
     'on beforeRequest' => function($event) {
         $ip = Yii::$app->request->getUserIP();
-        /**
-         * @var ErrorCounter $bucket
-         */
-        $bucket = ErrorCounter::findOne($ip);
-        if(!empty($bucket) && !$bucket->allow()) {
-            $timeToUnblock =  (Yii::$app->keyStorage->get('common.blocking-timeout') ? : ErrorCounter::DEFAULT_TIME_STEP) -
-                time() + $bucket->lastErrorTime;
-            throw new \yii\web\ForbiddenHttpException('Limit of errors exceeded. You should waiting for ' . $timeToUnblock . ' seconds');
+        if (!\backend\models\WhiteIpList::findOne($ip)) {
+            /** @var ErrorCounter $bucket */
+            $bucket = ErrorCounter::findOne($ip);
+            if (!empty($bucket) && !$bucket->allow()) {
+                $timeToUnblock = (Yii::$app->keyStorage->get('common.blocking-timeout') ? : ErrorCounter::DEFAULT_TIME_STEP) -
+                    time() + $bucket->lastErrorTime;
+                throw new \yii\web\ForbiddenHttpException('Limit of errors exceeded. You should waiting for ' . $timeToUnblock . ' seconds');
+            }
         }
     },
     'homeUrl' => Yii::getAlias('@frontendUrl'),
