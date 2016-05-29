@@ -1,11 +1,11 @@
 <?php
 
-namespace backend\models;
+namespace common\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\WhiteIpList;
+use common\models\WhiteIpList;
 
 /**
  * WhiteIpListSearch represents the model behind the search form about `app\models\WhiteIpList`.
@@ -18,7 +18,7 @@ class WhiteIpListSearch extends WhiteIpList
     public function rules()
     {
         return [
-            [['ip', 'username'], 'safe'],
+            [['ip', 'comment'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class WhiteIpListSearch extends WhiteIpList
      */
     public function search($params)
     {
-        $query = WhiteIpList::find();
+        $query = \common\models\WhiteIpList::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -51,7 +51,7 @@ class WhiteIpListSearch extends WhiteIpList
         }
 
         $query->andFilterWhere(['like', 'ip', $this->ip])
-            ->andFilterWhere(['like', 'username', $this->username]);
+            ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }

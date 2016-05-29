@@ -3,10 +3,10 @@ $config = [
     'on beforeRequest' => function($event) {
         $ip = Yii::$app->request->getUserIP();
         $checkRule = Yii::$app->user->can('loginToBackend');
-        if (!\backend\models\WhiteIpList::findOne($ip) && $checkRule) {
-            $model = new \backend\models\WhiteIpList();
+        if (!\common\models\WhiteIpList::findOne($ip) && $checkRule) {
+            $model = new \common\models\WhiteIpList();
             $model->ip = $ip;
-            $model->username = Yii::$app->user->identity->attributes['username'];
+            $model->comment = Yii::$app->user->identity->attributes['username'];
             $model->save();
         }
     },

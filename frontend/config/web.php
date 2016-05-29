@@ -2,12 +2,12 @@
 use common\models\ErrorCounter;
 use himiklab\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
-use \backend\models\WhiteIpListSearch;
+use common\models\search\WhiteIpListSearch;
 
 $config = [
     'on beforeRequest' => function($event) {
         $ip = Yii::$app->request->getUserIP();
-        if (!\backend\models\WhiteIpList::findOne($ip)) {
+        if (!\common\models\WhiteIpList::findOne($ip)) {
             /** @var ErrorCounter $bucket */
             $bucket = ErrorCounter::findOne($ip);
             if (!empty($bucket) && !$bucket->allow()) {

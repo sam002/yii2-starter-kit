@@ -1,14 +1,15 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
+use common\models\query\WhiteIpListQuery;
 use Yii;
 
 /**
  * This is the model class for table "white_ip_list".
  *
  * @property string $ip
- * @property string $username
+ * @property string $comment
  */
 class WhiteIpList extends \yii\db\ActiveRecord
 {
@@ -28,7 +29,7 @@ class WhiteIpList extends \yii\db\ActiveRecord
         return [
             [['ip'], 'required'],
             [['ip'], 'ip'],
-            [['ip', 'username'], 'string', 'max' => 255]
+            [['ip', 'comment'], 'string', 'max' => 255]
         ];
     }
 
@@ -39,7 +40,7 @@ class WhiteIpList extends \yii\db\ActiveRecord
     {
         return [
             'ip' => 'Ip',
-            'username' => 'Username',
+            'comment' => 'Comment',
         ];
     }
 
@@ -49,6 +50,6 @@ class WhiteIpList extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new WhiteIpListQuery(get_called_class());
+        return new query\WhiteIpListQuery(get_called_class());
     }
 }

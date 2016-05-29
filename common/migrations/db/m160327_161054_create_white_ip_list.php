@@ -8,7 +8,7 @@ class m160327_161054_create_white_ip_list extends Migration
     {
         $this->createTable('white_ip_list', [
             'ip' => $this->string(),
-            'username' => $this->string(),
+            'comment' => $this->string(),
             'PRIMARY KEY(ip)',
         ]);
     }

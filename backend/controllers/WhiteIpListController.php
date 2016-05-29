@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\WhiteIpList;
-use backend\models\WhiteIpListSearch;
+use common\models\WhiteIpList;
+use common\models\search\WhiteIpListSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -107,7 +107,7 @@ class WhiteIpListController extends Controller
      * Finds the WhiteIpList model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return WhiteIpList the loaded model
+     * @return \common\models\WhiteIpList the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

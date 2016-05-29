@@ -1,6 +1,7 @@
 <?php
 
-namespace backend\models;
+namespace common\models\query;
+use common\models\WhiteIpList;
 
 /**
  * This is the ActiveQuery class for [[WhiteIpList]].
