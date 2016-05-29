@@ -1,5 +1,15 @@
 <?php
 $config = [
+    'on beforeRequest' => function($event) {
+        $ip = Yii::$app->request->getUserIP();
+        $checkRule = Yii::$app->user->can('loginToBackend');
+        if (!\common\models\WhiteIpList::findOne($ip) && $checkRule) {
+            $model = new \common\models\WhiteIpList();
+            $model->ip = $ip;
+            $model->comment = Yii::$app->user->identity->attributes['username'];
+            $model->save();
+        }
+    },
     'homeUrl'=>Yii::getAlias('@backendUrl'),
     'controllerNamespace' => 'backend\controllers',
     'defaultRoute'=>'timeline-event/index',
@@ -92,7 +102,7 @@ $config = [
             [
                 'allow' => true,
                 'roles' => ['manager'],
-            ]
+            ],
         ]
     ]
 ];

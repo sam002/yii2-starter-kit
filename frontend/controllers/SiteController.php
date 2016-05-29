@@ -17,7 +17,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction'
+                'class' => CountErrorAction::className(),
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',

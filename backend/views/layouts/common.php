@@ -195,6 +195,17 @@ $bundle = BackendAsset::register($this);
                                     'badge'=>\backend\models\SystemLog::find()->count(),
                                     'badgeBgClass'=>'label-danger',
                                 ],
+                                [
+                                    'label'=>Yii::t('backend', 'White Ip List'),
+                                    'url'=>['/white-ip-list/index'],
+                                    'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', 'Errors'),
+                                    'url'=>['/error/index'],
+                                    'icon'=>'<i class="fa fa-angle-double-right"></i>',
+                                    'badge'=>\common\models\ErrorCounter::find()->count(),
+                                ],
                             ]
                         ]
                     ]
