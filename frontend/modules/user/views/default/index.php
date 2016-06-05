@@ -48,8 +48,22 @@ $this->title = Yii::t('frontend', 'User Settings')
 
     <?php echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
         'pluginOptions' => [
-            'showMeter' => true,
+            'showMeter' => false,
             'toggleMask' => false
+        ],
+        'pluginEvents' => [
+            "keyup" => "function() {
+                            styles = [
+                                '',
+                                'form-group-danger', 
+                                'form-group-warning', 
+                                'form-group-material-orange', 
+                                'form-group-material-lime', 
+                                'form-group-success'
+                                ];
+                                $(this).parents('.form-group').removeClass('has-error has-success');
+                                $(this).parent().attr('class', styles[$(this).strength('verdict')]);
+                         }",
         ]
     ]); ?>
 

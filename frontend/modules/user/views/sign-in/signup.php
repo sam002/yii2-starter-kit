@@ -20,8 +20,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php echo $form->field($model, 'email') ?>
                 <?php echo $form->field($model, 'password')->widget(PasswordInput::classname(), [
                     'pluginOptions' => [
-                    'showMeter' => true,
-                    'toggleMask' => false
+                        'showMeter' => false,
+                        'toggleMask' => false
+                    ],
+                    'pluginEvents' => [
+                        "keyup" => "function() {
+                            styles = [
+                                '',
+                                'form-group-danger', 
+                                'form-group-warning', 
+                                'form-group-material-orange', 
+                                'form-group-material-lime', 
+                                'form-group-success'
+                                ];
+                                $(this).parents('.form-group').removeClass('has-error has-success');
+                                $(this).parent().attr('class', styles[$(this).strength('verdict')]);
+                         }",
                     ]
                 ]); ?>
                 <div class="form-group">
