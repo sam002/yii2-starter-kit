@@ -1,6 +1,7 @@
 <?php
 namespace frontend\modules\user\models;
 
+use frontend\modules\api\v1\resources\User;
 use yii\base\Model;
 use Yii;
 
@@ -13,7 +14,9 @@ class AccountForm extends Model
     public $email;
     public $password;
     public $password_confirm;
+    public $password_current;
 
+    /** @var  User */
     private $user;
 
     public function setUser($user)
@@ -50,21 +53,36 @@ class AccountForm extends Model
                 }
             ],
             ['password', 'string'],
-            ['password_confirm', 'required', 'when' => function($model) {
+            [['password_confirm', 'password_current'], 'required', 'when' => function($model) {
                 return !empty($model->password);
             }],
             ['password_confirm', 'compare', 'compareAttribute' => 'password', 'skipOnEmpty' => false],
-
+            ['password_current', 'validatePassword']
         ];
     }
 
+
+    /**
+     * Validates the password.
+     * This method serves as the inline validation for password.
+     */
+    public function validatePassword()
+    {
+        if (!$this->hasErrors()) {
+            if (!$this->user || !$this->user->validatePassword($this->password_current)) {
+                $this->addError('password_current', Yii::t('frontend', 'Incorrect password.'));
+            }
+        }
+    }
+    
     public function attributeLabels()
     {
         return [
             'username' => Yii::t('frontend', 'Username'),
             'email' => Yii::t('frontend', 'Email'),
             'password' => Yii::t('frontend', 'Password'),
-            'password_confirm' => Yii::t('frontend', 'Confirm Password')
+            'password_confirm' => Yii::t('frontend', 'Confirm Password'),
+            'password_current' => Yii::t('frontend', 'Current Password')
         ];
     }
 

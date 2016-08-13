@@ -4,7 +4,9 @@ use trntv\filekit\widget\Upload,
     yii\helpers\Html,
     yii\widgets\ActiveForm,
     yii\authclient\widgets\AuthChoice,
-    kartik\password\PasswordInput;
+    kartik\password\PasswordInput,
+    yii\bootstrap\Modal;
+
 /* @var $this yii\web\View */
 /* @var $model common\base\MultiModel */
 /* @var $form yii\widgets\ActiveForm */
@@ -14,7 +16,7 @@ $this->title = Yii::t('frontend', 'User Settings')
 
 <div class="user-profile-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action' => 'profile']); ?>
 
     <h2><?php echo Yii::t('frontend', 'Profile settings') ?></h2>
 
@@ -38,15 +40,23 @@ $this->title = Yii::t('frontend', 'User Settings')
         \common\models\UserProfile::GENDER_MALE => Yii::t('frontend', 'Male')
     ], ['prompt' => '']) ?>
 
+    <div class="form-group">
+        <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
     <h2><?php echo Yii::t('frontend', 'Account Settings') ?></h2>
 
-    <?php echo $form->field($model->getModel('account'), 'username') ?>
+<?php
+$form = ActiveForm::begin([
+   'id' => 'accountForm'
+]);
+    echo $form->field($model->getModel('account'), 'username');
 
-    <?php echo $form->field($model->getModel('account'), 'email') ?>
+    echo $form->field($model->getModel('account'), 'email');
 
-    <?php //echo $form->field($model->getModel('account'), 'password')->passwordInput() ?>
-
-    <?php echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
+    echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
         'pluginOptions' => [
             'showMeter' => false,
             'toggleMask' => false
@@ -65,36 +75,60 @@ $this->title = Yii::t('frontend', 'User Settings')
                                 $(this).parent().attr('class', styles[$(this).strength('verdict')]);
                          }",
         ]
-    ]); ?>
+    ]);
 
-    <?php echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput() ?>
-
-
-    <h2><?php echo Yii::t('frontend', 'Connected profiles') ?></h2>
-    <?php $oauth = [];
-        foreach($model->getModel('oauth') as $provider) {
-            $oauth[$provider->provider] = $provider;
-        }
-    ?>
-
-
-
+    echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput();
+?>
     <?php $authAuthChoice = AuthChoice::begin([
         'baseAuthUrl' => ['/user/sign-in/oauth']
     ]); ?>
     <ul>
-        <?php foreach ($authAuthChoice->getClients() as $client) {
+        <?php /*foreach ($authAuthChoice->getClients() as $client) {
             if (!isset($oauth[$client->getName()])) {
                 $authAuthChoice->clientLink($client);
             }
-        }?>
+        }*/ ?>
     </ul>
     <?php AuthChoice::end(); ?>
+<!---->
+<!--    <div class="form-group">-->
+<!--        --><?php //echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
+<!--    </div>-->
 
-    <div class="form-group">
-        <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
-    </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php $modal = Modal::begin([
+        'header' => '<h2>' . Yii::t('frontend', 'Please, enter your password') . '</h2>',
+        'toggleButton' => ['label' => Yii::t('frontend', 'Update'), 'class' => 'btn btn-primary'],
+        'clientEvents' => [
+            "show.bs.modal" => "function() {
+                    if($('#accountForm').data('yiiActiveForm').validated) {
+                        $('#accountform-password_current').val('');
+                        $('#accountForm').data('yiiActiveForm').submitting = false;
+                        return true;
+                    }
+                    var modal = $(this);
+                    
+                    $('#accountform-password_current').val('_' + Math.random());
+                    
+                    var triggerFormCheck = function(e) {
+                        modal.modal('show');
+                        return false;
+                    };
+                    
+                    $('#accountForm').on('beforeSubmit', triggerFormCheck);
+                    setTimeout(function () {
+                        $('#accountForm').off('beforeSubmit', triggerFormCheck);
+                    }, 300);
+                    $('#accountForm').data('yiiActiveForm').submitting = true;
+                    $('#accountForm').yiiActiveForm('validate');
+                    return false;
+                }"
+            ]
+        ]);
+    echo $form->field($model->getModel('account'), 'password_current')->passwordInput();
+    echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
+    Modal::end();
+
+    ActiveForm::end(); ?>
 
 </div>

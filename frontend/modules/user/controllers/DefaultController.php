@@ -61,21 +61,20 @@ class DefaultController extends Controller
         $accountModel = new AccountForm();
         $accountModel->setUser(Yii::$app->user->identity);
 
-        $model = new MultiModel([
-            'models' => [
-                'account' => $accountModel,
-                'profile' => Yii::$app->user->identity->userProfile
-            ]
-        ]);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('alert', [
-                'options' => ['class'=>'alert-success'],
-                'body' => Yii::t('frontend', 'Your account has been successfully saved')
-            ]);
+        if ($accountModel->load(Yii::$app->request->post())) {
+            if($accountModel->validate() && $accountModel->save()) {
+                    Yii::$app->session->setFlash('alert', [
+                        'options' => ['class' => 'alert-success'],
+                        'body' => Yii::t('frontend', 'Your account has been successfully saved')
+                    ]);
+            } else {
+                Yii::$app->session->setFlash('alert', [
+                    'options' => ['class' => 'alert-danger'],
+                    'body' => Yii::t('frontend', 'Ups... Your account don\'t saved')
+                ]);
+            }
             return $this->refresh();
         } else {
-
             $model = new MultiModel([
                 'models' => [
                     'oauth' => Yii::$app->user->identity->oauth,
@@ -84,6 +83,32 @@ class DefaultController extends Controller
                 ]
             ]);
         }
-        return $this->render('index', ['model'=>$model]);
+        return $this->render('index', ['model' => $model]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionProfile()
+    {
+        $modelProfile = Yii::$app->user->identity->userProfile;
+
+        if ($modelProfile->load(Yii::$app->request->post()) && $modelProfile->save()) {
+            Yii::$app->session->setFlash('alert', [
+                'options' => ['class' => 'alert-success'],
+                'body' => Yii::t('frontend', 'Your profile has been successfully saved')
+            ]);
+
+        }
+        $accountModel = new AccountForm();
+        $accountModel->setUser(Yii::$app->user->identity);
+        $model = new MultiModel([
+            'models' => [
+                'oauth' => Yii::$app->user->identity->oauth,
+                'account' => $accountModel,
+                'profile' => Yii::$app->user->identity->userProfile
+            ]
+        ]);
+        return $this->render('index', ['model' => $model]);
     }
 }
