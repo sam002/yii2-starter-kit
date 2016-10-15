@@ -6,6 +6,7 @@ $config = [
     'homeUrl' => Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'site/index',
+    'bootstrap' => ['maintenance'],
     'modules' => [
         'user' => [
             'class' => 'frontend\modules\user\Module',
@@ -51,13 +52,13 @@ $config = [
                 ],
                 'github' => [
                     'class' => 'yii\authclient\clients\GitHub',
-                    'clientId' => getenv('GITHUB_CLIENT_ID'),
-                    'clientSecret' => getenv('GITHUB_CLIENT_SECRET')
+                    'clientId' => env('GITHUB_CLIENT_ID'),
+                    'clientSecret' => env('GITHUB_CLIENT_SECRET')
                 ],
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => getenv('FACEBOOK_CLIENT_ID'),
-                    'clientSecret' => getenv('FACEBOOK_CLIENT_SECRET'),
+                    'clientId' => env('FACEBOOK_CLIENT_ID'),
+                    'clientSecret' => env('FACEBOOK_CLIENT_SECRET'),
                     'scope' => 'email,public_profile',
                     'attributeNames' => [
                         'name',
@@ -71,8 +72,14 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error'
         ],
+        'maintenance' => [
+            'class' => 'common\components\maintenance\Maintenance',
+            'enabled' => function ($app) {
+                return $app->keyStorage->get('frontend.maintenance') === 'enabled';
+            }
+        ],
         'request' => [
-            'cookieValidationKey' => getenv('FRONTEND_COOKIE_VALIDATION_KEY')
+            'cookieValidationKey' => env('FRONTEND_COOKIE_VALIDATION_KEY')
         ],
         'user' => [
             'class' => 'yii\web\User',
@@ -100,22 +107,6 @@ if (YII_ENV_DEV) {
             ]
         ]
     ];
-}
-
-if (YII_ENV_PROD) {
-    // Maintenance mode
-    $config['bootstrap'] = ['maintenance'];
-    $config['components']['maintenance'] = [
-        'class' => 'common\components\maintenance\Maintenance',
-        'enabled' => function ($app) {
-            return $app->keyStorage->get('frontend.maintenance') === 'enabled';
-        }
-    ];
-
-    // Compressed assets
-    //$config['components']['assetManager'] = [
-    //   'bundles' => require(__DIR__ . '/assets/_bundles.php')
-    //];
 }
 
 return $config;

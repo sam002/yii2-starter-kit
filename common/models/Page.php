@@ -7,6 +7,7 @@ use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "page".
@@ -20,7 +21,7 @@ use yii\helpers\Url;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Page extends \yii\db\ActiveRecord
+class Page extends ActiveRecord
 {
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
@@ -40,11 +41,11 @@ class Page extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
-            'slug'=>[
-                'class'=>SluggableBehavior::className(),
-                'attribute'=>'title',
-                'ensureUnique'=>true,
-                'immutable'=>true
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+                'ensureUnique' => true,
+                'immutable' => true
             ],
             'sitemap' => [
                 'class' => SitemapBehavior::className(),

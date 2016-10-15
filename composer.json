@@ -11,8 +11,14 @@
   "authors": [
     {
       "name": "Semen Dubina",
-      "email": "semen@sam002.net",
+      "email": "starterkit@sam002.net",
       "homepage": "http://sam002.net",
+      "role": "Developer"
+    },
+    {
+      "name": "Eugene Terentev",
+      "email": "eugene@terentev.net",
+      "homepage": "http://terentev.net",
       "role": "Developer"
     }
   ],
@@ -38,13 +44,12 @@
     "trntv/yii2-glide": "^1.0.0",
     "trntv/yii2-datetime-widget": "^1.0.0",
     "trntv/cheatsheet": "^0.1@dev",
-    "trntv/yii2-command-bus": "^1.0",
+    "trntv/yii2-command-bus": "^2.0",
     "creocoder/yii2-taggable": "~2.0",
     "kartik-v/yii2-widget-select2": "@dev",
     "kartik-v/yii2-helpers": "dev-master",
     "intervention/image": "^2.1",
     "vlucas/phpdotenv": "^2.0",
-    "league/glide": "^0.3",
     "himiklab/yii2-recaptcha-widget" : "*",
     "kartik-v/yii2-password": "@dev",
     "bower-asset/admin-lte": "^2.0",
@@ -62,7 +67,9 @@
     "yiisoft/yii2-gii": "^2.0.0",
     "yiisoft/yii2-codeception": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
-    "codeception/codeception": "^2.0"
+    "codeception/codeception": "^2.0",
+    "codeception/specify": "^0.4.3",
+    "codeception/verify": "^0.3.0"
   },
   "suggest": {
     "trntv/yii2-debug-xhprof": "dev-master@dev"
