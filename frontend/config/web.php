@@ -42,13 +42,13 @@ $config = [
             'clients' => [
                 'vkontakte' => [
                     'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' => getenv('VK_CLIENT_ID'),
-                    'clientSecret' => getenv('VK_CLIENT_SECRET'),
+                    'clientId' => env('VK_CLIENT_ID'),
+                    'clientSecret' => env('VK_CLIENT_SECRET'),
                 ],
                 'google' => [
                     'class' => 'yii\authclient\clients\GoogleOAuth',
-                    'clientId' => getenv('GOOGLE_CLIENT_ID'),
-                    'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
+                    'clientId' => env('GOOGLE_CLIENT_ID'),
+                    'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
                 ],
                 'github' => [
                     'class' => 'yii\authclient\clients\GitHub',
@@ -89,10 +89,10 @@ $config = [
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ],
         'reCaptcha' => [
-            'name' => 'reCaptcha',
+            'name' => 'verifyCode',
             'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
-            'siteKey' => getenv('RECAPTCHA_SITE_KEY'),
-            'secret' => getenv('RECAPTCHA_SECRET_KEY'),
+            'siteKey' => env('RECAPTCHA_SITE_KEY'),
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
         ],
     ]
 ];
