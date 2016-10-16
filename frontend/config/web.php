@@ -121,6 +121,10 @@ if (YII_ENV_DEV) {
             ]
         ]
     ];
+    $config['modules']['components']['reCaptcha'] = [
+        'siteKey' => '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+        'secret' => '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
+    ];
 }
 
 return $config;
