@@ -30,7 +30,7 @@ class ContactForm extends Model
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            [['verifyCode'], ReCaptchaValidator::className()],
+            [['verifyCode'], ReCaptchaValidator::className(), 'secret' => env('RECAPTCHA_SECRET_KEY')],
         ];
     }
 
