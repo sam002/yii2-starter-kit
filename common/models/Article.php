@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
 use himiklab\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
 use creocoder\taggable\TaggableBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "article".
@@ -24,11 +25,11 @@ use creocoder\taggable\TaggableBehavior;
  * @property string $thumbnail_path
  * @property array $private
  * @property array $attachments
- * @property integer $author_id
- * @property integer $updater_id
  * @property integer $category_id
  * @property integer $status
  * @property integer $published_at
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -38,7 +39,7 @@ use creocoder\taggable\TaggableBehavior;
  * @property ArticleAttachment[] $articleAttachments
  * @property Tag[] $tagValues
  */
-class Article extends \yii\db\ActiveRecord
+class Article extends ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
@@ -79,12 +80,7 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
-            [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'author_id',
-                'updatedByAttribute' => 'updater_id',
-
-            ],
+            BlameableBehavior::className(),
             [
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
@@ -157,12 +153,12 @@ class Article extends \yii\db\ActiveRecord
             [['title', 'body', 'category_id'], 'required'],
             [['slug'], 'unique'],
             [['body'], 'string'],
-            [['published_at'], 'default', 'value' => function() {
+            [['published_at'], 'default', 'value' => function () {
                 return date(DATE_ISO8601);
             }],
             [['published_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
-            [['author_id', 'updater_id', 'status', 'private'], 'integer'],
+            [['status'], 'integer'],
             [['slug', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512],
             [['view'], 'string', 'max' => 255],
@@ -182,18 +178,18 @@ class Article extends \yii\db\ActiveRecord
             'body' => Yii::t('common', 'Body'),
             'view' => Yii::t('common', 'Article View'),
             'thumbnail' => Yii::t('common', 'Thumbnail'),
-            'author_id' => Yii::t('common', 'Author'),
-            'updater_id' => Yii::t('common', 'Updater'),
             'category_id' => Yii::t('common', 'Category'),
             'status' => Yii::t('common', 'Published'),
             'published_at' => Yii::t('common', 'Published At'),
+            'created_by' => Yii::t('common', 'Author'),
+            'updated_by' => Yii::t('common', 'Updater'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At')
         ];
     }
 
     /*
-     *
+     *todo check wtf?
      */
     public function transactions()
     {
@@ -207,7 +203,7 @@ class Article extends \yii\db\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**
@@ -215,7 +211,7 @@ class Article extends \yii\db\ActiveRecord
      */
     public function getUpdater()
     {
-        return $this->hasOne(User::className(), ['id' => 'updater_id']);
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 
     /**

@@ -16,7 +16,7 @@ https://github.com/yiisoft/yii2/blob/master/apps/advanced/README.md
 https://github.com/yiisoft/yii2/tree/master/docs
 
 ### Have any questions?
-mail to `semen@sam002.net`
+mail to `starterkit@sam002.net`
 
 #### NOTE
 Unlike the original this template was created mostly for private implementations.

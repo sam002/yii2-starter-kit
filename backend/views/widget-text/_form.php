@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use dosamigos\ckeditor\CKEditor;
-use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\WidgetText */
@@ -19,14 +17,11 @@ use mihaildev\elfinder\ElFinder;
     <?php echo $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
 
     <?php echo $form->field($model, 'body')->widget(
-        CKEditor::className(),
+        trntv\aceeditor\AceEditor::className(),
         [
-            'preset'=> "standart",
-            'clientOptions' => ElFinder::ckeditorOptions('image-manager-elfinder',[
-               'height' => '500px',
-        ])
-    ])
-    ?>
+            'mode' => 'html'
+        ]
+    ) ?>
 
     <?php echo $form->field($model, 'status')->checkbox() ?>
 
