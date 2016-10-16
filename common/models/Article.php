@@ -8,7 +8,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use himiklab\sitemap\behaviors\SitemapBehavior;
+use katech91\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
 use creocoder\taggable\TaggableBehavior;
 use yii\db\ActiveRecord;

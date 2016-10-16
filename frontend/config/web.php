@@ -1,6 +1,6 @@
 <?php
 use common\models\ErrorCounter;
-use himiklab\sitemap\behaviors\SitemapBehavior;
+use katech91\sitemap\behaviors\SitemapBehavior;
 use yii\helpers\Url;
 use common\models\search\WhiteIpListSearch;
 
@@ -33,7 +33,7 @@ $config = [
             ]
         ],
         'sitemap' => [
-            'class' => 'himiklab\sitemap\Sitemap',
+            'class' => 'katech91\sitemap\Sitemap',
             'models' => [
                 'article' =>  'common\models\Article',
                 'page' => 'common\models\Page',
@@ -42,7 +42,7 @@ $config = [
                 // your additional urls
                 [
                     'loc' => '/article/index',
-                    'changefreq' => \himiklab\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
+                    'changefreq' => \katech91\sitemap\behaviors\SitemapBehavior::CHANGEFREQ_DAILY,
                     'priority' => 0.8,
                 ],
             ],
