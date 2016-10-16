@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use himiklab\sitemap\behaviors\SitemapBehavior;
+use katech91\sitemap\behaviors\SitemapBehavior;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
