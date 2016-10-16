@@ -60,7 +60,7 @@ $config = [
                     'clientSecret' => env('VK_CLIENT_SECRET'),
                 ],
                 'google' => [
-                    'class' => 'yii\authclient\clients\GoogleOAuth',
+                    'class' => 'yii\authclient\clients\Google',
                     'clientId' => env('GOOGLE_CLIENT_ID'),
                     'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
                 ],
