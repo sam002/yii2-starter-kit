@@ -58,27 +58,32 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $accountModel = new AccountForm();
-        $accountModel->setUser(Yii::$app->user->identity);
+        $accountForm = new AccountForm();
+        $accountForm->setUser(Yii::$app->user->identity);
 
-        if ($accountModel->load(Yii::$app->request->post())) {
-            if($accountModel->validate() && $accountModel->save()) {
-                    Yii::$app->session->setFlash('alert', [
-                        'options' => ['class' => 'alert-success'],
-                        'body' => Yii::t('frontend', 'Your account has been successfully saved')
-                    ]);
+        if ($accountForm->load(Yii::$app->request->post())) {
+            $locale = Yii::$app->user->identity->userProfile->locale;
+            Yii::$app->session->setFlash('forceUpdateLocale');
+
+            if($accountForm->validate() && $accountForm->save()) {
+                Yii::$app->session->setFlash('alert', [
+                    'options' => ['class' => 'alert-success'],
+                    'body' => Yii::t('frontend', 'Your account has been successfully saved', [], $locale)
+                ]);
             } else {
                 Yii::$app->session->setFlash('alert', [
                     'options' => ['class' => 'alert-danger'],
-                    'body' => Yii::t('frontend', 'Ups... Your account don\'t saved')
+                    'body' => Yii::t('frontend', 'Ups... Your account don\'t saved', [], $locale)
                 ]);
             }
+            
             return $this->refresh();
         } else {
+
             $model = new MultiModel([
                 'models' => [
                     'oauth' => Yii::$app->user->identity->oauth,
-                    'account' => $accountModel,
+                    'account' => $accountForm,
                     'profile' => Yii::$app->user->identity->userProfile
                 ]
             ]);
@@ -100,12 +105,12 @@ class DefaultController extends Controller
             ]);
 
         }
-        $accountModel = new AccountForm();
-        $accountModel->setUser(Yii::$app->user->identity);
+        $accountForm = new AccountForm();
+        $accountForm->setUser(Yii::$app->user->identity);
         $model = new MultiModel([
             'models' => [
                 'oauth' => Yii::$app->user->identity->oauth,
-                'account' => $accountModel,
+                'account' => $accountForm,
                 'profile' => Yii::$app->user->identity->userProfile
             ]
         ]);

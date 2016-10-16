@@ -1,7 +1,6 @@
 <?php
 namespace common\models;
 
-use cheatsheet\Time;
 use common\commands\AddToTimelineCommand;
 use common\models\query\UserQuery;
 use sam002\otp\behaviors\OtpBehavior;
@@ -82,7 +81,9 @@ class User extends ActiveRecord implements IdentityInterface
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'access_token'
                 ],
-                'value' => Yii::$app->getSecurity()->generateRandomString(40)
+                'value' => function () {
+                    return Yii::$app->getSecurity()->generateRandomString(40);
+                }
             ],
             'otp' => [
                 'class' => OtpBehavior::className(),
@@ -99,7 +100,7 @@ class User extends ActiveRecord implements IdentityInterface
         return ArrayHelper::merge(
             parent::scenarios(),
             [
-                'oauth_create'=>[
+                'oauth_create' => [
                     'oauth_client', 'oauth_client_user_id', 'email', 'username', '!status'
                 ]
             ]
@@ -116,7 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::statuses())],
-            [['username'],'filter','filter'=>'\yii\helpers\Html::encode']
+            [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode']
         ];
     }
 
@@ -141,7 +142,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUserProfile()
     {
-        return $this->hasOne(UserProfile::className(), ['user_id'=>'id']);
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -198,11 +199,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere([
-                'and',
-                ['or', ['username' => $login], ['email' => $login]],
-                'status' => self::STATUS_ACTIVE
-            ])
+            ->andWhere(['or', ['username' => $login], ['email' => $login]])
             ->one();
     }
 
@@ -286,7 +283,7 @@ class User extends ActiveRecord implements IdentityInterface
         $this->link('userProfile', $profile);
         $this->trigger(self::EVENT_AFTER_SIGNUP);
         // Default role
-        $auth =  Yii::$app->authManager;
+        $auth = Yii::$app->authManager;
         $auth->assign($auth->getRole(User::ROLE_USER), $this->getId());
     }
 
