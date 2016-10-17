@@ -11,7 +11,8 @@ sudo: false
 
 services:
   - mysql
-
+  - redis-server
+  
 # cache vendor dirs
 cache:
   directories:
