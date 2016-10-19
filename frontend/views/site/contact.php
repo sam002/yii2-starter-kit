@@ -15,12 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <?php   var_dump(Yii::$app->configure);die();  $form = ActiveForm::begin(['id' => 'contact-form']); ?>
                 <?php echo $form->field($model, 'name') ?>
                 <?php echo $form->field($model, 'email') ?>
                 <?php echo $form->field($model, 'subject') ?>
                 <?php echo $form->field($model, 'body')->textArea(['rows' => 6]) ?>
-                <?php echo $form->field($model, 'verifyCode')->widget(ReCaptcha::className(), ['siteKey' => env('RECAPTCHA_SITE_KEY')]) ?>
+                <?php echo $form->field($model, 'verifyCode')->widget(ReCaptcha::className())?>
                 <div class="form-group">
                     <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>

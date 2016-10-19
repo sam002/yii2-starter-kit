@@ -29,3 +29,4 @@ $this->beginContent('@frontend/views/layouts/base.php')
 
     </div>
 <?php $this->endContent() ?>
+

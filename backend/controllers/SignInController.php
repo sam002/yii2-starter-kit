@@ -13,12 +13,10 @@ use backend\models\AccountForm;
 use common\models\User;
 use Intervention\Image\ImageManagerStatic;
 use sam002\otp\behaviors\OtpBehavior;
-use sam002\otp\Otp;
 use trntv\filekit\actions\DeleteAction;
 use trntv\filekit\actions\UploadAction;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\imagine\Image;
 use yii\web\Controller;
 
 class SignInController extends Controller

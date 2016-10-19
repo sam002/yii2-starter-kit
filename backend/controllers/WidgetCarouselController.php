@@ -5,13 +5,10 @@ namespace backend\controllers;
 use backend\models\search\WidgetCarouselItemSearch;
 use Yii;
 use common\models\WidgetCarousel;
-use common\models\WidgetCarouselItem;
 use backend\models\search\WidgetCarouselSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
-use yii\web\UploadedFile;
 
 /**
  * WidgetCarouselController implements the CRUD actions for WidgetCarousel model.

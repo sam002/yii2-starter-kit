@@ -1,8 +1,6 @@
 <?php
 use common\models\ErrorCounter;
 use katech91\sitemap\behaviors\SitemapBehavior;
-use yii\helpers\Url;
-use common\models\search\WhiteIpListSearch;
 
 $config = [
     'on beforeRequest' => function($event) {
@@ -121,10 +119,8 @@ if (YII_ENV_DEV) {
             ]
         ]
     ];
-    $config['modules']['components']['reCaptcha'] = [
-        'siteKey' => '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-        'secret' => '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
-    ];
+    $config['components']['reCaptcha']['siteKey' ] = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+    $config['components']['reCaptcha']['secret'] = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
 }
 
 return $config;

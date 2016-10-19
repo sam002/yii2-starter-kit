@@ -82,13 +82,7 @@ $form = ActiveForm::begin([
     <?php $authAuthChoice = AuthChoice::begin([
         'baseAuthUrl' => ['/user/sign-in/oauth']
     ]); ?>
-    <ul>
-        <?php /*foreach ($authAuthChoice->getClients() as $client) {
-            if (!isset($oauth[$client->getName()])) {
-                $authAuthChoice->clientLink($client);
-            }
-        }*/ ?>
-    </ul>
+    
     <?php AuthChoice::end(); ?>
 <!---->
 <!--    <div class="form-group">-->
