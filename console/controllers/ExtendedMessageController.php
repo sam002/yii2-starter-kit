@@ -20,7 +20,6 @@ use yii\helpers\VarDumper;
 class ExtendedMessageController extends \yii\console\controllers\MessageController
 {
     /**
-     * @param $path
      * @param bool $newSourceLanguage
      * @param bool $configFile
      * @throws Exception
@@ -87,7 +86,7 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
                 };
             }
         }
-        if ($newSourceLanguage == false && !empty($unremoved)) {
+        if (!$newSourceLanguage && !empty($unremoved)) {
             Console::output('Messages with params, can`t be removed by this tool. Remove it manually');
             foreach ($unremoved as $fileName => $messages) {
                 $messages = implode(PHP_EOL, $messages);
