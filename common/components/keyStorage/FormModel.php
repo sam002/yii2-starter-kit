@@ -90,10 +90,7 @@ class FormModel extends Model
      */
     public function attributes()
     {
-        $names = [];
-        foreach ($this->keys as $attribute => $values) {
-            $names[] = $attribute;
-        }
+        $names = array_keys($this->keys);
 
         return $names;
     }
