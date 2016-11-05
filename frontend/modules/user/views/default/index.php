@@ -3,10 +3,8 @@
 use trntv\filekit\widget\Upload,
     yii\helpers\Html,
     yii\widgets\ActiveForm,
-    yii\authclient\widgets\AuthChoice,
     kartik\password\PasswordInput,
     yii\bootstrap\Modal;
-use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model common\base\MultiModel */

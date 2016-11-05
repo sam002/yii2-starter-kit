@@ -50,6 +50,7 @@ foreach ($providers as $provider) {
             <?php } ?>
 
         </div>
+        <div class="list-group-separator"></div>
     <?php } ?>
 </div>
 

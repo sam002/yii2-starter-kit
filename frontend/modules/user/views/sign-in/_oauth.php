@@ -15,18 +15,18 @@ use yii\helpers\Html;
 ]); ?>
 
 <div class="list-group">
-<?php
-/** @var \yii\authclient\ClientInterface $client */
-foreach ($authAuthChoice->getClients() as $client) { ?>
+    <?php
+    /** @var \yii\authclient\ClientInterface $client */
+    foreach ($authAuthChoice->getClients() as $client) { ?>
         <div class="list-group-item">
             <div class="row-action-primary link">
-            <?php $mapIcons = ['vkontakte' => 'fa-vk'];
-            $socIcon = isset($mapIcons[$client->getName()]) ? $mapIcons[$client->getName()] : 'fa-' . $client->getName() ?>
+                <?php $mapIcons = ['vkontakte' => 'fa-vk'];
+                $socIcon = isset($mapIcons[$client->getName()]) ? $mapIcons[$client->getName()] : 'fa-' . $client->getName() ?>
 
-            <a id="<?php echo ucfirst($client->getName()); ?>_login"
-               href="<?php echo $authAuthChoice->createClientUrl($client) ?>">
-                <?php echo Html::tag('i', '', ['class' => 'fa ' . $socIcon . " fa-2x"]); ?>
-            </a>
+                <a id="<?php echo ucfirst($client->getName()); ?>_login"
+                   href="<?php echo $authAuthChoice->createClientUrl($client) ?>">
+                    <?php echo Html::tag('i', '', ['class' => 'fa ' . $socIcon . " fa-2x"]); ?>
+                </a>
             </div>
             <div class="row-content">
                 <h4 class="list-group-item-heading">
@@ -36,8 +36,7 @@ foreach ($authAuthChoice->getClients() as $client) { ?>
                 </h4>
             </div>
         </div>
-
-<?php } ?>
+    <?php } ?>
 
 </div>
 <?php AuthChoice::end(); ?>
