@@ -290,14 +290,13 @@ class SignInController extends \yii\web\Controller
             'password' => $password,
         ]);
 
-        $user->generatePasswordResetToken();
         $transaction = $user->getDb()->beginTransaction();
         if ($user->save()) {
             $auth = new Oauth([
                 'user_id' => $user->id,
                 'provider' => $client->getName(),
                 'client_id' => (string)$attributes['id'],
-                'property' => json_encode($attributes)
+                'properties' => json_encode($attributes)
             ]);
             if ($auth->save()) {
                 $transaction->commit();
