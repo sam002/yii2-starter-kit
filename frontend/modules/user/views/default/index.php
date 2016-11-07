@@ -87,6 +87,18 @@ $this->title = Yii::t('frontend', 'User Settings')
         </div>
     </div>
     <div class="row">
+        <?php echo \kartik\helpers\Html::button('Generate password', [
+        'class' => 'btn btn-primary',
+        'onclick' => 'fillPassword()'
+        ]) ?>
+
+        <script>
+            function fillPassword() {
+                var genPassword = generatePassword();
+                $("#accountform-password").val(genPassword);
+                $("#accountform-password_confirm").val(genPassword);
+            }
+        </script>
         <?php $modal = Modal::begin([
             'header' => '<h2>' . Yii::t('frontend', 'Please, enter your password') . '</h2>',
             'toggleButton' => ['label' => Yii::t('frontend', 'Update'), 'class' => 'btn btn-primary'],
@@ -116,10 +128,9 @@ $this->title = Yii::t('frontend', 'User Settings')
                     }"
                 ]
             ]);
-        echo $form->field($model->getModel('account'), 'password_current')->passwordInput();
-    
-    
-        echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
+        echo $form->field($model->getModel('account'), 'password_current')->passwordInput(); ?>
+
+        <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
         Modal::end();
     
         ActiveForm::end(); ?>
