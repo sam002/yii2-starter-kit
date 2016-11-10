@@ -4,7 +4,7 @@
 $.material.init();
 
 function generatePassword() {
-    if (window.crypto.getRandomValues === "undefined") {
+    if (window.crypto.getRandomValues === 'undefined') {
         alert("Your browser doesn't defend a generator of cryptographically secure random numbers.We " +
             "can't generate secure password.");
     } else {
