@@ -13,19 +13,19 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function(result){
                     $.each(result, function(k,v){
-                        if(data[k] == undefined){
+                        if(data[k] === undefined){
                             var sample = [];
                             for(var i = 1; i <= setLength; i++){
-                                sample.push([i, 0])
+                                sample.push([i, 0]);
                             }
-                            data[k] = {label:" CPU"+k, data:sample}
+                            data[k] = {label:" CPU"+k, data:sample};
                         } else {
-                            for(var i = 0; i < setLength - 1; i++){
-                                data[k]["data"][i] = [i+1, data[k]["data"][i+1][1]]
+                            for(var j = 0; j < setLength - 1; j++){
+                                data[k]["data"][j] = [j+1, data[k]["data"][j+1][1]];
                             }
-                            data[k]["data"][setLength - 1] = ([setLength, v * 100])
+                            data[k]["data"][setLength - 1] = ([setLength, v * 100]);
                         }
-                    })
+                    });
                     if(!plot){
                         plot = $.plot("#cpu-usage .chart", data, {
                             grid: {
@@ -53,8 +53,8 @@ $(document).ready(function(){
                         plot.setData(data);
                         plot.draw();
                     }
-                    if(realtime == "on"){
-                        setTimeout(update, updateInterval)
+                    if(realtime === "on"){
+                        setTimeout(update, updateInterval);
                     }
                 }
             })
@@ -72,7 +72,7 @@ $(document).ready(function(){
                 realtime = "off";
             }
         });
-    })();
+    }());
 
     // Memory
     (function(){
@@ -89,11 +89,11 @@ $(document).ready(function(){
                     if(!data){
                         data = [];
                         for(var i = 1; i <= setLength; i++){
-                            data.push([i, 0])
+                            data.push([i, 0]);
                         }
                     } else {
-                        for(var i = 0; i < setLength - 1; i++){
-                            data[i] = [i+1, data[i+1][1]];
+                        for(var j = 0; j < setLength - 1; j++){
+                            data[j] = [j+1, data[j+1][1]];
                         }
                         data[setLength - 1] = [setLength, parseFloat(result) * 100];
                     }
@@ -143,5 +143,5 @@ $(document).ready(function(){
                 realtime = "off";
             }
         });
-    })()
+    })();
 })
