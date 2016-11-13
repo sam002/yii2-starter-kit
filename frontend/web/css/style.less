@@ -1,7 +1,8 @@
 @import "_article";
 
-@import "../../../vendor/bower/bootstrap-material-design/less/material.less";
-@primary: @blue-700;
+@import "../../../vendor/bower/bootstrap-material-design/less/bootstrap-material-design";
+
+@brand-primary: @blue-700;
 // Override @primary color with one took from _colors.less
 
 html,
@@ -94,4 +95,20 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+.list-group .list-group-item .row-picture i,
+.list-group .list-group-item .row-action-primary i  {
+    &.fa-github {
+        background: #000000;
+    }
+    &.fa-vk {
+        background: #507299;
+    }
+    &.fa-facebook{
+        background: #3B5998;
+    }
+    &.fa-google{
+        background: #DB4437;
+    }
 }

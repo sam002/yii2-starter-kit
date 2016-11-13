@@ -3,7 +3,6 @@
 use trntv\filekit\widget\Upload,
     yii\helpers\Html,
     yii\widgets\ActiveForm,
-    yii\authclient\widgets\AuthChoice,
     kartik\password\PasswordInput,
     yii\bootstrap\Modal;
 
@@ -45,84 +44,97 @@ $this->title = Yii::t('frontend', 'User Settings')
     </div>
 
     <?php ActiveForm::end(); ?>
-
+    </div>
+<div class="user-account_form">
     <h2><?php echo Yii::t('frontend', 'Account Settings') ?></h2>
 
-<?php
-$form = ActiveForm::begin([
-   'id' => 'accountForm'
-]);
-    echo $form->field($model->getModel('account'), 'username');
+    <div class="row">
+        <div class="col-sm-6">
+            <?php
+            $form = ActiveForm::begin([
+               'id' => 'accountForm'
+            ]);
+                echo $form->field($model->getModel('account'), 'username');
 
-    echo $form->field($model->getModel('account'), 'email');
+                echo $form->field($model->getModel('account'), 'email');
 
-    echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
-        'pluginOptions' => [
-            'showMeter' => false,
-            'toggleMask' => false
-        ],
-        'pluginEvents' => [
-            "keyup" => "function() {
-                            styles = [
-                                '',
-                                'form-group-danger', 
-                                'form-group-warning', 
-                                'form-group-material-orange', 
-                                'form-group-material-lime', 
-                                'form-group-success'
-                                ];
-                                $(this).parents('.form-group').removeClass('has-error has-success');
-                                $(this).parent().attr('class', styles[$(this).strength('verdict')]);
-                         }",
-        ]
-    ]);
+                echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
+                    'pluginOptions' => [
+                        'showMeter' => false,
+                        'toggleMask' => false
+                    ],
+                    'pluginEvents' => [
+                        "keyup" => "function() {
+                                        styles = [
+                                            '',
+                                            'form-group-danger', 
+                                            'form-group-warning', 
+                                            'form-group-material-orange', 
+                                            'form-group-material-lime', 
+                                            'form-group-success'
+                                            ];
+                                            $(this).parents('.form-group').removeClass('has-error has-success');
+                                            $(this).parent().attr('class', styles[$(this).strength('verdict')]);
+                                     }",
+                    ]
+                ]);
 
-    echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput();
-?>
-    <?php $authAuthChoice = AuthChoice::begin([
-        'baseAuthUrl' => ['/user/sign-in/oauth']
-    ]); ?>
-    
-    <?php AuthChoice::end(); ?>
-<!---->
-<!--    <div class="form-group">-->
-<!--        --><?php //echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
-<!--    </div>-->
+                echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput();
+            ?>
+            </div>
+        <div class="col-sm-6">
+            <?php echo $this->render('_oauth', ['providers' => $model->getModel('oauth')]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <?php echo \kartik\helpers\Html::button('Generate password', [
+        'class' => 'btn btn-primary',
+        'onclick' => 'fillPassword()'
+        ]) ?>
 
-
-    <?php $modal = Modal::begin([
-        'header' => '<h2>' . Yii::t('frontend', 'Please, enter your password') . '</h2>',
-        'toggleButton' => ['label' => Yii::t('frontend', 'Update'), 'class' => 'btn btn-primary'],
-        'clientEvents' => [
-            "show.bs.modal" => "function() {
-                    if($('#accountForm').data('yiiActiveForm').validated) {
-                        $('#accountform-password_current').val('');
-                        $('#accountForm').data('yiiActiveForm').submitting = false;
-                        return true;
-                    }
-                    var modal = $(this);
-                    
-                    $('#accountform-password_current').val('_' + Math.random());
-                    
-                    var triggerFormCheck = function(e) {
-                        modal.modal('show');
+        <script>
+            function fillPassword() {
+                var genPassword = generatePassword();
+                $("#accountform-password").val(genPassword);
+                $("#accountform-password_confirm").val(genPassword);
+            }
+        </script>
+        <?php $modal = Modal::begin([
+            'header' => '<h2>' . Yii::t('frontend', 'Please, enter your password') . '</h2>',
+            'toggleButton' => ['label' => Yii::t('frontend', 'Update'), 'class' => 'btn btn-primary'],
+            'clientEvents' => [
+                "show.bs.modal" => "function() {
+                        if($('#accountForm').data('yiiActiveForm').validated) {
+                            $('#accountform-password_current').val('');
+                            $('#accountForm').data('yiiActiveForm').submitting = false;
+                            return true;
+                        }
+                        var modal = $(this);
+                        
+                        $('#accountform-password_current').val('_' + Math.random());
+                        
+                        var triggerFormCheck = function(e) {
+                            modal.modal('show');
+                            return false;
+                        };
+                        
+                        $('#accountForm').on('beforeSubmit', triggerFormCheck);
+                        setTimeout(function () {
+                            $('#accountForm').off('beforeSubmit', triggerFormCheck);
+                        }, 300);
+                        $('#accountForm').data('yiiActiveForm').submitting = true;
+                        $('#accountForm').yiiActiveForm('validate');
                         return false;
-                    };
-                    
-                    $('#accountForm').on('beforeSubmit', triggerFormCheck);
-                    setTimeout(function () {
-                        $('#accountForm').off('beforeSubmit', triggerFormCheck);
-                    }, 300);
-                    $('#accountForm').data('yiiActiveForm').submitting = true;
-                    $('#accountForm').yiiActiveForm('validate');
-                    return false;
-                }"
-            ]
-        ]);
-    echo $form->field($model->getModel('account'), 'password_current')->passwordInput();
-    echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
-    Modal::end();
+                    }"
+                ]
+            ]);
+        echo $form->field($model->getModel('account'), 'password_current')->passwordInput(); ?>
 
-    ActiveForm::end(); ?>
+        <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
+        Modal::end();
+
+        ActiveForm::end(); ?>
+    </div>
+
 
 </div>
