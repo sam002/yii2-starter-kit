@@ -55,9 +55,9 @@ $this->title = Yii::t('frontend', 'User Settings')
                'id' => 'accountForm'
             ]);
                 echo $form->field($model->getModel('account'), 'username');
-            
+
                 echo $form->field($model->getModel('account'), 'email');
-            
+
                 echo $form->field($model->getModel('account'), 'password')->widget(PasswordInput::classname(), [
                     'pluginOptions' => [
                         'showMeter' => false,
@@ -78,7 +78,7 @@ $this->title = Yii::t('frontend', 'User Settings')
                                      }",
                     ]
                 ]);
-            
+
                 echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput();
             ?>
             </div>
@@ -132,7 +132,7 @@ $this->title = Yii::t('frontend', 'User Settings')
 
         <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary']);
         Modal::end();
-    
+
         ActiveForm::end(); ?>
     </div>
 

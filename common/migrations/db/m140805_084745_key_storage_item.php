@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m140805_084745_key_storage_item extends Migration

@@ -2,8 +2,6 @@
 namespace common\components\keyStorage;
 
 use yii\base\Component;
-use yii\db\Connection;
-use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use Yii;
 

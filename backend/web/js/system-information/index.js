@@ -13,19 +13,20 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function(result){
                     $.each(result, function(k,v){
-                        if(data[k] == undefined){
+                        var i = 0;
+                        if(typeof data[k] === 'undefined'){
                             var sample = [];
-                            for(var i = 1; i <= setLength; i++){
+                            for(i = 1; i <= setLength; i++){
                                 sample.push([i, 0])
                             }
                             data[k] = {label:" CPU"+k, data:sample}
                         } else {
-                            for(var i = 0; i < setLength - 1; i++){
+                            for(i = 0; i < setLength - 1; i++){
                                 data[k]["data"][i] = [i+1, data[k]["data"][i+1][1]]
                             }
                             data[k]["data"][setLength - 1] = ([setLength, v * 100])
                         }
-                    })
+                    });
                     if(!plot){
                         plot = $.plot("#cpu-usage .chart", data, {
                             grid: {
@@ -53,7 +54,7 @@ $(document).ready(function(){
                         plot.setData(data);
                         plot.draw();
                     }
-                    if(realtime == "on"){
+                    if(realtime === "on"){
                         setTimeout(update, updateInterval)
                     }
                 }
@@ -88,11 +89,11 @@ $(document).ready(function(){
                 success: function(result){
                     if(!data){
                         data = [];
-                        for(var i = 1; i <= setLength; i++){
+                        for(i = 1; i <= setLength; i++){
                             data.push([i, 0])
                         }
                     } else {
-                        for(var i = 0; i < setLength - 1; i++){
+                        for(i = 0; i < setLength - 1; i++){
                             data[i] = [i+1, data[i+1][1]];
                         }
                         data[setLength - 1] = [setLength, parseFloat(result) * 100];
@@ -124,7 +125,7 @@ $(document).ready(function(){
                         plot.setData([data]);
                         plot.draw();
                     }
-                    if(realtime == "on"){
+                    if(realtime === "on"){
                         setTimeout(update, updateInterval)
                     }
                 }
@@ -144,4 +145,4 @@ $(document).ready(function(){
             }
         });
     })()
-})
+});

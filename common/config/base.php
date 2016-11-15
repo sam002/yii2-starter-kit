@@ -134,6 +134,11 @@ $config = [
             'class' => 'common\components\keyStorage\KeyStorage'
         ],
 
+        'otp' => [
+            'class' => 'sam002\otp\Otp',
+            'algorithm' => 'totp',
+        ],
+
         'urlManagerBackend' => \yii\helpers\ArrayHelper::merge(
             [
                 'hostInfo' => Yii::getAlias('@backendUrl')

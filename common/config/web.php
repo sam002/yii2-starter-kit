@@ -5,10 +5,6 @@ $config = [
             'class' => 'yii\web\AssetManager',
             'linkAssets' => env('LINK_ASSETS'),
             'appendTimestamp' => YII_ENV_DEV
-        ],
-        'otp' => [
-            'class' => 'sam002\otp\Otp',
-            'algorithm' => 'totp',
         ]
     ],
     'as locale' => [

@@ -5,7 +5,6 @@ namespace backend\controllers;
 use common\models\WidgetCarousel;
 use Yii;
 use common\models\WidgetCarouselItem;
-use backend\models\search\WidgetCarouselItemSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;

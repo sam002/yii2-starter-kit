@@ -91,8 +91,9 @@ class MultiModel extends Model
      */
     public function load($data, $formName = '')
     {
-        foreach ($this->models as $k => &$model) {
-            $success = $model->load($data);
+        /** @var Model $model */
+        foreach ($this->models as $model) {
+            $success = $model->load($data, $formName);
             if (!$success) {
                 return false;
             }
@@ -111,7 +112,7 @@ class MultiModel extends Model
         $success = true;
         foreach ($this->models as $key => $model) {
             /* @var $model Model */
-            if (!$model->validate()) {
+            if (!$model->validate($attributeNames, $clearErrors)) {
                 $success = false;
                 $this->addErrors([$key => $model->getErrors()]);
             }

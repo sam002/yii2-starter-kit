@@ -9,7 +9,6 @@ namespace common\models;
  * Time: 17:05
  */
 use Yii;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "article_category".

@@ -1,7 +1,6 @@
 <?php
 namespace backend\models;
 
-use sam002\otp\Otp;
 use yii\base\Model;
 use Yii;
 

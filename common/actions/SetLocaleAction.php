@@ -53,7 +53,7 @@ class SetLocaleAction extends Action
     /**
      * @var string
      */
-    public $cookieDomain;
+    public $cookieDomain = '';
 
     /**
      * @var \Closure
@@ -62,7 +62,7 @@ class SetLocaleAction extends Action
 
 
     /**
-     * @param $locale
+     * @param string $locale
      * @return mixed|static
      */
     public function run($locale)
@@ -70,11 +70,14 @@ class SetLocaleAction extends Action
         if (!is_array($this->locales) || !in_array($locale, $this->locales, true)) {
             throw new InvalidParamException('Unacceptable locale');
         }
+        if (!is_numeric($this->cookieExpire)) {
+            $this->cookieExpire = time() + (60 * 60 * 24 * 365);
+         }
         $cookie = new Cookie([
             'name' => $this->localeCookieName,
             'value' => $locale,
-            'expire' => $this->cookieExpire ?: time() + 60 * 60 * 24 * 365,
-            'domain' => $this->cookieDomain ?: '',
+            'expire' => $this->cookieExpire,
+            'domain' => $this->cookieDomain,
         ]);
         Yii::$app->getResponse()->getCookies()->add($cookie);
         if ($this->callback && $this->callback instanceof \Closure) {

@@ -61,14 +61,14 @@
     "bower-asset/bootstrap-material-design": "^0.5",
     "katech91/yii2-sitemap-module" : "^1.2.0",
     "sam002/yii2-otp" : "*",
-    "symfony/process": "^3.0"
+    "symfony/process": "^3.0",
+    "codeception/codeception": "^2.2"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
     "yiisoft/yii2-gii": "^2.0.0",
     "yiisoft/yii2-codeception": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
-    "codeception/codeception": "^2.0",
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0"
   },

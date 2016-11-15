@@ -40,3 +40,4 @@ $this->params['body-class'] = array_key_exists('body-class', $this->params) ?
 <?php echo Html::endTag('body') ?>
 </html>
 <?php $this->endPage() ?>
+
