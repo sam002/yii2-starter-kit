@@ -12,7 +12,7 @@ return [
         'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,
-        'private' => 1,
+        'private' => 0,
         'published_at' => time() - 10,
         'created_at' => time() - 10,
         'updated_at' => time() - 10
