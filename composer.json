@@ -62,7 +62,7 @@
     "katech91/yii2-sitemap-module" : "^1.2.0",
     "sam002/yii2-otp" : "*",
     "symfony/process": "^3.0",
-    "codeception/codeception": "^2.2"
+    "zelenin/yii2-rss": "~0.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
