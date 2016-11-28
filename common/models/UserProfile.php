@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $avatar_path
  * @property string $avatar_base_url
  * @property integer $gender
+ * @property string $about
  *
  * @property User $user
  */
@@ -68,7 +69,8 @@ class UserProfile extends ActiveRecord
             [['firstname', 'middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => Yii::$app->language],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
-            ['picture', 'safe']
+            ['picture', 'safe'],
+            [['about'],'string', 'max'=>1024]
         ];
     }
 
@@ -85,6 +87,7 @@ class UserProfile extends ActiveRecord
             'locale' => Yii::t('common', 'Locale'),
             'picture' => Yii::t('common', 'Picture'),
             'gender' => Yii::t('common', 'Gender'),
+            'about' => Yii::t('common','About')
         ];
     }
 

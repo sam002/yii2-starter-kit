@@ -7,6 +7,9 @@ return [
         // Pages
         ['pattern'=>'page/<slug>', 'route'=>'page/view'],
 
+        // Pages
+        ['pattern'=>'author/<username>', 'route'=>'author/show'],
+
         // Articles
         ['pattern'=>'article/index', 'route'=>'article/index'],
         ['pattern'=>'article/attachment-download', 'route'=>'article/attachment-download'],

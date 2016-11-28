@@ -32,6 +32,10 @@ $this->title = Yii::t('backend', 'Edit profile')
         UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
     ]) ?>
 
+    <?php echo $form->field($model,'about')->textarea(['rows'=>5,'cols'=>10,'maxlength'=>1024])
+        ->hint("Please, write down an information about yourself. This information will be avaliable for site's 
+        visitors if you publish an article.") ?>
+
     <div class="form-group">
         <?php echo Html::submitButton(Yii::t('backend', 'Update'), ['class' => 'btn btn-primary']) ?>
     </div>

@@ -38,6 +38,10 @@ $this->title = Yii::t('frontend', 'User Settings')
         \common\models\UserProfile::GENDER_FEMALE => Yii::t('frontend', 'Female'),
         \common\models\UserProfile::GENDER_MALE => Yii::t('frontend', 'Male')
     ], ['prompt' => '']) ?>
+    
+    <?php echo $form->field($model->getModel('profile'),'about')->textarea(['rows'=>5,'cols'=>10,'maxlength'=>1024])
+        ->hint("Please, write down an information about yourself. This information will be avaliable for site's 
+        visitors if you publish an article.") ?>
 
     <div class="form-group">
         <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>

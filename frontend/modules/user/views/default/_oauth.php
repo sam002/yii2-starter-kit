@@ -7,6 +7,7 @@
  */
 use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Html;
+use common\assets\oauthHelper;
 
 /** @var \common\models\Oauth[] $providers */
 /* @var $model common\base\MultiModel */
@@ -38,9 +39,7 @@ foreach ($providers as $provider) {
                 </div>
             <?php } else { ?>
                 <div class="row-action-primary">
-                    <?php $mapIcons = ['vkontakte' => 'fa-vk'];
-                    $socIcon = isset($mapIcons[$client->getName()]) ? $mapIcons[$client->getName()] : 'fa-' . $client->getName() ?>
-                    <?php echo Html::tag('i', '', ['class' => 'fa fa-2x ' . $socIcon]); ?>
+                    <?php echo Html::tag('i', '', ['class' => common\assets\oauthHelper::socialIcon($client->getName())]); ?>
                 </div>
                 <div class="row-content">
                     <h4 class="list-group-item-heading"><?php echo ucfirst($client->getName()); ?></h4>
