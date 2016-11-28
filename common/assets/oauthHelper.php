@@ -12,6 +12,7 @@ namespace common\assets;
 class oauthHelper
 {
     public static function socialIcon($provider){
+        $icon = '';
         switch ($provider) {
             case 'vkontakte':
                 $icon = 'fa fa-2x fa-vk';

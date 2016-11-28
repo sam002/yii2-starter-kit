@@ -6,7 +6,7 @@ class m160327_161054_create_white_ip_list extends Migration
 {
     public function up()
     {
-        $this->createTable('white_ip_list', [
+        $this->createTable('{{%white_ip_list}}', [
             'ip' => $this->string(),
             'comment' => $this->string(),
             'PRIMARY KEY(ip)',
@@ -15,6 +15,6 @@ class m160327_161054_create_white_ip_list extends Migration
 
     public function down()
     {
-        $this->dropTable('white_ip_list');
+        $this->dropTable('{{%white_ip_list}}');
     }
 }

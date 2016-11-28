@@ -12,7 +12,7 @@ class m161128_134948_add_about_column_to_user_profile_table extends Migration
      */
     public function up()
     {
-        $this->addColumn('user_profile', 'about', $this->string());
+        $this->addColumn('{{%user_profile}}', 'about', $this->string());
     }
 
     /**
@@ -20,6 +20,6 @@ class m161128_134948_add_about_column_to_user_profile_table extends Migration
      */
     public function down()
     {
-        $this->dropColumn('user_profile', 'about');
+        $this->dropColumn('{{%user_profile}}', 'about');
     }
 }
