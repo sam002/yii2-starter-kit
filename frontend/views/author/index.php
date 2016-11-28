@@ -5,15 +5,12 @@
  * Date: 19.11.16
  * Time: 10:11
  */
-use yii\bootstrap\Html;
-use common\assets\oauthHelper;
 
 /* @var $this yii\web\View */
 /* @var $author common\models\User */
 /* @var $articles common\models\Article */
 /* @var $model common\base\MultiModel */
 
-//var_dump($author); die();
 
 ?>
 
