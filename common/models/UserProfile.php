@@ -104,8 +104,8 @@ class UserProfile extends ActiveRecord
      */
     public function getFullName()
     {
-        if ($this->firstname || $this->lastname) {
-            return implode(' ', [$this->firstname, $this->lastname]);
+        if ($this->firstname || $this->middlename || $this->lastname) {
+            return implode(' ', [$this->firstname, $this->middlename, $this->lastname]);
         }
         return null;
     }
