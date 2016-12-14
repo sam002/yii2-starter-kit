@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use common\components\keyStorage\FormModel;
+use trntv\filekit\widget\Upload;
 use Yii;
 
 /**
@@ -62,6 +63,14 @@ class SiteController extends \yii\web\Controller
                 'backend.layout-collapsed-sidebar' => [
                     'label' => Yii::t('backend', 'Backend sidebar collapsed'),
                     'type' => FormModel::TYPE_CHECKBOX
+                ],
+                'common.default-avatar' => [
+                    'label' => Yii::t('common', 'Default user avatar'),
+                    'type' => FormModel::TYPE_WIDGET,
+                    'widget' => Upload::classname(),
+                    'options' => [
+                        'url'=>['key-storage/avatar-upload']
+                    ],
                 ],
                 'common.publication-name' => [
                     'label' => Yii::t('backend', 'Name of publication'),

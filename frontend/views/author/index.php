@@ -44,7 +44,7 @@
                             <h4>Social links</h4>
                         </div>
                         <div class="col-sm-2">
-                            <a href=<?php echo('/"' . $author['oauth']['url'] . '/"') ?>>
+                            <a href="<?php echo($author['oauth']['url']) ?>">
                                 <i class="<?php echo common\assets\oauthHelper::socialIcon($author['oauth']['provider']) ?>"
                                    aria-hidden="true"></i> </a>
                         </div>

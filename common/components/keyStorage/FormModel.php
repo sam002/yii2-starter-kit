@@ -144,6 +144,9 @@ class FormModel extends Model
             if (!$originalKey) {
                 throw new Exception;
             }
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
             $this->getKeyStorage()->set($originalKey, $value);
         }
         return true;
@@ -255,6 +258,10 @@ class FormModel extends Model
     public function setAttribute($name, $value)
     {
         if ($this->hasAttribute($name)) {
+            $decode = json_decode($value, true);
+            if (!empty($decode)) {
+                $value = $decode;
+            }
             $this->attributes[$name] = $value;
         } else {
             throw new InvalidParamException(get_class($this) . ' has no attribute named "' . $name . '".');

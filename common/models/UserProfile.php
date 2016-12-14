@@ -116,6 +116,10 @@ class UserProfile extends ActiveRecord
      */
     public function getAvatar($default = null)
     {
+        if ($default == null) {
+            $globalAvatar = json_decode(Yii::$app->keyStorage->get('common.default-avatar'), true);
+            $default = $globalAvatar['base_url'] . '/' . $globalAvatar['path'];
+        }
         return $this->avatar_path
             ? Yii::getAlias($this->avatar_base_url . '/' . $this->avatar_path)
             : $default;

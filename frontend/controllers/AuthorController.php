@@ -42,7 +42,7 @@ class AuthorController extends Controller
         if($modelUser->oauth){
             $oauth = [
                 'provider' => $modelUser->oauth[0]['attributes']['provider'],
-                'url' => json_decode($modelUser->oauth[0]['attributes']['properties'],true)['url']
+                'url' => json_decode($modelUser->oauth[0]['attributes']['properties'],true)['html_url']
             ];
         }else{
             $oauth = null;
@@ -51,7 +51,7 @@ class AuthorController extends Controller
         return $this->render('index', [
             'author' => [
                 'username' => $modelUser->username,
-                'avatar_url' => $modelUserProfile->avatar_base_url . '/' . $modelUserProfile->avatar_path,
+                'avatar_url' => $modelUserProfile->getAvatar(),
                 'full_name' => $modelUserProfile->getFullName(),
                 'about' => $modelUserProfile->about,
                 'oauth' => $oauth

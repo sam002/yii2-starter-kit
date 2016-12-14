@@ -8,6 +8,9 @@ use backend\models\search\KeyStorageItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use trntv\filekit\actions\DeleteAction;
+use trntv\filekit\actions\UploadAction;
+use Intervention\Image\ImageManagerStatic;
 
 /**
  * KeyStorageController implements the CRUD actions for KeyStorageItem model.
@@ -23,6 +26,7 @@ class KeyStorageController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+
         ];
     }
 
@@ -91,6 +95,25 @@ class KeyStorageController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actions()
+    {
+        return[
+            'avatar-upload' => [
+                'class' => UploadAction::className(),
+                'deleteRoute' => 'avatar-delete',
+                'on afterSave' => function ($event) {
+                    /* @var $file \League\Flysystem\File */
+                    $file = $event->file;
+                    $img = ImageManagerStatic::make($file->read())->fit(215, 215);
+                    $file->put($img->encode());
+                }
+            ],
+            'avatar-delete' => [
+                'class' => DeleteAction::className()
+            ]
+        ];
     }
 
     /**

@@ -51,7 +51,7 @@ $bundle = \frontend\assets\FrontendAsset::register($this);
                 <?php $profile = $model->getAuthor()->one()->getUserProfile()->one();
                 ?>
 
-                <img src="<?php echo $profile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>" class="img-circle avatar pull-left" width="96px" />
+                <img src="<?php echo $profile->getAvatar() ?>" class="img-circle avatar pull-left" width="96px" />
                 <h3 class="author vcard">
                     <span class="fn">
                         <a href="/" title="<?php echo $profile->getFullName() ?>" rel="author"><?php echo $profile->getFullName() ?></a>
