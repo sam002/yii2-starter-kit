@@ -67,6 +67,7 @@ class SiteController extends \yii\web\Controller
                 'common.default-avatar' => [
                     'label' => Yii::t('common', 'Default user avatar'),
                     'type' => FormModel::TYPE_WIDGET,
+                    'rules' => [['required']],
                     'widget' => Upload::classname(),
                     'options' => [
                         'url'=>['key-storage/avatar-upload']
