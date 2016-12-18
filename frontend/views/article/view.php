@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+use yii\bootstrap\Html;
+
 /* @var $model common\models\Article */
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
@@ -48,13 +50,16 @@ $bundle = \frontend\assets\FrontendAsset::register($this);
         </div>
         <footer>
             <div class="entry-author">
-                <?php $profile = $model->getAuthor()->one()->getUserProfile()->one();
+                <?php
+                /** @var \common\models\UserProfile $profile */
+                $profile = $model->getAuthor()->one()->getUserProfile()->one();
                 ?>
 
                 <img src="<?php echo $profile->getAvatar() ?>" class="img-circle avatar pull-left" width="96px" />
                 <h3 class="author vcard">
                     <span class="fn">
-                        <a href="/" title="<?php echo $profile->getFullName() ?>" rel="author"><?php echo $profile->getFullName() ?></a>
+                        <?php echo Html::a($profile->getFullName(), ['author/show', 'username'=>$profile->user->username]) ?>
+
                     </span>
                 </h3>
                 <p class="author-bio"></p>
