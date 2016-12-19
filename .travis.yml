@@ -12,13 +12,14 @@ sudo: false
 services:
   - mysql
   - redis-server
-  
+
 # cache vendor dirs
 cache:
   directories:
     - $HOME/.composer/cache
 
 install:
+  - travis_retry phpenv config-rm xdebug.ini
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "fxp/composer-asset-plugin:~1.2.0"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -48,4 +49,3 @@ script:
     php -S localhost:8080 > /dev/null 2>&1 &
     cd tests
     ./../vendor/bin/codecept run --debug
-    
