@@ -32,10 +32,6 @@ class SignInController extends Controller
                 'actions' => [
                     'logout' => ['post']
                 ]
-            ],
-            [
-                'class' => OtpBehavior::className(),
-                'component' => 'otp'
             ]
         ];
     }
@@ -105,15 +101,15 @@ class SignInController extends Controller
         $model = new AccountForm();
         $model->username = $user->username;
         $model->email = $user->email;
-        $model->otpSecret = $user->otpSecret;
+        $model->secret = $user->secret;
         if ($model->load($_POST) && $model->validate()) {
             $user->username = $model->username;
             $user->email = $model->email;
             if ($model->password) {
                 $user->setPassword($model->password);
             }
-            if ($model->otpSecret && $user->validateOtpSecret($model->otpCode)) {
-                $user->otpSecret = $model->otpSecret;
+            if ($model->secret) {
+                $user->secret = $model->secret;
             }
 
             $user->save();

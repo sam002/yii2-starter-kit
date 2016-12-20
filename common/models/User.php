@@ -84,10 +84,6 @@ class User extends ActiveRecord implements IdentityInterface
                 'value' => function () {
                     return Yii::$app->getSecurity()->generateRandomString(40);
                 }
-            ],
-            'otp' => [
-                'class' => OtpBehavior::className(),
-                'component' => 'otp',
             ]
         ];
     }

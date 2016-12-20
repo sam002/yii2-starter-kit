@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use sam002\otp\behaviors\OtpBehavior;
 use yii\base\Model;
 use Yii;
 
@@ -13,8 +14,22 @@ class AccountForm extends Model
     public $email;
     public $password;
     public $password_confirm;
-    public $otpSecret;
+    public $secret;
     public $otpCode;
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => OtpBehavior::className(),
+                'component' => 'otp',
+                'codeAttribute' => 'otpCode'
+            ]
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -44,21 +59,8 @@ class AccountForm extends Model
             ],
             ['password', 'string'],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
-            ['otpSecret', 'string'],
-            ['otpCode', 'validateOtp']
+            [['secret', 'otpCode'], 'string']
         ];
-    }
-
-    public function validateOtp($attribute, $params)
-    {
-        $otp = Yii::$app->otp;
-        $otp->setSecret($this->otpSecret);
-        $window = $params['window'] ? : 0;
-
-        $code = $this->$attribute;
-        if ($otp->valideteCode($code, $window)) {
-            $this->addError($code, 'Not correct OTP code');
-        }
     }
 
     /**

@@ -28,7 +28,7 @@ $this->title = Yii::t('backend', 'Edit account')
             </div>
 
             <div class="col-lg-5">
-                <?php echo $form->field($model, 'otpSecret')->widget(
+                <?php echo $form->field($model, 'secret')->widget(
                     OtpInit::className() ,[
                         'component'=>'otp',
                         'link' => 'ADD OTP BY LINK',

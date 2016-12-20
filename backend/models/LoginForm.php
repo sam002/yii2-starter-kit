@@ -3,6 +3,7 @@ namespace backend\models;
 
 use cheatsheet\Time;
 use common\models\User;
+use sam002\otp\behaviors\OtpBehavior;
 use Yii;
 use yii\base\Model;
 use yii\web\ForbiddenHttpException;
@@ -22,6 +23,20 @@ class LoginForm extends Model
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            'otp' => [
+                'class' => OtpBehavior::className(),
+                'component' => 'otp',
+                'codeAttribute' => 'otpCode'
+            ]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -31,10 +46,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
-            ['otpCode', 'default', 'value' => function ($model, $attribute) {
-                return Yii::$app->otp->getOtp()->now();
-            }],
-            ['otpCode', 'validateOtp'],
+            ['otpCode', 'safe']
         ];
     }
 
@@ -66,15 +78,14 @@ class LoginForm extends Model
     }
 
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     * @return string
      */
-    public function validateOtp()
+    public function getSecret()
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validateOtpSecret($this->otpCode)) {
-                $this->addError('otpCode', Yii::t('backend', 'Incorrect code.'));
+            if ($user) {
+                return $user->secret;
             }
         }
     }

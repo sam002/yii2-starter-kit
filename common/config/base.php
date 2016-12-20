@@ -135,7 +135,7 @@ $config = [
         ],
 
         'otp' => [
-            'class' => 'sam002\otp\Otp',
+            'class' => \sam002\otp\Otp::className(),
             'algorithm' => 'totp',
         ],
 
