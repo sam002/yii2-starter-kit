@@ -3187,6 +3187,9 @@ a.desc:after {
   margin-top: 5px;
   color: #999;
 }
+.form-group .help-block {
+  display: block;
+}
 .error-summary {
   color: #a94442;
   background: #fdf7f7;
