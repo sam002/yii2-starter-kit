@@ -25,17 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'pluginEvents' => [
                     "keyup" => "function() {
-                            styles = [
-                                '',
-                                'form-group-danger', 
-                                'form-group-warning', 
-                                'form-group-material-orange', 
-                                'form-group-material-lime', 
-                                'form-group-success'
-                                ];
-                                $(this).parents('.form-group').removeClass('has-error has-success');
-                                $(this).parent().attr('class', styles[$(this).strength('verdict')]);
-                         }",
+                                        styles = [
+                                            'linear-gradient(#D2D2D2, #D2D2D2)',
+                                            'linear-gradient(#F44336, #F44336), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#FF5722, #FF5722), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#ff9800, #ff9800), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#cddc39, #cddc39), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#4caf50, #4caf50), linear-gradient(#D2D2D2, #D2D2D2)'
+                                        ];
+                                        $(this).parents('.form-group').removeClass('has-error has-success');
+                                        $(this).css('background-image', styles[$(this).strength('verdict')]);
+                                    }",
                 ]
             ]); ?>
             <?php echo \kartik\helpers\Html::button('Generate password', [

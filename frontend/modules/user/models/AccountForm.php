@@ -5,6 +5,7 @@ use frontend\modules\api\v1\resources\User;
 use yii\base\Model;
 use Yii;
 use yii\web\JsExpression;
+use kartik\password\StrengthValidator;
 
 /**
  * Account form
@@ -54,6 +55,7 @@ class AccountForm extends Model
                 }
             ],
             ['password', 'string'],
+            ['password', StrengthValidator::className(), 'digit' => 0, 'preset'=>'normal', 'userAttribute'=>'username'],
             [
                 ['password_confirm', 'password_current'],
                 'required',
@@ -61,7 +63,7 @@ class AccountForm extends Model
                     return !empty($model->password);
                 },
                 'whenClient' => new JsExpression("function (attribute, value) {
-                    return $('#caccountform-password').val().length > 0;
+                    return $('#accountform-password').val().length > 0;
                 }")
             ],
             ['password_confirm', 'compare', 'compareAttribute' => 'password', 'skipOnEmpty' => false],
