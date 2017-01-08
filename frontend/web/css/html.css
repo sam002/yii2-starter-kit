@@ -1,0 +1,34 @@
+@media (max-width: 767px) {
+}
+.header-line {
+  background-color: #ef9a9a;
+}
+.mail {
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 7px;
+  color: #f2f2f2;
+  box-shadow: 0 0 5px 2px;
+}
+.header-line {
+  color: rgba(255,255,255, 0.84);
+}
+.text {
+  color: #0a0a0a;
+}
+body {
+  Margin: 20px;
+  padding: 0;
+  min-width: 100%;
+  background-color: #ffffff;
+}
+table {
+  border-spacing: 0;
+  font-family: sans-serif;
+  background-color: #e6e6e6;
+}
+td {
+  padding: 10px;
+}

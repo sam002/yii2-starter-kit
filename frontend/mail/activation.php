@@ -4,4 +4,6 @@
  * @var $url \common\models\User
  */
 ?>
-<?php echo Yii::t('frontend', 'Your activation link: {url}', ['url' => Yii::$app->formatter->asUrl($url)]) ?>
+<h3 class="text">
+    <?php echo Yii::t('frontend', 'Your activation link: {url}', ['url' => Yii::$app->formatter->asUrl($url)]) ?>
+</h3>
