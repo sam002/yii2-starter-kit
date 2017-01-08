@@ -296,4 +296,17 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $this->email;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasSecret()
+    {
+        if( $this->secret === null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }

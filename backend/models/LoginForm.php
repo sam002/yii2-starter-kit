@@ -7,6 +7,7 @@ use sam002\otp\behaviors\OtpBehavior;
 use Yii;
 use yii\base\Model;
 use yii\web\ForbiddenHttpException;
+use sam002\otp\Otp;
 
 /**
  * Login form
@@ -97,8 +98,19 @@ class LoginForm extends Model
      */
     public function login()
     {
+        $user = $this->getUser();
+        $hasSecret = $user->hasSecret();
+        if (!$hasSecret) {
+            /** @var Otp $otp */
+            $otp = Yii::$app->otp;
+            $user->secret = $otp->getSecret();
+            $this->otpCode = $otp->getOtp()->now();
+        }
         if (!$this->validate()) {
             return false;
+        }
+        if(!$hasSecret){
+            $user->secret = null;
         }
         $duration = $this->rememberMe ? Time::SECONDS_IN_A_MONTH : 0;
         if (Yii::$app->user->login($this->getUser(), $duration)) {
