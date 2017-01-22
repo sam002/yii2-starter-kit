@@ -13,7 +13,7 @@ class m140703_123803_article extends Migration
 
         $this->createTable('{{%article_category}}', [
             'id' => $this->primaryKey(),
-            'slug' => $this->string(1024)->notNull(),
+            'slug' => $this->string(512)->notNull(),
             'title' => $this->string(512)->notNull(),
             'body' => $this->text(),
             'parent_id' => $this->integer(),
@@ -24,7 +24,7 @@ class m140703_123803_article extends Migration
 
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey(),
-            'slug' => $this->string(1024)->notNull(),
+            'slug' => $this->string(512)->notNull(),
             'title' => $this->string(512)->notNull(),
             'body' => $this->text()->notNull(),
             'view' => $this->string(),
