@@ -452,7 +452,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
 .btn-group-raised .btn:not(.btn-link):active.btn-success,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success {
-  background-color: #46a149;
+  background-color: #59b75c;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-info,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-info,
@@ -470,7 +470,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-info,
 .btn-group-raised .btn:not(.btn-link):active.btn-info,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-info {
-  background-color: #039be0;
+  background-color: #0fb2fc;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-warning,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-warning,
