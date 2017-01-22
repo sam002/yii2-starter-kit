@@ -68,7 +68,7 @@ class ResetPasswordForm extends Model
     {
         $user = $this->token->user;
         $user->password = $this->password;
-        if($user->save()) {
+        if ($user->save()) {
             $this->token->delete();
         };
 

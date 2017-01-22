@@ -47,7 +47,7 @@ class m151023_014900_social_multiple_connect extends Migration
                 . 'SET oauth_client = {{%user_oauth}}.provider,'
                 . ' oauth_client_user_id = {{%user_oauth}}.client_id '
                 . 'WHERE {{%user}}.id = {{%user_oauth}}.user_id;')->query();
-        } elseif($this->db->driverName === 'pgsql') {
+        } elseif ($this->db->driverName === 'pgsql') {
             $this->db->createCommand('UPDATE {{%user}} '
                 . 'SET oauth_client = {{%user_oauth}}.provider, oauth_client_user_id = {{%user_oauth}}.client_id '
                 . ' FROM {{%user_oauth}}'

@@ -82,7 +82,7 @@ class SignInController extends Controller
     public function actionProfile()
     {
         $model = Yii::$app->user->identity->userProfile;
-        if ($model->load($_POST) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('alert', [
                 'options'=>['class'=>'alert-success'],
                 'body'=>Yii::t('backend', 'Your profile has been successfully saved', [], $model->locale)
@@ -102,7 +102,7 @@ class SignInController extends Controller
         $model->username = $user->username;
         $model->email = $user->email;
         $model->secret = $user->secret;
-        if ($model->load($_POST) && $model->validate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $user->username = $model->username;
             $user->email = $model->email;
             if ($model->password) {

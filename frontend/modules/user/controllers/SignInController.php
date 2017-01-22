@@ -95,7 +95,7 @@ class SignInController extends \yii\web\Controller
     {
         $model = new LoginForm();
         if (Yii::$app->request->isAjax) {
-            $model->load($_POST);
+            $model->load(Yii::$app->request->post());
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
@@ -322,7 +322,7 @@ class SignInController extends \yii\web\Controller
                             ])
                         ]);
                     //TODO Fix hiding
-                    if(!empty($loginDuplicate)){
+                    if (!empty($loginDuplicate)) {
                         Yii::$app->getSession()->addFlash( 'alert',
                             [
                                 'body'=>Yii::t('frontend', 'We already have a user with name {login}. You can login using email to link {provider} account.', [

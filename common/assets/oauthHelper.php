@@ -11,7 +11,8 @@ namespace common\assets;
 
 class oauthHelper
 {
-    public static function socialIcon($provider){
+    public static function socialIcon($provider)
+    {
         $icon = '';
         switch ($provider) {
             case 'vkontakte':

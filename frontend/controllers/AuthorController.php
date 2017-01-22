@@ -39,12 +39,12 @@ class AuthorController extends Controller
             throw new NotFoundHttpException;
         }
 
-        if($modelUser->oauth){
+        if ($modelUser->oauth) {
             $oauth = [
                 'provider' => $modelUser->oauth[0]['attributes']['provider'],
                 'url' => json_decode($modelUser->oauth[0]['attributes']['properties'],true)['html_url']
             ];
-        }else{
+        } else {
             $oauth = null;
         }
 

@@ -20,8 +20,8 @@ class CountErrorAction extends ErrorAction
          * @var ErrorCounter $bucket
          */
         $bucket = ErrorCounter::findOne($ip);
-        if( $bucket !== NULL){
-            if($bucket->allow()) {
+        if ( $bucket !== NULL) {
+            if ($bucket->allow()) {
                 $bucket->outFlow();
                 $bucket->save();
             }

@@ -65,7 +65,7 @@ class DefaultController extends Controller
             $locale = Yii::$app->user->identity->userProfile->locale;
             Yii::$app->session->setFlash('forceUpdateLocale');
 
-            if($accountForm->validate() && $accountForm->save()) {
+            if ($accountForm->validate() && $accountForm->save()) {
                 Yii::$app->session->setFlash('alert', [
                     'options' => ['class' => 'alert-success'],
                     'body' => Yii::t('frontend', 'Your account has been successfully saved', [], $locale)

@@ -33,12 +33,12 @@
                     
                     <h3><?php echo $author['full_name'] ?></h3>
                     
-                    <?php if($author['about']){ ?>
+                    <?php if ($author['about']) { ?>
                         <h3>About</h3>
                         <p><?php echo $author['about']; ?></p>
                     <?php }?>
                     
-                    <?php if($author['oauth']){ ?>
+                    <?php if ($author['oauth']) { ?>
                     <div class="row">
                         <div class="col-sm-3">
                             <h4>Social links</h4>

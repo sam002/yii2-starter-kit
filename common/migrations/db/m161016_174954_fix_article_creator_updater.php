@@ -6,7 +6,6 @@ class m161016_174954_fix_article_creator_updater extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
 
         $this->dropForeignKey('fk_article_author', '{{%article}}');
         $this->dropForeignKey('fk_article_updater', '{{%article}}');

@@ -19,15 +19,11 @@ class MailAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@frontendUrl';
 
-//    public $sourcePath = '@frontend/mail/layouts';
-
     public $css = [
         'css/html.css',
     ];
 
     public $depends = [
         'yii\web\YiiAsset',
-//        'common\assets\MaterialDesign',
-//        'common\assets\Html5shiv',
     ];
 }

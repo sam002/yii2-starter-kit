@@ -109,7 +109,7 @@ class LoginForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        if(!$hasSecret){
+        if (!$hasSecret) {
             $user->secret = null;
         }
         $duration = $this->rememberMe ? Time::SECONDS_IN_A_MONTH : 0;

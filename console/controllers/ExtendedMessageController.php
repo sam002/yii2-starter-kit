@@ -116,7 +116,7 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
             'format' => 'php',
         ], require($inputConfigFile));
 
-        switch($inputConfig['format']){
+        switch ($inputConfig['format']) {
             case 'php':
                 $messages = $this->readFromPhpInput($inputConfig);
                 break;
@@ -144,7 +144,7 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
                 'format' => 'php',
             ], require($outputConfigFile));
 
-            switch($outputConfig['format']){
+            switch ($outputConfig['format']) {
                 case 'php':
                     $this->saveToPhpOutput($messages, $outputConfig);
                     break;

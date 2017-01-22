@@ -59,7 +59,7 @@ class MultiModel extends Model
     public function setModels(array $models)
     {
         foreach ($models as $key => $model) {
-            if(is_array($model)){
+            if (is_array($model)) {
                 $this->setRecurciveModels($key, $model);
             } else {
                 $this->setModel($key, $model);

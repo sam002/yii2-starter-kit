@@ -302,10 +302,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function hasSecret()
     {
-        if( $this->secret === null){
+        if ( $this->secret === null) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }

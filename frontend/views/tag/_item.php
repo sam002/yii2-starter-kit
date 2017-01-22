@@ -10,7 +10,7 @@ use kartik\helpers\Html;
 $max = \common\models\Tag::find()->max('frequency');
 $average = \common\models\Tag::find()->average('frequency');
 $level = Html::TYPE_DEFAULT;
-if($model->frequency >= $average/2) {
+if ($model->frequency >= $average/2) {
     $level = Html::TYPE_INFO;
 } elseif ($model->frequency > $average) {
     $level = Html::TYPE_WARNING;
