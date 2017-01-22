@@ -99,6 +99,9 @@ class LoginForm extends Model
     public function login()
     {
         $user = $this->getUser();
+        if (!$user) {
+            return false;
+        }
         $hasSecret = $user->hasSecret();
         if (!$hasSecret) {
             /** @var Otp $otp */
