@@ -46,4 +46,5 @@ before_script:
 script:
   - |
     php -S localhost:8080 > /dev/null 2>&1 &
-    composer exec codecept run -- -c tests
+    cd tests
+    ./../vendor/bin/codecept run --debug
