@@ -15,8 +15,8 @@ class m161016_174954_fix_article_creator_updater extends Migration
 
         $this->addForeignKey('fk_article_created', '{{%article}}', 'created_by', '{{%user}}', 'id', 'cascade', 'cascade');
         $this->addForeignKey('fk_article_updated', '{{%article}}', 'updated_by', '{{%user}}', 'id', 'set null', 'cascade');
-        $this->createIndex('idx_article_slug', '{{%article}}', 'slug', true);
-        $this->createIndex('idx_article_category_slug', '{{%article_category}}', 'slug', true);
+        $this->createIndex('idx_article_slug', '{{%article}}', 'slug(255)', true);
+        $this->createIndex('idx_article_category_slug', '{{%article_category}}', 'slug(255)', true);
 
     }
 

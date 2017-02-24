@@ -13,7 +13,7 @@ class m140703_123104_page extends Migration
 
         $this->createTable('{{%page}}', [
             'id' => $this->primaryKey(),
-            'slug' => $this->string(512)->notNull(),
+            'slug' => $this->string(2048)->notNull(),
             'title' => $this->string(512)->notNull(),
             'body' => $this->text()->notNull(),
             'view' => $this->string(),
