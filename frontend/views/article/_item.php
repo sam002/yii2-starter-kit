@@ -6,7 +6,6 @@
 use yii\helpers\Html;
 
 ?>
-<hr xmlns="http://www.w3.org/1999/html"/>
 <div class="article-item row">
     <div class="col-xs-12">
         <h2 class="article-title">
@@ -40,7 +39,7 @@ use yii\helpers\Html;
                 ) ?>
             <?php endif; ?>
             <div class="article-text">
-                <?php echo \yii\helpers\StringHelper::truncate($model->body, 150, '...', null, true) ?>
+                <?php echo \yii\helpers\StringHelper::truncateWords($model->body, 50, '...', true) ?>
             </div>
         </div>
     </div>
