@@ -19,6 +19,7 @@ class LoginPage extends BasePage
     {
         $this->actor->fillField('input[name="LoginForm[username]"]', $username);
         $this->actor->fillField('input[name="LoginForm[password]"]', $password);
+        $this->actor->fillField('input[name="LoginForm[otpCode]"]', '');
         $this->actor->click('login-button');
     }
 }
