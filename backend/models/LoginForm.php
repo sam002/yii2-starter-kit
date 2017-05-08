@@ -70,11 +70,9 @@ class LoginForm extends Model
      */
     public function validatePassword()
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError('password', Yii::t('backend', 'Incorrect username or password.'));
-            }
+        $user = $this->getUser();
+        if (!$user || !$user->validatePassword($this->password)) {
+            $this->addError('password', Yii::t('backend', 'Incorrect username or password.'));
         }
     }
 
@@ -100,7 +98,7 @@ class LoginForm extends Model
     {
         $user = $this->getUser();
         if (!$user) {
-            return false;
+            $user = new User;
         }
         $hasSecret = $user->hasSecret();
         if (!$hasSecret) {
@@ -110,10 +108,12 @@ class LoginForm extends Model
             $this->otpCode = $otp->getOtp()->now();
         }
         if (!$this->validate()) {
+            $this->otpCode = null;
             return false;
         }
         if (!$hasSecret) {
             $user->secret = null;
+            $this->otpCode = null;
         }
         $duration = $this->rememberMe ? Time::SECONDS_IN_A_MONTH : 0;
         if (Yii::$app->user->login($this->getUser(), $duration)) {

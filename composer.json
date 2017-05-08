@@ -60,7 +60,7 @@
     "bower-asset/flot": "^0.8",
     "bower-asset/bootstrap-material-design": "^0.5",
     "katech91/yii2-sitemap-module" : "^1.2.0",
-    "sam002/yii2-otp" : "*",
+    "sam002/yii2-otp" : "dev-develop",
     "symfony/process": "^3.0",
     "zelenin/yii2-rss": "~0.1"
   },
@@ -69,11 +69,9 @@
     "yiisoft/yii2-gii": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
     "yiisoft/yii2-codeception": "^2.0.0",
-    "codeception/codeception": "^2.2",
+    "codeception/codeception": "^2.0",
     "codeception/specify": "^0.4.3",
-    "codeception/verify": "^0.3.0",
-    "jonnyw/php-phantomjs": "^3",
-    "site5/phantoman": "1"
+    "codeception/verify": "^0.3.0"
   },
   "suggest": {
     "trntv/yii2-debug-xhprof": "dev-master@dev"
