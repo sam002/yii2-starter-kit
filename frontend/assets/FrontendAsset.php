@@ -7,28 +7,45 @@
 
 namespace frontend\assets;
 
+use common\assets\MaterialDesign;
 use yii\web\AssetBundle;
+use yii\web\YiiAsset;
+use common\assets\Html5shiv;
 
 /**
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
+ * Frontend application asset
  */
 class FrontendAsset extends AssetBundle
 {
+    /**
+     * @var string
+     */
     public $basePath = '@webroot';
+    /**
+     * @var string
+     */
     public $baseUrl = '@web';
 
+    /**
+     * @var array
+     */
     public $css = [
         'css/style.css',
     ];
 
+    /**
+     * @var array
+     */
     public $js = [
         'js/app.js',
     ];
 
+    /**
+     * @var array
+     */
     public $depends = [
-        'yii\web\YiiAsset',
-        'common\assets\MaterialDesign',
-        'common\assets\Html5shiv',
+        YiiAsset::class,
+        MaterialDesign::class,
+        Html5shiv::class,
     ];
 }

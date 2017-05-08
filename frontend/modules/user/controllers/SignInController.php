@@ -2,15 +2,8 @@
 
 namespace frontend\modules\user\controllers;
 
-use common\models\Oauth;
-use common\commands\SendEmailCommand;
-use common\models\User;
-use common\models\UserToken;
-use frontend\modules\user\models\LoginForm;
-use frontend\modules\user\models\PasswordResetRequestForm;
-use frontend\modules\user\models\ResetPasswordForm;
-use frontend\modules\user\models\SignupForm;
 use Yii;
+use yii\authclient\AuthAction;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
@@ -19,6 +12,14 @@ use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use common\models\Oauth;
+use common\commands\SendEmailCommand;
+use common\models\User;
+use common\models\UserToken;
+use frontend\modules\user\models\LoginForm;
+use frontend\modules\user\models\PasswordResetRequestForm;
+use frontend\modules\user\models\ResetPasswordForm;
+use frontend\modules\user\models\SignupForm;
 
 /**
  * Class SignInController
@@ -35,7 +36,7 @@ class SignInController extends \yii\web\Controller
     {
         return [
             'oauth' => [
-                'class' => 'yii\authclient\AuthAction',
+                'class' => AuthAction::class,
                 'successCallback' => [$this, 'successOAuthCallback']
             ]
         ];
@@ -101,11 +102,11 @@ class SignInController extends \yii\web\Controller
         }
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model
-            ]);
         }
+
+        return $this->render('login', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -132,7 +133,7 @@ class SignInController extends \yii\web\Controller
                             'frontend',
                             'Your account has been successfully created. Check your email for further instructions.'
                         ),
-                        'options' => ['class'=>'alert-success']
+                        'options' => ['class' => 'alert-success']
                     ]);
                 } else {
                     Yii::$app->getUser()->login($user);
@@ -146,6 +147,11 @@ class SignInController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @param $token
+     * @return Response
+     * @throws BadRequestHttpException
+     */
     public function actionActivation($token)
     {
         $token = UserToken::find()
@@ -166,7 +172,7 @@ class SignInController extends \yii\web\Controller
         Yii::$app->getUser()->login($user);
         Yii::$app->getSession()->setFlash('alert', [
             'body' => Yii::t('frontend', 'Your account has been successfully activated.'),
-            'options' => ['class'=>'alert-success']
+            'options' => ['class' => 'alert-success']
         ]);
 
         return $this->goHome();
@@ -181,15 +187,15 @@ class SignInController extends \yii\web\Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->getSession()->setFlash('alert', [
-                    'body'=>Yii::t('frontend', 'Check your email for further instructions.'),
-                    'options'=>['class'=>'alert-success']
+                    'body' => Yii::t('frontend', 'Check your email for further instructions.'),
+                    'options' => ['class' => 'alert-success']
                 ]);
 
                 return $this->goHome();
             } else {
                 Yii::$app->getSession()->setFlash('alert', [
-                    'body'=>Yii::t('frontend', 'Sorry, we are unable to reset password for email provided.'),
-                    'options'=>['class'=>'alert-danger']
+                    'body' => Yii::t('frontend', 'Sorry, we are unable to reset password for email provided.'),
+                    'options' => ['class' => 'alert-danger']
                 ]);
             }
         }
@@ -214,8 +220,8 @@ class SignInController extends \yii\web\Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->getSession()->setFlash('alert', [
-                'body'=> Yii::t('frontend', 'New password was saved.'),
-                'options'=>['class'=>'alert-success']
+                'body' => Yii::t('frontend', 'New password was saved.'),
+                'options' => ['class' => 'alert-success']
             ]);
             return $this->goHome();
         }
@@ -235,8 +241,8 @@ class SignInController extends \yii\web\Controller
         // use BaseClient::normalizeUserAttributeMap to provide consistency for user attribute`s names
         $attributes = $client->getUserAttributes();
         $auth = Oauth::find()->where([
-                'provider'=>$client->getName(),
-                'client_id'=>ArrayHelper::getValue($attributes, 'id')
+                'provider' => $client->getName(),
+                'client_id' => ArrayHelper::getValue($attributes, 'id')
             ])
             ->one();
 
@@ -283,12 +289,13 @@ class SignInController extends \yii\web\Controller
             $attributes['login'] .= '_' . time();
         }
 
-        $password = Yii::$app->security->generateRandomString(6);
-        $user = new User([
-            'username' => $attributes['login'],
-            'email' => $attributes['email'],
-            'password' => $password,
-        ]);
+        $user = new User();
+        $user->scenario = 'oauth_create';
+        $user->username = ArrayHelper::getValue($attributes, 'login');
+        $user->email = ArrayHelper::getValue($attributes, 'email');
+        $user->status = User::STATUS_ACTIVE;
+        $password = Yii::$app->security->generateRandomString(8);
+        $user->setPassword($password);
 
         $transaction = $user->getDb()->beginTransaction();
         if ($user->save()) {
@@ -309,23 +316,25 @@ class SignInController extends \yii\web\Controller
                 $user->afterSignup($profileData);
                 $sentSuccess = Yii::$app->commandBus->handle(new SendEmailCommand([
                     'view' => 'oauth_welcome',
-                    'params' => ['user'=>$user, 'password'=>$password],
-                    'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name'=>Yii::$app->name]),
+                    'params' => ['user' => $user, 'password' => $password],
+                    'subject' => Yii::t('frontend', '{app-name} | Your login information', ['app-name' => Yii::$app->name]),
                     'to' => $user->email
                 ]));
                 if ($sentSuccess) {
-                    Yii::$app->session->setFlash( 'alert',
+                    Yii::$app->session->setFlash(
+                        'alert',
                         [
-                            'options'=>['class'=>'alert-success'],
-                            'body'=>Yii::t('frontend', 'Welcome to {app-name}. Email with your login information was sent to your email.', [
-                                'app-name'=>Yii::$app->name
+                            'options' => ['class' => 'alert-success'],
+                            'body' => Yii::t('frontend', 'Welcome to {app-name}. Email with your login information was sent to your email.', [
+                                'app-name' => Yii::$app->name
                             ])
-                        ]);
+                        ]
+                    );
                     //TODO Fix hiding
                     if (!empty($loginDuplicate)) {
-                        Yii::$app->getSession()->addFlash( 'alert',
+                        Yii::$app->getSession()->addFlash('alert',
                             [
-                                'body'=>Yii::t('frontend', 'We already have a user with name {login}. You can login using email to link {provider} account.', [
+                                'body' => Yii::t('frontend', 'We already have a user with name {login}. You can login using email to link {provider} account.', [
                                     'login' => $loginDuplicate,
                                     'provider' => $client->getName()
                                 ]),
@@ -333,11 +342,27 @@ class SignInController extends \yii\web\Controller
                     }
                 }
             } else {
-                throw new Exception('OAuth error');
+                // We already have a user with this email. Do what you want in such case
+                if ($user->email && User::find()->where(['email' => $user->email])->count()) {
+                    Yii::$app->session->setFlash(
+                        'alert',
+                        [
+                            'options' => ['class' => 'alert-danger'],
+                            'body' => Yii::t('frontend', 'We already have a user with email {email}', [
+                                'email' => $user->email
+                            ])
+                        ]
+                    );
+                } else {
+                    Yii::$app->session->setFlash(
+                        'alert',
+                        [
+                            'options' => ['class' => 'alert-danger'],
+                            'body' => Yii::t('frontend', 'Error while oauth process.')
+                        ]
+                    );
+                }
             }
-
-        } else {
-            throw new Exception('OAuth error');
         }
     }
 
@@ -382,9 +407,9 @@ class SignInController extends \yii\web\Controller
                         ])
                     ]);
                 return true;
-            } else {
-                throw new Exception('OAuth error');
             }
         }
+
+        throw new Exception('OAuth error');
     }
 }

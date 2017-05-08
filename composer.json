@@ -29,7 +29,7 @@
     "source": "https://github.com/sam002/yii2-starter-kit"
   },
   "require": {
-    "php": ">=5.5.0",
+    "php": ">=5.6.0",
     "ext-intl": "*",
     "yiisoft/yii2": "^2.0.6",
     "yiisoft/yii2-bootstrap": "^2.0.0",
@@ -80,12 +80,11 @@
   },
   "config": {
     "process-timeout": 1800,
-    "bin-dir": "vendor/bin"
-  },
-  "extra": {
-    "asset-installer-paths": {
-      "npm-asset-library": "vendor/npm",
-      "bower-asset-library": "vendor/bower"
+    "fxp-asset": {
+      "installer-paths": {
+        "npm-asset-library": "vendor/npm",
+        "bower-asset-library": "vendor/bower"
+      }
     }
   },
   "scripts": {

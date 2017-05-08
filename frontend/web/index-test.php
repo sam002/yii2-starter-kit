@@ -5,7 +5,7 @@ if (!in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
     return false;
 }
 
-// Bootstraping tests environment
+// Bootstrapping tests environment
 require(__DIR__ . '/../../tests/bootstrap.php');
 
 // TEST ENV
