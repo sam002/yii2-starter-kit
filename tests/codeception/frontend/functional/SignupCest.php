@@ -76,7 +76,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'password' => 'tester_password',
+            'password' => 'Strong_Password123',
         ]);
 
         $I->expectTo('see that user is created');

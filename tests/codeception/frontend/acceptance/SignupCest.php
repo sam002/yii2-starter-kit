@@ -61,7 +61,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'password' => 'tester_password',
+            'password' => 'Strong_Password123',
         ]);
         if (method_exists($I, 'wait')) {
             $I->wait(3); // only for selenium
