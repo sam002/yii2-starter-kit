@@ -49,7 +49,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email',
-            'password' => 'Secure_Password123',
+            'password' => 'tester_password',
         ]);
 
         $I->expectTo('see that email address is wrong');
@@ -61,15 +61,14 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'password' => 'Secure_Password123',
+            'password' => 'Strong_Password123',
         ]);
         if (method_exists($I, 'wait')) {
-            $I->wait(10); // only for selenium
+            $I->wait(3); // only for selenium
         }
 
-// TODO can not get the log out to work right
-//        $I->expectTo('see that user logged in');
-//        $I->click("tester","a");
-//        $I->see("Logout","a");
+        $I->expectTo('see that user logged in');
+        $I->click("tester","a");
+        $I->see("Logout","a");
     }
 }

@@ -63,7 +63,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email',
-            'password' => 'Secure_Password123',
+            'password' => 'tester_password',
         ]);
 
         $I->expectTo('see that email address is wrong');
@@ -76,7 +76,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'password' => 'Secure_Password123',
+            'password' => 'Strong_Password123',
         ]);
 
         $I->expectTo('see that user is created');
