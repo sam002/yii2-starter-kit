@@ -24,6 +24,7 @@ use mihaildev\elfinder\ElFinder;
             'preset'=> "full",
             'clientOptions' => ElFinder::ckeditorOptions('file-manager-elfinder',[
                 'height' => '500px',
+                'skin' => 'moono-lisa'
             ]),
         ]
     ) ?>

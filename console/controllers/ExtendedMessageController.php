@@ -188,18 +188,18 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
     protected function readFromDbInput($config)
     {
         $messages = [];
-        $db = Yii::$app->get(isset($config['db']) ? $config['db'] : 'db');
+        $dataBase = Yii::$app->get(isset($config['db']) ? $config['db'] : 'db');
         $sourceMessageTable = isset($config['sourceMessageTable']) ? $config['sourceMessageTable'] : '{{%source_message}}';
         $messageTable = isset($config['messageTable']) ? $config['messageTable'] : '{{%message}}';
-        if (!$db instanceof \yii\db\Connection) {
+        if (!$dataBase instanceof \yii\db\Connection) {
             throw new \Exception('The "db" option must refer to a valid database application component.');
         }
-        $q = new \yii\db\Query;
+        $query = new \yii\db\Query;
 
         Console::output('Reading messages from database');
-        $sourceMessages = $q->select(['*'])->from($sourceMessageTable)->all();
+        $sourceMessages = $query->select(['*'])->from($sourceMessageTable)->all();
         foreach ($config['languages'] as $language) {
-            $translations = $q->select(['*'])->from($messageTable)->where(['language' => $language])->indexBy('id')->all();
+            $translations = $query->select(['*'])->from($messageTable)->where(['language' => $language])->indexBy('id')->all();
             foreach ($sourceMessages as $row) {
                 $translation = ArrayHelper::getValue($translations, $row['id']);
                 $messages[$language][$row['category']][$row['message']] = $translation ? $translation['translation'] : null;
@@ -261,17 +261,17 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
      */
     protected function saveToDbOutput($messages, $config)
     {
-        $db = Yii::$app->get(isset($config['db']) ? $config['db'] : 'db');
+        $dataBase = Yii::$app->get(isset($config['db']) ? $config['db'] : 'db');
         $sourceMessageTable = isset($config['sourceMessageTable']) ? $config['sourceMessageTable'] : '{{%source_message}}';
         $messageTable = isset($config['messageTable']) ? $config['messageTable'] : '{{%message}}';
-        if (!$db instanceof \yii\db\Connection) {
+        if (!$dataBase instanceof \yii\db\Connection) {
             throw new \Exception('The "db" option must refer to a valid database application component.');
         }
 
-        $db->createCommand()->truncateTable($messageTable)->execute();
-        $db->createCommand()->delete($sourceMessageTable)->execute();
+        $dataBase->createCommand()->truncateTable($messageTable)->execute();
+        $dataBase->createCommand()->delete($sourceMessageTable)->execute();
 
-        $insertedSourceMessages = [];
+        $insertedSrcMessages = [];
         foreach ($messages as $language => $categories) {
             Console::output("Language: $language");
             foreach ($categories as $category => $msgs) {
@@ -281,14 +281,14 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
                 Console::startProgress(0, $messagesCount);
                 foreach ($msgs as $m => $translation) {
                     Console::updateProgress(++$i, $messagesCount);
-                    $lastId = array_search($m, ArrayHelper::getValue($insertedSourceMessages, $category, []));
+                    $lastId = array_search($m, ArrayHelper::getValue($insertedSrcMessages, $category, []));
                     if ($lastId == false) {
-                        $db->createCommand()
+                        $dataBase->createCommand()
                             ->insert($sourceMessageTable, ['category' => $category, 'message' => $m])->execute();
-                        $lastId = $db->getLastInsertID($db->driverName == 'pgsql' ? 'i18n_source_message_id_seq' : null);
-                        $insertedSourceMessages[$category][$lastId] = $m;
+                        $lastId = $dataBase->getLastInsertID($dataBase->driverName == 'pgsql' ? 'i18n_source_message_id_seq' : null);
+                        $insertedSrcMessages[$category][$lastId] = $m;
                     }
-                    $db->createCommand()
+                    $dataBase->createCommand()
                         ->insert($messageTable, ['id' => $lastId, 'language' => $language, 'translation' => $translation])->execute();
                 }
                 Console::endProgress();

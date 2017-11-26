@@ -38,6 +38,7 @@ use yii\web\JsExpression;
             'preset'=> "full", //basic, full, standart
             'clientOptions' => ElFinder::ckeditorOptions('image-manager-elfinder',[
                 'height' => '500px',
+                'skin' => 'moono-lisa'
             ]),
         ]
     ) ?>

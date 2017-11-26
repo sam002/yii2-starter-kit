@@ -34,6 +34,7 @@ class ErrorController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => ErrorCounter::find(),
+//            'query' => ErrorCounter::find()->where(['between', 'allowance', 10, 100 + (Yii::$app->keyStorage->get('common.allowance') ? : self::DEFAULT_ALLOWANCE)]),
         ]);
 
         return $this->render('index', [
