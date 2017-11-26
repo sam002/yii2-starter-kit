@@ -31,7 +31,7 @@
   "require": {
     "php": ">=5.6.0",
     "ext-intl": "*",
-    "yiisoft/yii2": "^2.0.6",
+    "yiisoft/yii2": "^2.0.13",
     "yiisoft/yii2-bootstrap": "^2.0.0",
     "yiisoft/yii2-swiftmailer": "^2.0.0",
     "yiisoft/yii2-authclient": "^2.0.0",
@@ -67,8 +67,8 @@
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
     "yiisoft/yii2-gii": "^2.0.0",
-    "yiisoft/yii2-faker": "^2.0.0",
     "yiisoft/yii2-codeception": "^2.0.0",
+    "yiisoft/yii2-faker": "^2.0.0",
     "codeception/codeception": "^2.0",
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0"
@@ -77,20 +77,12 @@
     "trntv/yii2-debug-xhprof": "dev-master@dev"
   },
   "config": {
-    "process-timeout": 1800,
-    "fxp-asset": {
-      "installer-paths": {
-        "npm-asset-library": "vendor/npm",
-        "bower-asset-library": "vendor/bower"
-      }
-    }
+    "process-timeout": 1800
   },
-  "scripts": {
-    "post-install-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
-    ],
-    "post-update-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
-    ]
-  }
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
 }
