@@ -36,7 +36,8 @@ use dosamigos\ckeditor\CKEditor;
                 '_minHeight'=>200,
                 '_maxHeight'=>200
             ]
-        ]) ?>
+        ]
+    ) ?>
 
     <?php echo $form->field($model, 'status')->checkbox() ?>
 

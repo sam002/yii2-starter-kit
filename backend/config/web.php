@@ -63,7 +63,11 @@ $config = [
         'i18n' => [
             'class' => backend\modules\i18n\Module::class,
             'defaultRoute' => 'i18n-message/index'
-        ]
+        ],
+        'rbac' => [
+            'class' => backend\modules\rbac\Module::class,
+            'defaultRoute' => 'rbac-auth-item/index'
+        ],
     ],
     'as globalAccess' => [
         'class' => common\behaviors\GlobalAccessBehavior::class,
@@ -102,7 +106,7 @@ $config = [
             ],
             [
                 'allow' => true,
-                'roles' => ['manager'],
+                'roles' => ['manager', 'administrator'],
             ]
         ]
     ]

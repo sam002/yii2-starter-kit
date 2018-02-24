@@ -34,6 +34,14 @@ class UserProfile extends ActiveRecord
     public $picture;
 
     /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user_profile}}';
+    }
+
+    /**
      * @return array
      */
     public function behaviors()
@@ -46,15 +54,6 @@ class UserProfile extends ActiveRecord
                 'baseUrlAttribute' => 'avatar_base_url'
             ]
         ];
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%user_profile}}';
     }
 
     /**

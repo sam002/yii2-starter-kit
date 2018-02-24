@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\KeyStorageItem;
 use backend\models\search\KeyStorageItemSearch;
+use common\models\KeyStorageItem;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use trntv\filekit\actions\DeleteAction;
 use trntv\filekit\actions\UploadAction;
 use Intervention\Image\ImageManagerStatic;
@@ -26,7 +26,6 @@ class KeyStorageController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-
         ];
     }
 
@@ -39,7 +38,7 @@ class KeyStorageController extends Controller
         $searchModel = new KeyStorageItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = [
-            'defaultOrder'=>['key'=>SORT_DESC]
+            'defaultOrder' => ['key' => SORT_DESC]
         ];
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -84,19 +83,6 @@ class KeyStorageController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing KeyStorageItem model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
     public function actions()
     {
         return[
@@ -130,5 +116,18 @@ class KeyStorageController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Deletes an existing KeyStorageItem model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
     }
 }

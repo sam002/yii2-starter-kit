@@ -23,9 +23,10 @@ use yii\db\ActiveRecord;
  */
 class UserToken extends ActiveRecord
 {
-    const TOKEN_LENGTH = 40;
-    const TYPE_ACTIVATION = 'activation';
-    const TYPE_PASSWORD_RESET = 'password_reset';
+    public const TYPE_ACTIVATION = 'activation';
+    public const TYPE_PASSWORD_RESET = 'password_reset';
+    public const TYPE_LOGIN_PASS = 'login_pass';
+    protected const TOKEN_LENGTH = 40;
 
     /**
      * @inheritdoc
@@ -33,6 +34,65 @@ class UserToken extends ActiveRecord
     public static function tableName()
     {
         return '{{%user_token}}';
+    }
+
+    /**
+     * @return UserTokenQuery
+     */
+    public static function find()
+    {
+        return new UserTokenQuery(get_called_class());
+    }
+
+    /**
+     * @param mixed $user_id
+     * @param string $type
+     * @param int|null $duration
+     * @return bool|UserToken
+     * @throws \yii\base\Exception
+     */
+    public static function create($user_id, $type, $duration = null)
+    {
+        $model = new self;
+        $model->setAttributes([
+            'user_id' => $user_id,
+            'type' => $type,
+            'token' => Yii::$app->security->generateRandomString(self::TOKEN_LENGTH),
+            'expire_at' => $duration ? time() + $duration : null
+        ]);
+
+        if (!$model->save()) {
+            throw new InvalidCallException;
+        };
+
+        return $model;
+
+    }
+
+    /**
+     * @param $token
+     * @param $type
+     * @return bool|User
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public static function use($token, $type)
+    {
+        $model = self::find()
+            ->where(['token' => $token])
+            ->andWhere(['type' => $type])
+            ->andWhere(['>', 'expire_at', time()])
+            ->one();
+
+        if ($model === null) {
+            return null;
+        }
+
+        $user = $model->user;
+        $model->delete();
+
+        return $user;
     }
 
     /**
@@ -44,15 +104,6 @@ class UserToken extends ActiveRecord
             TimestampBehavior::className()
         ];
     }
-
-    /**
-     * @return UserTokenQuery
-     */
-    public static function find()
-    {
-        return new UserTokenQuery(get_called_class());
-    }
-
 
     /**
      * @inheritdoc
@@ -89,30 +140,6 @@ class UserToken extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @param mixed $user_id
-     * @param string $type
-     * @param int|null $duration
-     * @return bool|UserToken
-     */
-    public static function create($user_id, $type, $duration = null)
-    {
-        $model = new self;
-        $model->setAttributes([
-            'user_id' => $user_id,
-            'type' => $type,
-            'token' => Yii::$app->security->generateRandomString(self::TOKEN_LENGTH),
-            'expire_at' => $duration ? time() + $duration : null
-        ]);
-
-        if (!$model->save()) {
-            throw new InvalidCallException;
-        };
-
-        return $model;
-
     }
 
     /**

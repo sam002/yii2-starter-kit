@@ -1,18 +1,14 @@
 <?php
 $config = [
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm' => '@vendor/npm-asset',
-    ],
     'components' => [
         'assetManager' => [
-            'class' => 'yii\web\AssetManager',
+            'class' => yii\web\AssetManager::class,
             'linkAssets' => env('LINK_ASSETS'),
             'appendTimestamp' => YII_ENV_DEV
         ]
     ],
     'as locale' => [
-        'class' => 'common\behaviors\LocaleBehavior',
+        'class' => common\behaviors\LocaleBehavior::class,
         'enablePreferredLanguage' => true
     ]
 ];

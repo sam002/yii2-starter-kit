@@ -170,7 +170,7 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
         $messages = [];
         foreach ($config['languages'] as $language) {
             $messagePath = Yii::getAlias("$config[messagePath]/$language");
-            $files = FileHelper::findFiles(FileHelper::normalizePath($messagePath));
+            $files = FileHelper::findFiles(FileHelper::normalizePath($messagePath), ['only' => ['*.php']]);
             foreach ($files as $file) {
                 $category = pathinfo($file, PATHINFO_FILENAME);
                 $messages[$language][$category] = require($file);
@@ -255,6 +255,27 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
     /**
      * @param $messages
      * @param $config
+     */
+    protected function saveToPhpOutput($messages, $config)
+    {
+        foreach ($messages as $language => $categories) {
+            $dirName = FileHelper::normalizePath(Yii::getAlias($config['messagePath'] . '/' . $language));
+            FileHelper::createDirectory($dirName);
+            Console::output("Language: $language");
+            foreach ($categories as $category => $msgs) {
+                $array = VarDumper::export($msgs);
+                $content = "<?php\r\nreturn $array;\r\n";
+                $fileName = str_replace("\\", '/', "$dirName/$category.php");
+                if (file_put_contents($fileName, $content)) {
+                    Console::output("Saved $fileName");
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $messages
+     * @param $config
      * @throws InvalidConfigException
      * @throws \Exception
      * @throws \yii\db\Exception
@@ -292,27 +313,6 @@ class ExtendedMessageController extends \yii\console\controllers\MessageControll
                         ->insert($messageTable, ['id' => $lastId, 'language' => $language, 'translation' => $translation])->execute();
                 }
                 Console::endProgress();
-            }
-        }
-    }
-
-    /**
-     * @param $messages
-     * @param $config
-     */
-    protected function saveToPhpOutput($messages, $config)
-    {
-        foreach ($messages as $language => $categories) {
-            $dirName = FileHelper::normalizePath(Yii::getAlias($config['messagePath'] . '/' . $language));
-            FileHelper::createDirectory($dirName);
-            Console::output("Language: $language");
-            foreach ($categories as $category => $msgs) {
-                $array = VarDumper::export($msgs);
-                $content = "<?php\r\nreturn $array;\r\n";
-                $fileName = str_replace("\\", '/', "$dirName/$category.php");
-                if (file_put_contents($fileName, $content)) {
-                    Console::output("Saved $fileName");
-                }
             }
         }
     }

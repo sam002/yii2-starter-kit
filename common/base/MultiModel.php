@@ -35,6 +35,24 @@ class MultiModel extends Model
 
     /**
      * @param $key
+     * @return Model|null
+     */
+    public function getModel($key)
+    {
+        return ArrayHelper::getValue($this->models, $key, false);
+    }
+
+    /**
+     * @return array
+     */
+    public function getModels()
+    {
+        return $this->models;
+    }
+
+
+    /**
+     * @param $key
      * @param Model $model
      * @return Model
      */
@@ -68,23 +86,6 @@ class MultiModel extends Model
     }
 
     /**
-     * @param $key
-     * @return Model|null
-     */
-    public function getModel($key)
-    {
-        return ArrayHelper::getValue($this->models, $key, false);
-    }
-
-    /**
-     * @return array
-     */
-    public function getModels()
-    {
-        return $this->models;
-    }
-
-    /**
      * @param array $data
      * @param string $formName
      * @return bool
@@ -99,26 +100,6 @@ class MultiModel extends Model
             }
         }
         return true;
-    }
-
-    /**
-     * @param null $attributeNames
-     * @param bool $clearErrors
-     * @return bool
-     */
-    public function validate($attributeNames = null, $clearErrors = true)
-    {
-        $this->trigger(Model::EVENT_BEFORE_VALIDATE);
-        $success = true;
-        foreach ($this->models as $key => $model) {
-            /* @var $model Model */
-            if (!$model->validate($attributeNames, $clearErrors)) {
-                $success = false;
-                $this->addErrors([$key => $model->getErrors()]);
-            }
-        }
-        $this->trigger(Model::EVENT_AFTER_VALIDATE);
-        return $success;
     }
 
     /**
@@ -141,6 +122,26 @@ class MultiModel extends Model
             }
         }
         $transaction->commit();
+        return $success;
+    }
+
+    /**
+     * @param null $attributeNames
+     * @param bool $clearErrors
+     * @return bool
+     */
+    public function validate($attributeNames = null, $clearErrors = true)
+    {
+        $this->trigger(Model::EVENT_BEFORE_VALIDATE);
+        $success = true;
+        foreach ($this->models as $key => $model) {
+            /* @var $model Model */
+            if (!$model->validate($attributeNames, $clearErrors)) {
+                $success = false;
+                $this->addErrors([$key => $model->getErrors()]);
+            }
+        }
+        $this->trigger(Model::EVENT_AFTER_VALIDATE);
         return $success;
     }
 

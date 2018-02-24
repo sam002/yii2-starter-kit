@@ -77,14 +77,14 @@ if [ ! -f /var/www/.env ]; then
 fi
 
 # create nginx config
-if [ ! -f /etc/nginx/sites-enabled/yii2-starter-kit.dev ]; then
-    sudo ln -s /var/www/vagrant/vhost.conf /etc/nginx/sites-enabled/yii2-starter-kit.dev
+if [ ! -f /etc/nginx/sites-enabled/yii2-starter-kit.localhost ]; then
+    sudo ln -s /var/www/vagrant/vhost.conf /etc/nginx/sites-enabled/yii2-starter-kit.localhost
 fi
 
 # Configuring application
 echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root'" | mysql -uroot -proot
 echo "FLUSH PRIVILEGES" | mysql -uroot -proot
-echo "CREATE DATABASE IF NOT EXISTS \`yii2-starter-kit\` CHARACTER SET utf8 COLLATE utf8_unicode_ci" | mysql -uroot -proot
+echo "CREATE DATABASE IF NOT EXISTS \`yii2-starter-kit\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" | mysql -uroot -proot
 
 php /var/www/console/yii app/setup --interactive=0
 

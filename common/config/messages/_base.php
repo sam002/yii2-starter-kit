@@ -1,6 +1,6 @@
 <?php
-return  [
-    'sourcePath'=>Yii::getAlias('@base'),
+return [
+    'sourcePath' => Yii::getAlias('@base'),
     // array, required, list of language codes that the extracted messages
     // should be translated to. For example, ['zh-CN', 'de'].
     'languages' => ['uk', 'ru', 'es', 'vi', 'zh', 'pl'],

@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\widgets;
 
 use yii\helpers\ArrayHelper;

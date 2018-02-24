@@ -76,7 +76,7 @@ class DefaultController extends Controller
                     'body' => Yii::t('frontend', 'Ups... Your account don\'t saved', [], $locale)
                 ]);
             }
-            
+
             return $this->refresh();
         } else {
 
