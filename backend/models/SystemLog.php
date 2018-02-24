@@ -16,8 +16,7 @@ use Yii;
  */
 class SystemLog extends \yii\db\ActiveRecord
 {
-    public const CATEGORY_NOTIFICATION = 'notification';
-
+    const CATEGORY_NOTIFICATION = 'notification';
     /**
      * @inheritdoc
      */

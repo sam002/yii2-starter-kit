@@ -43,7 +43,6 @@ function redirect($url, $statusCode = 302)
  */
 function env($key, $default = null)
 {
-
     $value = getenv($key) ?? $_ENV[$key] ?? $_SERVER[$key];
 
     if ($value === false) {

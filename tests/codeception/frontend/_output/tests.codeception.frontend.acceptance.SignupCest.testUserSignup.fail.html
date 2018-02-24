@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Signup</title>
+    <link href="/frontend/web/assets/7c417285/css/bootstrap.css" rel="stylesheet">
+<link href="/frontend/web/assets/ca8da458/css/strength-meter.min.css" rel="stylesheet">
+<link href="/frontend/web/assets/cbceeb72/css/kv-widgets.min.css" rel="stylesheet">
+<link href="/frontend/web/assets/fc554b28/authchoice.css" rel="stylesheet">
+<link href="/frontend/web/assets/816ed630/themes/smoothness/jquery-ui.css" rel="stylesheet">
+<link href="/frontend/web/assets/51f7b65d/css/font-awesome.min.css" rel="stylesheet">
+<link href="/frontend/web/assets/f931cf32/css/ripples.min.css" rel="stylesheet">
+<link href="/frontend/web/css/style.css" rel="stylesheet">
+<script type="text/javascript">window.strength_da6389a3 = {"showMeter":false,"toggleMask":false,"language":"en"};
+</script>    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="T3ZING1iMHU2DBgZOw9jQxAHBwEhUHoGDgY.ZhUSCBk4DikEPQ56Hg==">
+</head>
+<body>
+    <div class="wrap">
+    <nav id="w1" class="navbar navbar-fixed-top" role="navigation"><div class="container"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w1-collapse"><span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/frontend/web/index-test.php">Yii2 Starter Kit</a></div><div id="w1-collapse" class="collapse navbar-collapse">    <ul id="w2" class="navbar-nav navbar-right nav"><li><a href="/frontend/web/index-test.php/site/index">Home</a></li>
+<li><a href="/frontend/web/index-test.php/page/about">About</a></li>
+<li><a href="/frontend/web/index-test.php/article/index">Articles</a></li>
+<li><a href="/frontend/web/index-test.php/site/contact">Contact</a></li>
+<li class="active"><a href="/frontend/web/index-test.php/user/sign-in/signup">Signup</a></li>
+<li><a href="/frontend/web/index-test.php/user/sign-in/login">Login</a></li>
+<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Language <b class="caret"></b></a><ul id="w3" class="dropdown-menu"><li class="active"><a href="/frontend/web/index-test.php/site/set-locale?locale=en-US" tabindex="-1">English (US)</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=ru-RU" tabindex="-1">Русский (РФ)</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=uk-UA" tabindex="-1">Українська (Україна)</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=es" tabindex="-1">Español</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=vi" tabindex="-1">Tiếng Việt</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=zh-CN" tabindex="-1">简体中文</a></li>
+<li><a href="/frontend/web/index-test.php/site/set-locale?locale=pl-PL" tabindex="-1">Polski (PL)</a></li></ul></li></ul>    </div></div></nav>
+        <div class="container">
+
+        <ul class="breadcrumb"><li><a href="/frontend/web/index-test.php">Home</a></li>
+<li class="active">Signup</li>
+</ul>
+        
+        <!-- Example of your ads placing -->
+        
+        <div class="site-signup">
+    <h1>Signup</h1>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form id="form-signup" action="/frontend/web/index-test.php/user/sign-in/signup" method="post">
+<input type="hidden" name="_csrf" value="T3ZING1iMHU2DBgZOw9jQxAHBwEhUHoGDgY.ZhUSCBk4DikEPQ56Hg==">            <div class="form-group field-signupform-username required">
+<label class="control-label" for="signupform-username">Username</label>
+<input type="text" id="signupform-username" class="form-control" name="SignupForm[username]" value="tester" aria-required="true">
+
+<div class="help-block"></div>
+</div>            <div class="form-group field-signupform-email required">
+<label class="control-label" for="signupform-email">E-mail</label>
+<input type="text" id="signupform-email" class="form-control" name="SignupForm[email]" value="tester.email@example.com" aria-required="true">
+
+<div class="help-block"></div>
+</div>            <div class="form-group field-signupform-password required has-error">
+<label class="control-label" for="signupform-password">Password</label>
+<input type="password" id="signupform-password" name="SignupForm[password]" value="tester_password">
+
+<div class="help-block">Password cannot contain the username</div>
+</div>            <button type="button" class="btn btn-primary" onclick="fillPassword()">Generate password</button>
+            <script>
+                function fillPassword() {
+                    var genPassword = generatePassword();
+                    $("#signupform-password").val(genPassword);
+                }
+            </script>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="signup-button">Signup</button>                </form>            </div>
+        </div>
+        <div class="col-sm-6">
+            <h2>Or signup with:</h2>
+            <div id="w0">
+<div class="list-group">
+            <div class="list-group-item">
+            <div class="row-action-primary link">
+                
+                <a id="Vkontakte_login"
+                   href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=vkontakte">
+                    <i class="fa fa-vk fa-2x"></i>                </a>
+            </div>
+            <div class="row-content">
+                <h4 class="list-group-item-heading">
+                    <a href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=vkontakte">
+                        Vkontakte                    </a>
+                </h4>
+            </div>
+        </div>
+            <div class="list-group-item">
+            <div class="row-action-primary link">
+                
+                <a id="Google_login"
+                   href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=google">
+                    <i class="fa fa-google fa-2x"></i>                </a>
+            </div>
+            <div class="row-content">
+                <h4 class="list-group-item-heading">
+                    <a href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=google">
+                        Google                    </a>
+                </h4>
+            </div>
+        </div>
+            <div class="list-group-item">
+            <div class="row-action-primary link">
+                
+                <a id="Github_login"
+                   href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=github">
+                    <i class="fa fa-github fa-2x"></i>                </a>
+            </div>
+            <div class="row-content">
+                <h4 class="list-group-item-heading">
+                    <a href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=github">
+                        Github                    </a>
+                </h4>
+            </div>
+        </div>
+            <div class="list-group-item">
+            <div class="row-action-primary link">
+                
+                <a id="Facebook_login"
+                   href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=facebook">
+                    <i class="fa fa-facebook fa-2x"></i>                </a>
+            </div>
+            <div class="row-content">
+                <h4 class="list-group-item-heading">
+                    <a href="/frontend/web/index-test.php/user/sign-in/oauth?authclient=facebook">
+                        Facebook                    </a>
+                </h4>
+            </div>
+        </div>
+    
+</div>
+</div>        </div>
+    </div>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="pull-left">&copy; My Company 2017</p>
+        <p class="pull-right">Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></p>
+    </div>
+</footer>
+<script src="/frontend/web/assets/772b5b62/jquery.js"></script>
+<script src="/frontend/web/assets/b7e1f894/yii.js"></script>
+<script src="/frontend/web/assets/b7e1f894/yii.validation.js"></script>
+<script src="/frontend/web/assets/ca8da458/js/strength-meter.min.js"></script>
+<script src="/frontend/web/assets/cbceeb72/js/kv-widgets.min.js"></script>
+<script src="/frontend/web/assets/a7692845/js/strength-validation.min.js"></script>
+<script src="/frontend/web/assets/b7e1f894/yii.activeForm.js"></script>
+<script src="/frontend/web/assets/fc554b28/authchoice.js"></script>
+<script src="/frontend/web/assets/7c417285/js/bootstrap.js"></script>
+<script src="/frontend/web/assets/816ed630/jquery-ui.js"></script>
+<script src="/frontend/web/assets/26174ea/jquery.slimscroll.min.js"></script>
+<script src="/frontend/web/assets/f931cf32/js/material.min.js"></script>
+<script src="/frontend/web/assets/f931cf32/js/ripples.min.js"></script>
+<!--[if lt IE 9]>
+<script src="/frontend/web/assets/31691f71/dist/html5shiv.min.js"></script>
+<![endif]-->
+<script src="/frontend/web/js/app.js"></script>
+<script type="text/javascript">jQuery(document).ready(function () {
+if (jQuery('#signupform-password').data('strength')) { jQuery('#signupform-password').strength('destroy'); }
+jQuery('#signupform-password').strength(strength_da6389a3);
+jQuery('#signupform-password').on('keyup', function() {
+                                        styles = [
+                                            'linear-gradient(#D2D2D2, #D2D2D2)',
+                                            'linear-gradient(#F44336, #F44336), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#FF5722, #FF5722), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#ff9800, #ff9800), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#cddc39, #cddc39), linear-gradient(#D2D2D2, #D2D2D2)', 
+                                            'linear-gradient(#4caf50, #4caf50), linear-gradient(#D2D2D2, #D2D2D2)'
+                                        ];
+                                        $(this).parents('.form-group').removeClass('has-error has-success');
+                                        $(this).css('background-image', styles[$(this).strength('verdict')]);
+                                    });
+
+jQuery('#form-signup').yiiActiveForm([{"id":"signupform-username","name":"username","container":".field-signupform-username","input":"#signupform-username","validate":function (attribute, value, messages, deferred, $form) {value = yii.validation.trim($form, attribute, []);yii.validation.required(value, messages, {"message":"Username cannot be blank."});yii.validation.string(value, messages, {"message":"Username must be a string.","min":2,"tooShort":"Username should contain at least 2 characters.","max":255,"tooLong":"Username should contain at most 255 characters.","skipOnEmpty":1});}},{"id":"signupform-email","name":"email","container":".field-signupform-email","input":"#signupform-email","validate":function (attribute, value, messages, deferred, $form) {value = yii.validation.trim($form, attribute, []);yii.validation.required(value, messages, {"message":"E-mail cannot be blank."});yii.validation.email(value, messages, {"pattern":/^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/,"fullPattern":/^[^@]*<[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/,"allowName":false,"message":"E-mail is not a valid email address.","enableIDN":false,"skipOnEmpty":1});}},{"id":"signupform-password","name":"password","container":".field-signupform-password","input":"#signupform-password","validate":function (attribute, value, messages, deferred, $form) {yii.validation.required(value, messages, {"message":"Password cannot be blank."});kvStrengthValidator.validate(value, messages, {"strError":"Password must be a string","userField":"#signupform-username","min":8,"minError":"Password should contain at least 8 characters ({found} found)!","allowSpaces":false,"allowSpacesError":"Password cannot contain any spaces","hasUser":true,"hasUserError":"Password cannot contain the username","hasEmail":true,"hasEmailError":"Password cannot contain an email address","lower":1,"lowerError":"Password should contain at least one lower case character ({found} found)!","upper":1,"upperError":"Password should contain at least one upper case character ({found} found)!","digit":1,"digitError":"Password should contain at least one numeric / digit character ({found} found)!","special":0,"specialError":"Password should contain at least 0 special characters ({found} found)!"});}}], []);
+jQuery('#w0').authchoice();
+});</script></body>
+</html>
+
+

@@ -48,7 +48,7 @@ class UserProfile extends ActiveRecord
     {
         return [
             'picture' => [
-                'class' => UploadBehavior::className(),
+                'class' => UploadBehavior::class,
                 'attribute' => 'picture',
                 'pathAttribute' => 'avatar_path',
                 'baseUrlAttribute' => 'avatar_base_url'

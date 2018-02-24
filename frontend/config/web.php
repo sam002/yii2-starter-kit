@@ -58,12 +58,12 @@ $config = [
             'class' => yii\authclient\Collection::class,
             'clients' => [
                 'vkontakte' => [
-                    'class' => 'yii\authclient\clients\VKontakte',
+                    'class' => yii\authclient\clients\VKontakte::class,
                     'clientId' => env('VK_CLIENT_ID'),
                     'clientSecret' => env('VK_CLIENT_SECRET'),
                 ],
                 'google' => [
-                    'class' => 'yii\authclient\clients\Google',
+                    'class' => yii\authclient\clients\Google::class,
                     'clientId' => env('GOOGLE_CLIENT_ID'),
                     'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
                 ],
