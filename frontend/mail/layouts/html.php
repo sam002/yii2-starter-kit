@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View view component instance */
@@ -15,7 +16,7 @@ use yii\helpers\Html;
 
     </style>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Yii::$app->charset ?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Yii::$app->charset ?>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

@@ -2,6 +2,14 @@
 
 namespace frontend\modules\user\controllers;
 
+use common\commands\SendEmailCommand;
+use common\models\User;
+use common\models\UserToken;
+use common\models\Oauth;
+use frontend\modules\user\models\LoginForm;
+use frontend\modules\user\models\PasswordResetRequestForm;
+use frontend\modules\user\models\ResetPasswordForm;
+use frontend\modules\user\models\SignupForm;
 use Yii;
 use yii\authclient\AuthAction;
 use yii\base\Exception;
@@ -10,16 +18,10 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use common\models\Oauth;
-use common\commands\SendEmailCommand;
-use common\models\User;
-use common\models\UserToken;
-use frontend\modules\user\models\LoginForm;
-use frontend\modules\user\models\PasswordResetRequestForm;
-use frontend\modules\user\models\ResetPasswordForm;
-use frontend\modules\user\models\SignupForm;
 
 /**
  * Class SignInController
@@ -53,7 +55,7 @@ class SignInController extends \yii\web\Controller
                 'rules' => [
                     [
                         'actions' => [
-                            'signup', 'login', 'request-password-reset', 'reset-password', 'oauth', 'activation'
+                            'signup', 'login', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation'
                         ],
                         'allow' => true,
                         'roles' => ['?']
@@ -107,6 +109,30 @@ class SignInController extends \yii\web\Controller
         return $this->render('login', [
             'model' => $model
         ]);
+    }
+
+    /**
+     * @param $token
+     * @return array|string|Response
+     * @throws ForbiddenHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionLoginByPass($token)
+    {
+        if (!$this->module->enableLoginByPass) {
+            throw new NotFoundHttpException();
+        }
+
+        $user = UserToken::use($token, UserToken::TYPE_LOGIN_PASS);
+
+        if ($user === null) {
+            throw new ForbiddenHttpException();
+        }
+
+        Yii::$app->user->login($user);
+        return $this->goHome();
     }
 
     /**

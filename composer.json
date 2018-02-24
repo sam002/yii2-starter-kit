@@ -29,7 +29,7 @@
     "source": "https://github.com/sam002/yii2-starter-kit"
   },
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.1.0",
     "ext-intl": "*",
     "yiisoft/yii2": "^2.0.13",
     "yiisoft/yii2-bootstrap": "^2.0.0",
@@ -40,7 +40,7 @@
     "2amigos/yii2-ckeditor-widget": "~2.1",
     "mihaildev/yii2-elfinder": "^1.0",
     "trntv/yii2-aceeditor": "^2.0",
-    "trntv/probe": "^1.0.0",
+    "trntv/probe": "^1.0",
     "trntv/yii2-file-kit": "^1.0.0",
     "trntv/yii2-glide": "^1.0.0",
     "trntv/yii2-datetime-widget": "^1.0.0",
@@ -61,17 +61,21 @@
     "bower-asset/bootstrap-material-design": "^0.5",
     "katech91/yii2-sitemap-module" : "^1.2.0",
     "sam002/yii2-otp" : "dev-develop",
-    "symfony/process": "^3.0",
-    "zelenin/yii2-rss": "~0.1"
+    "zelenin/yii2-rss": "~0.1",
+    "symfony/process": "^4.0",
+    "guzzlehttp/guzzle": "^6.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
     "yiisoft/yii2-gii": "^2.0.0",
-    "yiisoft/yii2-codeception": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
-    "codeception/codeception": "^2.0",
-    "codeception/specify": "^0.4.3",
-    "codeception/verify": "^0.3.0"
+    "codeception/codeception": "^2.3.0",
+    "codeception/verify": "^0.3.1"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\": "tests/"
+    }
   },
   "suggest": {
     "trntv/yii2-debug-xhprof": "dev-master@dev"

@@ -34,27 +34,26 @@ class UserProfile extends ActiveRecord
     public $picture;
 
     /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user_profile}}';
+    }
+
+    /**
      * @return array
      */
     public function behaviors()
     {
         return [
             'picture' => [
-                'class' => UploadBehavior::className(),
+                'class' => UploadBehavior::class,
                 'attribute' => 'picture',
                 'pathAttribute' => 'avatar_path',
                 'baseUrlAttribute' => 'avatar_base_url'
             ]
         ];
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%user_profile}}';
     }
 
     /**

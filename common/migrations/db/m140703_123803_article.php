@@ -4,13 +4,11 @@ use yii\db\Migration;
 
 class m140703_123803_article extends Migration
 {
+    /**
+     * @return bool|void
+     */
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable('{{%article_category}}', [
             'id' => $this->primaryKey(),
             'slug' => $this->string(1024)->notNull(),
@@ -20,7 +18,7 @@ class m140703_123803_article extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
-        ], $tableOptions);
+        ]);
 
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey(),
@@ -37,7 +35,7 @@ class m140703_123803_article extends Migration
             'published_at' => $this->integer(),
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
-        ], $tableOptions);
+        ]);
 
         $this->createTable('{{%article_attachment}}', [
             'id' => $this->primaryKey(),
@@ -48,7 +46,7 @@ class m140703_123803_article extends Migration
             'size' => $this->integer(),
             'name' => $this->string(),
             'created_at' => $this->integer()
-        ], $tableOptions);
+        ]);
 
         $this->addForeignKey('fk_article_attachment_article', '{{%article_attachment}}', 'article_id', '{{%article}}', 'id', 'cascade', 'cascade');
         $this->addForeignKey('fk_article_author', '{{%article}}', 'author_id', '{{%user}}', 'id', 'cascade', 'cascade');
@@ -57,6 +55,9 @@ class m140703_123803_article extends Migration
         $this->addForeignKey('fk_article_category_section', '{{%article_category}}', 'parent_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
     }
 
+    /**
+     * @return bool|void
+     */
     public function safeDown()
     {
         $this->dropForeignKey('fk_article_attachment_article', '{{%article_attachment}}');

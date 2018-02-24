@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\models;
 
 use cheatsheet\Time;
@@ -90,6 +91,22 @@ class LoginForm extends Model
     }
 
     /**
+     * Finds user by [[username]]
+     *
+     * @return User|null
+     */
+    public function getUser()
+    {
+        if ($this->user === false) {
+            $this->user = User::find()
+                ->andWhere(['or', ['username' => $this->username], ['email' => $this->username]])
+                ->one();
+        }
+
+        return $this->user;
+    }
+
+    /**
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      * @throws ForbiddenHttpException
@@ -125,21 +142,5 @@ class LoginForm extends Model
         }
 
         return false;
-    }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->user === false) {
-            $this->user = User::find()
-                ->andWhere(['or', ['username'=>$this->username], ['email'=>$this->username]])
-                ->one();
-        }
-
-        return $this->user;
     }
 }
