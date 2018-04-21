@@ -1,5 +1,6 @@
 <?php
 
+use lav45\translate\models\Lang;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 
@@ -48,13 +49,14 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             ],
             [
                 'label'=>Yii::t('frontend', 'Language'),
-                'items'=>array_map(function ($code) {
+                /** @var Lang $lang */
+                'items'=>array_map(function ($lang) {
                     return [
-                        'label' => Yii::$app->params['availableLocales'][$code],
-                        'url' => ['/site/set-locale', 'locale'=>$code],
-                        'active' => Yii::$app->language === $code
+                        'label' => $lang->name,
+                        'url' => ['/site/set-locale', 'locale' => $lang->locale],
+                        'active' => Yii::$app->language === $lang->locale
                     ];
-                }, array_keys(Yii::$app->params['availableLocales']))
+                }, Lang::find()->active()->all())
             ]
         ]
     ]); ?>

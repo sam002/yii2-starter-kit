@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use lav45\translate\models\Lang;
 use frontend\models\ContactForm;
 use Yii;
 use yii\web\Controller;
@@ -26,7 +27,7 @@ class SiteController extends Controller
             ],
             'set-locale' => [
                 'class' => 'common\actions\SetLocaleAction',
-                'locales' => array_keys(Yii::$app->params['availableLocales'])
+                'locales' => Lang::getLocaleList()
             ]
         ];
     }

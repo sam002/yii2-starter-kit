@@ -177,15 +177,21 @@ $bundle = BackendAsset::register($this);
                         'url' => '#',
                         'icon' => '<i class="fa fa-cogs"></i>',
                         'options' => ['class' => 'treeview'],
-                        'active' => in_array(Yii::$app->controller->id, ['i18n-source-message', 'i18n-message', 'key-storage', 'file-storage', 'cache', 'file-manager', 'system-information', 'log', 'rbac-auth-assignment', 'rbac-auth-item', 'rbac-auth-item-child', 'rbac-auth-rules']),
+                        'active' => in_array(Yii::$app->controller->id, ['lang', 'i18n-source-message', 'i18n-message', 'key-storage', 'file-storage', 'cache', 'file-manager', 'system-information', 'log', 'rbac-auth-assignment', 'rbac-auth-item', 'rbac-auth-item-child', 'rbac-auth-rules']),
                         'items' => [
                             [
                                 'label' => Yii::t('backend', 'i18n'),
                                 'url' => '#',
                                 'icon' => '<i class="fa fa-flag"></i>',
                                 'options' => ['class' => 'treeview'],
-                                'active' => in_array(Yii::$app->controller->id, ['i18n-source-message', 'i18n-message']),
+                                'active' => in_array(Yii::$app->controller->id, ['lang', 'i18n-source-message', 'i18n-message']),
                                 'items' => [
+                                    [
+                                        'label' => Yii::t('backend', 'Lang'),
+                                        'url' => ['/lang/index'],
+                                        'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                        'active' => (Yii::$app->controller->id == 'lang')
+                                    ],
                                     [
                                         'label' => Yii::t('backend', 'i18n Source Message'),
                                         'url' => ['/i18n/i18n-source-message/index'],

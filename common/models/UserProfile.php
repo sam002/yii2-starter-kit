@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use lav45\translate\models\Lang;
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
 use yii\db\ActiveRecord;
@@ -67,7 +68,7 @@ class UserProfile extends ActiveRecord
             [['gender'], 'in', 'range' => [NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
             [['firstname', 'middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => Yii::$app->language],
-            ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
+            ['locale', 'in', 'range' => Lang::getLocaleList()],
             ['picture', 'safe'],
             [['about'],'string', 'max'=>1024]
         ];

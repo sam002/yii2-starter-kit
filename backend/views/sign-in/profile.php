@@ -1,6 +1,8 @@
 <?php
 
 use common\models\UserProfile;
+use lav45\translate\models\Lang;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -25,7 +27,12 @@ $this->title = Yii::t('backend', 'Edit profile')
 
     <?php echo $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
 
-    <?php echo $form->field($model, 'locale')->dropDownlist(Yii::$app->params['availableLocales']) ?>
+    <?php echo $form->field(
+        $model,
+        'locale')
+        ->dropDownlist(ArrayHelper::map(Lang::find()->active()->all(), 'locale', 'name')
+        ) ?>
+
 
     <?php echo $form->field($model, 'gender')->dropDownlist([
         UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),

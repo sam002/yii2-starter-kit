@@ -1,10 +1,12 @@
 <?php
 
-use trntv\filekit\widget\Upload,
+use lav45\translate\models\Lang,
+    trntv\filekit\widget\Upload,
     yii\helpers\Html,
     yii\widgets\ActiveForm,
     kartik\password\PasswordInput,
     yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\base\MultiModel */
@@ -32,7 +34,10 @@ $this->title = Yii::t('frontend', 'User Settings')
 
     <?php echo $form->field($model->getModel('profile'), 'lastname')->textInput(['maxlength' => 255]) ?>
 
-    <?php echo $form->field($model->getModel('profile'), 'locale')->dropDownlist(Yii::$app->params['availableLocales']) ?>
+    <?php echo $form->field(
+            $model->getModel('profile'), 'locale')
+        ->dropDownlist(ArrayHelper::map(Lang::find()->active()->all(), 'locale', 'name')
+    ) ?>
 
     <?php echo $form->field($model->getModel('profile'), 'gender')->dropDownlist([
         \common\models\UserProfile::GENDER_FEMALE => Yii::t('frontend', 'Female'),

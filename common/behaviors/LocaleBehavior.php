@@ -2,6 +2,7 @@
 
 namespace common\behaviors;
 
+use lav45\translate\models\Lang;
 use Yii;
 use yii\base\Behavior;
 use yii\web\Application;
@@ -65,6 +66,6 @@ class LocaleBehavior extends Behavior
      */
     protected function getAvailableLocales()
     {
-        return array_keys(Yii::$app->params['availableLocales']);
+        return Lang::getLocaleList();
     }
 }

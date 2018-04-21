@@ -63,7 +63,8 @@
     "sam002/yii2-otp" : "dev-develop",
     "zelenin/yii2-rss": "~0.1",
     "symfony/process": "^4.0",
-    "guzzlehttp/guzzle": "^6.0"
+    "guzzlehttp/guzzle": "^6.0",
+    "lav45/yii2-translated-behavior": "^1.4"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
